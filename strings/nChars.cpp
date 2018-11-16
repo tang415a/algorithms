@@ -1,5 +1,5 @@
-// Given a string of m chars, print out all the combinations of n chars from it.
-// Note that the order of chars may not be changed.
+// Given a string of m chars, print out all the possible sequences of n chars from it.
+// Note that the order of chars appearing in the sequence may not be switched.
 // e.g. given a string "abc", all the combinations of two chars should be: "ab", "ac" and "bc".
 
 #include <stdio.h>
