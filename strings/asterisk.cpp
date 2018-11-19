@@ -26,7 +26,6 @@ int moveStarInStr(char *str)
 int main() {
   char str[] = "ab*cd*ef*gh";
   int num = moveStarInStr(str);
-  printf(str);
-  printf(", altogether %d asterisks.", num);
+  printf("%s, altogether %d asterisks.", str, num);
   return 0;
 }
