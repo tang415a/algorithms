@@ -38,6 +38,17 @@ function isPalindrome(n) {
   return true;
 }
 
-console.log(isPalindrome(0));
-console.log(isPalindrome(121));
-console.log(isPalindrome(10));
+function isPalindrome2(n) {
+  if (n < 0)
+    return false;
+  let x = n, y = 0;
+  while (x) {
+    y = y * 10 + x % 10;
+    x = Math.floor(x / 10);
+  }
+  return y === n;
+}
+
+console.log(isPalindrome2(0));
+console.log(isPalindrome2(121));
+console.log(isPalindrome2(10));
