@@ -9,7 +9,7 @@
 int findOnes(int n) {
   int base = 1, res = 0, index = 0;
   while(n >= base) {
-    int digit = n % (base * 10) / base;
+    int digit = (n / base) % 10;
     if (digit > 1)
       res += digit * index * base / 10 + base;
     else if (digit == 1)

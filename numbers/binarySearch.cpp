@@ -23,6 +23,5 @@ int search(int target, int arr[], int siz)
 int main() {
   int arr[] = {1,2};
   printf("%d\n", search(1, arr, sizeof(arr) / sizeof(arr[0])));
-  getchar();
   return 0;
 }

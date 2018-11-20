@@ -41,6 +41,5 @@ int main()
 {
   int arr[] = {0,1,2,1,0};
   printf("Peak index: %d\n", peakIndex(arr, sizeof(arr) / sizeof(arr[0])));
-  getchar();
   return 0;
 }

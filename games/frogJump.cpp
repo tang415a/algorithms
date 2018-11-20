@@ -122,6 +122,5 @@ bool jump(vector<int> stones)
 int main()
 {
   jump({0,1,2,3,4,8,9,11});
-  getchar();
   return 0;
 }
