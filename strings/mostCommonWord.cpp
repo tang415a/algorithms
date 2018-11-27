@@ -49,23 +49,23 @@ bool isLetter(char c) {
   return isLowercase(c) || isUppercase(c);
 }
 
-void processStr(const string& text, int st, int len, map<string, int>& bannedMap, map<string, int>& rec) {
+void processStr(const string& text, int st, int len, map<string, bool>& bannedMap, map<string, int>& rec) {
   string key = text.substr(st, len);
   for (auto& c: key) {
     if (isUppercase(c))
       c += ('a' - 'A');
   }
-  if (bannedMap[key] > 0)
+  if (bannedMap[key])
     return;
   rec[key]++;
 }
 
 string mostCommon(const string& text, const vector<string>& banned) {
   map<string, int> rec;
-  map<string, int> bannedMap;
+  map<string, bool> bannedMap;
 
   for(auto& s: banned)
-    bannedMap[s]++;
+    bannedMap[s] = true;
     
   int st = 0, len = text.size();
   for (int i = 0; i < len; i++) {
