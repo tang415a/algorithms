@@ -77,7 +77,7 @@ bool doMatch(const char* s, const char* p) {
     if (j < lp - 1 && p[j + 1] == '*') j += 2;
     else return false;
   }
-  return (i == ls && j == lp);
+  return true;
 }
 
 bool match(const string& s, const string& p) {
