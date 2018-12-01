@@ -7,7 +7,6 @@
 //   9 10
 // it prints out: 6 9 10 7 4 2 8 5 3 1
 
-
 #include <stdio.h>
 #include <stack>
 
@@ -56,10 +55,9 @@ void postOrder(TreeNode *root)
     {
       printf("%d ", n->val);
       s.pop();
-      if (!s.empty())
-        action = s.top()->right == n ? ST_NONE : ST_RIGHT;
-      else
+      if (s.empty())
         break;
+      action = s.top()->right == n ? ST_NONE : ST_RIGHT;
     }
   }
 }
@@ -86,6 +84,5 @@ int main()
   nodes[6].right = nodes + 9;
 
   postOrder(nodes);
-  getchar();
   return 0;
 }
