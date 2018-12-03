@@ -20,7 +20,8 @@ struct Node
 
 struct Path
 {
-  vector<Edge> edges;
+  Edge* e;
+  int pathIdx;
   float dist;
 };
 
@@ -39,16 +40,17 @@ int find(const vector<Path>& paths, Node* n)
 {
   for (int i = 0; i < paths.size(); i++)
   {
-    if (paths[i].edges[paths[i].edges.size() - 1].to == n)
+    if (paths[i].e->to == n)
       return i;
   }
   return -1;
 }
 
-void print(Path const& p)
+void print(Path const& p, const vector<Path>& finals)
 {
-  for(auto& e: p.edges)
-    printf("%c - %f\n", e.to->label, e.dist);
+  if (p.pathIdx >= 0)
+    print(finals[p.pathIdx], finals);
+  printf("%c - %f\n", p.e->to->label, p.e->dist);
 }
 
 float shortestDijkstra(Node* src, Node* dest)
@@ -56,18 +58,19 @@ float shortestDijkstra(Node* src, Node* dest)
   if (src == NULL || dest == NULL)
     return -1;
   Edge start = {src, 0};
-  vector<Path> paths = {{{start}, 0}}, finals;
+  vector<Path> paths = {{&start, -1, 0}}, finals;
   while (!paths.empty())
   {
     int min = minDist(paths);
     finals.push_back(paths[min]);
-    auto& p = finals[finals.size()-1];
+    int idx = finals.size() - 1;
+    auto& p = finals[idx];
     paths.erase(paths.begin() + min);
     
-    auto& node = p.edges[p.edges.size() - 1].to;
+    auto& node = p.e->to;
     if (node == dest)
     {
-      print(p);
+      print(p, finals);
       return p.dist;
     }    
 
@@ -78,17 +81,9 @@ float shortestDijkstra(Node* src, Node* dest)
         continue;
       int tmp = find(paths, e.to);
       if (tmp >= 0 && d < paths[tmp].dist)
-      {
-        auto edges = p.edges;
-        edges.push_back(e);
-        paths[tmp] = {edges, d};
-      }
+        paths[tmp] = {&e, idx, d};
       else if (tmp < 0)
-      {
-        auto edges = p.edges;
-        edges.push_back(e);
-        paths.push_back({edges, d});
-      }
+        paths.push_back({&e, idx, d});
     }    
   }
   return -1;
@@ -115,7 +110,7 @@ int main()
   construct(nodes[2], nodes[4], 6);
   construct(nodes[3], nodes[4], 4);
   
-  float d = shortestDijkstra(nodes, nodes + 5);
+  float d = shortestDijkstra(nodes, nodes + 4);
   if (d < 0)
     printf("impossible to reach");
   else
