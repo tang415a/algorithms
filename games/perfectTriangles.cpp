@@ -59,6 +59,7 @@ bool isRectangleCover(vector<vector<int>>& rectangles) {
   if (rectangles.empty())
     return false;
   int N = rectangles[0].size() / 2;
+  int numCorners = 1 << N;
   map<string, int> hash;
   vector<vector<int>> all;
   for(auto& r: rectangles)
@@ -72,7 +73,7 @@ bool isRectangleCover(vector<vector<int>>& rectangles) {
       minmax.push_back(c);
     }
 
-    for(int i = 0; i < (1<<N); i++)
+    for(int i = 0; i < numCorners; i++)
     {
       vector<int> coords;      
       for(int j = 0; j < N; j++)
@@ -90,12 +91,12 @@ bool isRectangleCover(vector<vector<int>>& rectangles) {
   for(auto& h: hash)
   {
     int v = h.second;
-    if(!(v&v-1) && ++cnt > (1<<N)) return false;
+    if(!(v&v-1) && ++cnt > numCorners) return false;
     else if(v&v-1) 
     {
       vector<vector<int>> pts;
       int i = 0;
-      for(; i < (1<<N); i++)
+      for(; i < numCorners; i++)
       {
         if(v & (1 << i))
           pts.push_back(all[i]);
@@ -114,7 +115,7 @@ bool isRectangleCover(vector<vector<int>>& rectangles) {
         if (j == siz)
           same++;
       }
-      if(same == 0)
+      if(same == 0) // should be on a same 'surface'
         return false;
     }
   }
@@ -139,9 +140,11 @@ int main() {
 
   rectangles = {
     {1,1,1,2,3,2},
-    {1,1,2,6,6,6},
+    {1,1,2,4,6,6},
     {1,3,1,6,6,2},
-    {2,1,1,6,3,2}
+    {2,1,1,6,3,2},
+    {4,1,2,6,4,6},
+    {4,4,2,6,6,6}
   };
 
   printf("%d", isRectangleCover(rectangles));
