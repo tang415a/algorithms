@@ -18,8 +18,10 @@ void do_qsort(int arr[], int low, int high) {
     else
       break;
   }
-  arr[low] = arr[hi];
-  arr[hi] = item;
+  if (low != hi) {
+    arr[low] = arr[hi];
+    arr[hi] = item;
+  }
   do_qsort(arr, low, hi - 1);
   do_qsort(arr, hi + 1, high);
 }
