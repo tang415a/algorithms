@@ -39,7 +39,7 @@ string removeDuplicateLetters(string s)
     bool shouldErase = true;
     if (hash[idx] > i + 1)
     {
-      for (int j = i + 1; j < hash[idx]; j++)
+      for (int j = i + 1; j < hash[idx] - 1; j++)
       {
         if (s[j] == s[i])
           break;
