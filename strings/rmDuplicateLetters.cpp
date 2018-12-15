@@ -14,6 +14,11 @@ Example 3:
 
 Input: "cedabcdesza"
 Output: "abcdesz"
+
+Example 4:
+
+Input: "cbedddedc"
+Output: "bdec"
 */
 
 #include <stdio.h>
@@ -60,7 +65,7 @@ string removeDuplicateLetters(string s)
 
 int main()
 {
-  string s = "cedabcdbesza";
+  string s = "cbedddedc";
   printf("%s", removeDuplicateLetters(s).c_str());
   getchar();
   return 0;
