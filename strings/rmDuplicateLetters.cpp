@@ -25,9 +25,8 @@ string removeDuplicateLetters(string s)
 {
   int hash[26] = {};
   for (int i = 0; i < s.size(); i++)
-  {
     hash[s[i] - 'a'] = i + 1;
-  }
+  
   string res = "";
   for (int i = 0; i < s.size(); i++)
   {
