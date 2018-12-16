@@ -26,35 +26,41 @@ Explanation: Remove all the digits from the number and it is left with nothing w
 
 using namespace std;
 
-string doRemove(string num, int st, int k)
+string doRemove(string num, int st, int k, bool leading)
 {
   int all = num.size() - st;
   if (k >= all)
     return "0";
   int min = st;
-  for(int i = st + 1; i < num.size(); i++) 
+  for(int i = st + 1; i <= st + k; i++) 
   {
     if(num[min] > num[i])
       min = i;
   }
-  if (k < min - st)
-    return num.substr(st + k);
   if (k == min - st)
   {
-    while(num[min] == '0' && ++min < num.size() - 1);
+    if (leading)
+      while(num[min] == '0' && ++min < num.size() - 1);
     return num.substr(min);
   }
-  return (num[min] == '0' ? "" : num.substr(min, 1)) + doRemove(num, min + 1, k - min + st);
+  if (leading)
+    leading = num[min] == '0';
+  return (leading ? "" : num.substr(min, 1)) + doRemove(num, min + 1, k - min + st, leading);
 }
 
 string removeKDigits(string num, int k)
 {
-  return doRemove(num, 0, k);
+  return doRemove(num, 0, k, true);
 }
 
 int main()
 {
-  printf("%s", removeKDigits("10200", 2).c_str());
+  printf("%s\n", removeKDigits("1432219", 3).c_str());
+  printf("%s\n", removeKDigits("10200", 1).c_str());
+  printf("%s\n", removeKDigits("11200", 1).c_str());
+  printf("%s\n", removeKDigits("10", 2).c_str());
+  printf("%s\n", removeKDigits("129200", 2).c_str());
+  printf("%s\n", removeKDigits("109000", 2).c_str());
   getchar();
   return 0;
 }
