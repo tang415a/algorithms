@@ -26,7 +26,7 @@ Explanation: Remove all the digits from the number and it is left with nothing w
 
 using namespace std;
 
-string doRemove(string num, int st, int k, bool leading)
+string doRemove(string num, int k, int st, bool leading)
 {
   int all = num.size() - st;
   if (k >= all)
@@ -50,7 +50,7 @@ string doRemove(string num, int st, int k, bool leading)
 
 string removeKDigits(string num, int k)
 {
-  return doRemove(num, 0, k, true);
+  return doRemove(num, k, 0, true);
 }
 
 int main()
