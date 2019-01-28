@@ -13,8 +13,8 @@ function findPositive(arr) {
 }
 
 function findNegative(arr) {
-  let sum = arr[0], tmp = arr[0];
-  for(let i = 1; i < arr.length - 1; i++) {
+  let sum = arr[1], tmp = arr[1];
+  for(let i = 2; i < arr.length - 1; i++) {
     tmp = tmp < 0 ? tmp + arr[i] : arr[i];
     if (tmp < sum)
       sum = tmp;
