@@ -39,7 +39,7 @@ bool isPossible(const vector<int>& arr, int m, int minSum) {
 }
 
 int minSumSubArr(const vector<int>& arr, int m) {
-  int min = 0, max = 0;
+  int min = arr[0], max = 0;
   for (auto& d: arr) {
     max += d;
     if (min > d)
@@ -57,7 +57,7 @@ int minSumSubArr(const vector<int>& arr, int m) {
 }
 
 int main() {
-  const vector<int> arr = {1,2,3,4,5,6,7,8};
-  printf("%d ", minSumSubArr(arr, 4));
+  const vector<int> arr = {7,2,5,10,8};
+  printf("%d ", minSumSubArr(arr, 2));
   return 0;
 }
