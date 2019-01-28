@@ -25,9 +25,13 @@ function findNegative(arr) {
 
 function findMaxSub(arr) {
   if (arr.length === 0)
-    return console.log("the array is empty.");
+    return "the array is empty.";
   
-  let p = findPositive(arr), n = findNegative(arr);
+  let p = findPositive(arr);
+  if (arr.length === 1)
+    return p;
+    
+  let n = findNegative(arr);
   return p < n ? n : p;
 }
 
