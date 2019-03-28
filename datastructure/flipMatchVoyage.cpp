@@ -59,7 +59,7 @@ int doFlip(TreeNode*left, TreeNode*right, const vector<int>& voyage, int &st) {
     if (left)
       r = 1;
   }
-  if (first == NULL && second == NULL) {
+  if (first == NULL) {
     return -1;
   }
   if (first->left || first->right) {

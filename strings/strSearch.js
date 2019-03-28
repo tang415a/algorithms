@@ -6,7 +6,7 @@ function badShift(c, p) {
 	if (c in badShiftTable)
 		return badShiftTable[c];
 
-	let offset = p.length;
+	const offset = p.length;
 	for (let i = 1; i < offset; i++) {
 		if (p[offset - 1 - i] === c) {
 			badShiftTable[c] = i;
