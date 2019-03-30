@@ -47,7 +47,7 @@ vector<int> addToArrayForm(vector<int>& A, int K) {
     if (siz > idx) {
       add += A[siz - 1 - idx];
     }
-    if (add > 10) {
+    if (add >= 10) {
       add -= 10;
       carry = true;
     }
@@ -66,7 +66,7 @@ vector<int> addToArrayForm(vector<int>& A, int K) {
 
 int main() {
   vector<int> A = {1,2,3,4};
-  auto r = addToArrayForm(A, 12315);
+  auto r = addToArrayForm(A,999315);
   for(auto& v: r) {
     printf("%d ", v);
   }
