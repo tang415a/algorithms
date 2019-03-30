@@ -76,6 +76,8 @@ bool foundEqual(vector<vector<char>> equals, char a, char b) {
     }
     if (found_a && found_b)
       return true;
+    if (found_a || found_b)
+      return false;
   }
   return false;
 }
@@ -83,7 +85,7 @@ bool foundEqual(vector<vector<char>> equals, char a, char b) {
 bool equationPossible(const vector<string> &equations) {
   vector<vector<char>> equals;
   for (auto& s: equations) {
-    if (s[1] == '=') { // equal
+    if (s[1] == '=' && s[0] != s[3]) { // equal
       insertEqual(equals, s[0], s[3]);
     }
   }
@@ -97,7 +99,7 @@ bool equationPossible(const vector<string> &equations) {
 }
 
 int main() {
-  vector<string> equations = {"c==c","b==d","x!=z"};
+  vector<string> equations = {"a==b","b!=c","c==a"};
   if (equationPossible(equations))
     printf("They are possible.");
   else
