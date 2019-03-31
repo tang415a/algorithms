@@ -40,50 +40,25 @@ equations[i][2] is '='
 
 #include <string>
 #include <vector>
+#include <map>
 using namespace std;
 
-void insertEqual(vector<vector<char>>& equals, char a, char b) {
-  for(auto& e: equals) {
-    bool found_a = false, found_b = false;
-    for(auto& c: e) {
-      if (c == a)
-        found_a = true;
-      else if (c == b)
-        found_b = true;
-    }
-    if (found_a && found_b)
-      return;
-    if (found_a && !found_b) {
-      e.push_back(b);
-      return;
-    }
-    if (!found_a && found_b) {
-      e.push_back(a);
-      return;
-    }
-  }
-  equals.push_back({a, b});
+char findKey(map<char, char>& equals, char c) {
+  while(equals.find(c) != equals.end())
+    c = equals[c];
+  return c;
 }
 
-bool foundEqual(vector<vector<char>> equals, char a, char b) {
-  for(auto& e: equals) {
-    bool found_a = false, found_b = false;
-    for(auto& c: e) {
-      if (c == a)
-        found_a = true;
-      else if (c == b)
-        found_b = true;
-    }
-    if (found_a && found_b)
-      return true;
-    if (found_a || found_b)
-      return false;
+void insertEqual(map<char,char>& equals, char a, char b) {
+  char ka = findKey(equals, a);
+  char kb = findKey(equals, b);
+  if (ka != kb) {
+    equals[ka] = kb;
   }
-  return false;
 }
 
 bool equationPossible(const vector<string> &equations) {
-  vector<vector<char>> equals;
+  map<char, char> equals;
   for (auto& s: equations) {
     if (s[1] == '=' && s[0] != s[3]) { // equal
       insertEqual(equals, s[0], s[3]);
@@ -91,7 +66,7 @@ bool equationPossible(const vector<string> &equations) {
   }
   for (auto& s: equations) {
     if (s[1] == '!') { // non equal
-      if (s[0] == s[3] || foundEqual(equals, s[0], s[3]))
+      if (s[0] == s[3] || findKey(equals, s[0]) == findKey(equals, s[3]))
         return false;
     }
   }

@@ -41,17 +41,18 @@ Note:
 #include <vector>
 using namespace std;
 
-void findStartPos(const vector<vector<int>>& grid, int& r, int& c) {
+bool findStartPos(const vector<vector<int>>& grid, int& r, int& c) {
   for(int i = 0; i < grid.size(); i++) {
     for(int j = 0; j < grid[i].size(); j++) {
       if(grid[i][j] == 1){
         r = i;
         c = j;
-        return;
+        return true;
       }
     }
   }
   printf("ERROR: there is no start pos.");
+  return false;
 }
 
 bool walkOver(const vector<vector<int>>& grid) {
@@ -89,7 +90,8 @@ int findPath(vector<vector<int>>& grid, int r, int c, int rDelta, int cDelta) {
 
 int uniquePaths(vector<vector<int>>& grid) {
   int r, c;
-  findStartPos(grid, r, c);
+  if(!findStartPos(grid, r, c))
+    return 0;
   return findPath(grid, r, c, 0, 0);
 }
 
