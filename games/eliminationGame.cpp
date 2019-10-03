@@ -23,21 +23,21 @@ Output:
 #include <stdio.h>
 
 int lastRemainingNumber(int n) {
-    int f = 1, d = 1;
-    bool left = true;
-    while(n > 1) {
-        if (left || (n & 0x1) > 0)
-            f += d;
-        d <<= 1;
-        n >>= 1;
-        left = !left;
-    }
-    return f;
+	int f = 1, d = 1;
+	bool left = true;
+	while (n > 1) {
+		if (left || (n & 0x1) > 0)
+			f += d;
+		d <<= 1;
+		n >>= 1;
+		left = !left;
+	}
+	return f;
 }
 
 int main() {
-    for(int i = 1; i < 100; i++)
-        printf("%d\n", lastRemainingNumber(i));
-    getchar();
-    return 0;
+	for (int i = 1; i < 100; i++)
+		printf("%d\n", lastRemainingNumber(i));
+	getchar();
+	return 0;
 }

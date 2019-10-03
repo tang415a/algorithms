@@ -9,40 +9,43 @@ output:
 */
 #include <stdio.h>
 
-void swap(int* arr, int i, int j) {
-    int tmp = arr[i];
-    arr[i] = arr[j];
-    arr[j] = tmp;
+void swap(int *arr, int i, int j)
+{
+	int tmp = arr[i];
+	arr[i] = arr[j];
+	arr[j] = tmp;
 }
 
 void sortArray(int *a, int len)
 {
-    if(len == 0)
-        return;
-    int j = 0;
-    while(j < len && a[j] < 0) j++;
-    if (j != 0)
-        swap(a, 0, j);
-    j = 0;
-    for(int i = 1; i < len; i++)
-    {
-        if(a[i] * a[j] < 0)
-        {
-            if(i > j + 1)
-            {
-                swap(a, i, j + 1);         
-                j++;
-            }
-            j++;
-        }
-    }
+	if (len == 0)
+		return;
+	int j = 0;
+	while (j < len && a[j] < 0)
+		j++;
+	if (j != 0)
+		swap(a, 0, j);
+	j = 0;
+	for (int i = 1; i < len; i++)
+	{
+		if (a[i] * a[j] < 0)
+		{
+			if (i > j + 1)
+			{
+				swap(a, i, j + 1);
+				j++;
+			}
+			j++;
+		}
+	}
 }
 
-int main() {
-    int arr[] = {-1,3,2,-4,6,-5,-9,2};
-    sortArray(arr, sizeof(arr)/sizeof(arr[0]));
-    for(auto& d: arr)
-        printf("%d\t", d);
-    getchar();
-    return 0;
+int main()
+{
+	int arr[] = {-1, 3, 2, -4, 6, -5, -9, 2};
+	sortArray(arr, sizeof(arr) / sizeof(arr[0]));
+	for (auto &d : arr)
+		printf("%d\t", d);
+	getchar();
+	return 0;
 }

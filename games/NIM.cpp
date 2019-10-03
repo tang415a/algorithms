@@ -8,12 +8,14 @@ For example, if there are 4 stones in the heap, then you will never win the game
 
 #include <stdio.h>
 
-bool canWin(int n) {
-    return n % 4 != 0;
+bool canWin(int n)
+{
+	return n % 4 != 0;
 }
 
-int main() {
-    printf("%d", canWin(5));
-    getchar();
-    return 0;
+int main()
+{
+	printf("%d", canWin(5));
+	getchar();
+	return 0;
 }

@@ -30,36 +30,40 @@ Note:
 
 #include <stdio.h>
 
-struct TreeNode {
-    int val;
-    TreeNode *left, *right;
-    TreeNode (int v) : val(v), left(NULL), right(NULL) {}
+struct TreeNode
+{
+	int val;
+	TreeNode *left, *right;
+	TreeNode(int v) : val(v), left(NULL), right(NULL) {}
 };
 
-int abs(int v) {
-    return v >= 0 ? v : -v;
+int abs(int v)
+{
+	return v >= 0 ? v : -v;
 }
 
-int distributeCoins(TreeNode* root, int& cnt) {
-    cnt = 0;
-    if (root == NULL)
-        return 0;
-    int cnt1, cnt2;
-    int r1 = distributeCoins(root->left, cnt1),
-        r2 = distributeCoins(root->right, cnt2);
-    int cnt0 = root->val - 1;    
-    cnt = cnt1 + cnt2 + cnt0;
-    return abs(cnt1) + abs(cnt2) + r1 + r2;
+int distributeCoins(TreeNode *root, int &cnt)
+{
+	cnt = 0;
+	if (root == NULL)
+		return 0;
+	int cnt1, cnt2;
+	int r1 = distributeCoins(root->left, cnt1),
+			r2 = distributeCoins(root->right, cnt2);
+	int cnt0 = root->val - 1;
+	cnt = cnt1 + cnt2 + cnt0;
+	return abs(cnt1) + abs(cnt2) + r1 + r2;
 }
 
-int main() {
-    TreeNode n[4] = {1, 0, 0, 3};
-    n[0].left = n + 1;
-    n[0].right = n + 2;
-    n[1].right = n + 3;
-    int cnt;
-    int res = distributeCoins(n, cnt);
-    printf("%d", res);
-    getchar();
-    return 0;
+int main()
+{
+	TreeNode n[4] = {1, 0, 0, 3};
+	n[0].left = n + 1;
+	n[0].right = n + 2;
+	n[1].right = n + 3;
+	int cnt;
+	int res = distributeCoins(n, cnt);
+	printf("%d", res);
+	getchar();
+	return 0;
 }

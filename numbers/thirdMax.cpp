@@ -27,24 +27,28 @@ Both numbers with value 2 are both considered as second maximum.
 #include <set>
 using namespace std;
 
-int nthMax(const vector<int>& nums, int n) {
-    set<int> s;
-    for(auto& num: nums) {
-        s.insert(num);
-        if (s.size() > n)
-            s.erase(s.begin());
-    }
-    return s.size() < n ? *s.rbegin() : *s.begin();
+int nthMax(const vector<int> &nums, int n)
+{
+	set<int> s;
+	for (auto &num : nums)
+	{
+		s.insert(num);
+		if (s.size() > n)
+			s.erase(s.begin());
+	}
+	return s.size() < n ? *s.rbegin() : *s.begin();
 }
 
-int thirdMax(const vector<int>& nums) {
-    return nthMax(nums, 3);
+int thirdMax(const vector<int> &nums)
+{
+	return nthMax(nums, 3);
 }
 
-int main() {
-    printf("%d\n", thirdMax({3,2,1}));
-    printf("%d\n", thirdMax({1,2}));
-    printf("%d\n", thirdMax({2,2,3,1}));
-    getchar();
-    return 0;
+int main()
+{
+	printf("%d\n", thirdMax({3, 2, 1}));
+	printf("%d\n", thirdMax({1, 2}));
+	printf("%d\n", thirdMax({2, 2, 3, 1}));
+	getchar();
+	return 0;
 }

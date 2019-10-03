@@ -13,13 +13,15 @@ Could you do it without any loop/recursion in O(1) runtime?
 
 #include <stdio.h>
 
-int finalDigit(int n) {
-    int r = n % 9;
-    return r == 0 ? 9 : r;
+int finalDigit(int n)
+{
+  int r = n % 9;
+  return r == 0 ? 9 : r;
 }
 
-int main() {
-    printf("%d\n", finalDigit(38));
-    getchar();
-    return 0;
+int main()
+{
+  printf("%d\n", finalDigit(38));
+  getchar();
+  return 0;
 }

@@ -21,23 +21,28 @@ Length of the array will not exceed 10^4.
 #include <vector>
 using namespace std;
 
-int totalHammingDistance(const vector<int>& nums) {
-    int ones[32] = {0};
-    for (auto& n : nums) {
-        int i = 0, tmp;
-        while ((tmp = (1 << i)) <= n) {
-            if (n & tmp) ones[i]++;
-            i++;
-        }
-    }
-    int res = 0;
-    for(auto& n: ones)
-        res += n * (nums.size() - n);
-    return res;
+int totalHammingDistance(const vector<int> &nums)
+{
+	int ones[32] = {0};
+	for (auto &n : nums)
+	{
+		int i = 0, tmp;
+		while ((tmp = (1 << i)) <= n)
+		{
+			if (n & tmp)
+				ones[i]++;
+			i++;
+		}
+	}
+	int res = 0;
+	for (auto &n : ones)
+		res += n * (nums.size() - n);
+	return res;
 }
 
-int main() {
-    printf("%d", totalHammingDistance({4,14,2}));
-    getchar();
-    return 0;
+int main()
+{
+	printf("%d", totalHammingDistance({4, 14, 2}));
+	getchar();
+	return 0;
 }

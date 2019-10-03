@@ -31,23 +31,31 @@ Output:4
 
 #include <stdio.h>
 #include <string.h>
-int neededParentheses(char* s) {
-    if (s == NULL) return 0;
-    int len = strlen(s);
-    int res = 0, left = 0;
-    for (int i = 0; i < len; i++) {
-        if (s[i] == '(') left++;
-        else if (s[i] == ')') {
-            if (left > 0) left--;
-            else res++;
-        }
-    }
-    res += left;
-    return res;
+int neededParentheses(char *s)
+{
+	if (s == NULL)
+		return 0;
+	int len = strlen(s);
+	int res = 0, left = 0;
+	for (int i = 0; i < len; i++)
+	{
+		if (s[i] == '(')
+			left++;
+		else if (s[i] == ')')
+		{
+			if (left > 0)
+				left--;
+			else
+				res++;
+		}
+	}
+	res += left;
+	return res;
 }
 
-int main() {
-    printf("Need %d", neededParentheses("((("));
-    getchar();
-    return 0;
+int main()
+{
+	printf("Need %d", neededParentheses("((("));
+	getchar();
+	return 0;
 }
