@@ -33,53 +33,29 @@ If M[i][j] = 1, then M[j][i] = 1.
 #include <map>
 using namespace std;
 
-void initiate(map<int, int>& m, const vector<vector<int>>& matrix) {
-  unsigned int N = matrix.size();
-  for (unsigned int i = 1; i < N; i++) {
-    for (unsigned int j = 0; j < i; j++) {
-      if (matrix[i][j] > 0)
-        m[i] = j;
+int findCircleNum(vector<vector<int>> &matrix) {
+  int N = matrix.size();
+  map<int, int> m;
+  int p = 0;
+  for (int i = 1; i < N; i++) {
+    for (int j = 0; j < i; j++) {
+      if (matrix[i][j] == 0)
+        continue;
+      int k = j;
+      while (m.find(k) != m.end())
+        k = m.at(k);
+      if (i != k) {
+        m[k] = i;
+        p++;
+      }
     }
   }
-}
-
-bool isFriend(int i, int j, const map<int, int>& m) {
-  while (m.find(i) != m.end()) {
-    i = m.at(i);
-  }
-  while (m.find(j) != m.end()) {
-    j = m.at(j);
-  }
-  return i == j;
-}
-
-bool isNewCircle(int i, const vector<int>& vec, const map<int, int>& m) {
-  for (auto& v : vec) {
-    if (isFriend(i, v, m))
-      return false;
-  }
-  return true;
-}
-
-int findCircleNum(vector<vector<int>>& matrix) {
-  map<int, int> m;
-  initiate(m, matrix);
-  unsigned int N = matrix.size();
-  vector<int> vec;
-  for (unsigned int i = 0; i < N; i++) {
-    if (isNewCircle(i, vec, m))
-      vec.push_back(i);
-  }
-  return vec.size();
+  return N - p;
 }
 
 int main() {
-  vector<vector<int>> v = { { 1,1,0 },{ 1,1,0 },{ 0,0,1 } };
-  int num = findCircleNum(v);
-  printf("%d\n", num);
-  v = { { 1,1,0 },{ 1,1,1 },{ 0,1,1 } };
-  num = findCircleNum(v);
-  printf("%d\n", num);
+  vector<vector<int>> v = {{1, 1, 0, 0, 1}, {1, 1, 0, 0, 1}, {1, 0, 1, 0, 1}, {0, 0, 0, 1, 1}, {1, 1, 0, 1, 1}};
+  printf("%d\n", findCircleNum(v));
   getchar();
   return 0;
 }
