@@ -62,19 +62,16 @@ bool isRectangleCover(vector<vector<int>>& rectangles) {
   int numCorners = 1 << N;
   map<string, int> hash;
   vector<vector<int>> all;
-  for(auto& r: rectangles)
-  {
+  for(auto& r: rectangles) {
     vector<vector<int>> minmax;
-    for(int i = 0; i < N; i++)
-    {
+    for(int i = 0; i < N; i++) {
       vector<int> c;
       c.push_back(r[i]);
       c.push_back(r[i+N]);
       minmax.push_back(c);
     }
 
-    for(int i = 0; i < numCorners; i++)
-    {
+    for(int i = 0; i < numCorners; i++) {
       vector<int> coords;      
       for(int j = 0; j < N; j++)
         coords.push_back(minmax[j][(i&(1<<j))?1:0]);
@@ -88,16 +85,13 @@ bool isRectangleCover(vector<vector<int>>& rectangles) {
     }
   }
   int cnt = 0;
-  for(auto& h: hash)
-  {
+  for(auto& h: hash) {
     int v = h.second;
     if(!(v&v-1) && ++cnt > numCorners) return false;
-    else if(v&v-1) 
-    {
+    else if(v&v-1) {
       vector<vector<int>> pts;
       int i = 0;
-      for(; i < numCorners; i++)
-      {
+      for(; i < numCorners; i++) {
         if(v & (1 << i))
           pts.push_back(all[i]);
       }
@@ -106,8 +100,7 @@ bool isRectangleCover(vector<vector<int>>& rectangles) {
       if (siz == (1 << N))
         continue;
       int same = 0;
-      for(i = 0; i < N; i++)
-      {
+      for(i = 0; i < N; i++) {
         int j = 1;
         for(; j < siz; j++)
           if(pts[0][i] != pts[j][i])
