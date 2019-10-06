@@ -62,8 +62,7 @@ vector<vector<string>> accountsMerge(vector<vector<string>>& accounts) {
   map<string, vector<int>> m;
   for(int j = 0; j < siz; j++) {
     auto& a = accounts[j];
-    int siz = a.size();
-    for(int i = 1; i < siz; i++) {
+    for(int i = 1; i < a.size(); i++) {
       if(m.find(a[i]) != m.end())
         m[a[i]].push_back(j);
       else
@@ -73,35 +72,36 @@ vector<vector<string>> accountsMerge(vector<vector<string>>& accounts) {
   // 2. 'cook' (merge) the raw indices set from step 1
   // e.g. [1, 2], [0, 1] => [0, 1, 2]
   set<set<int>*> s;
-  int64_t *rec = new int64_t[siz];
+  int64_t *rec = new int64_t[siz];  // recording the set address for each index
   memset(rec, 0, siz * sizeof(int64_t));
   for(auto& v: m) {
     auto& indices = v.second;
     if (indices.size() <= 1)
       continue;
     set<int>* available = NULL;
-    for(auto& i: indices) {
-      if (rec[i] != NULL) {
-        if (available == NULL)
-          available = (set<int>*)rec[i];
-        else {
-          set<int>* p = (set<int>*) rec[i];
-          for(auto& j: *p)
-            available->insert(j);
-          auto iter = s.find(p);
-          if(iter != s.end())
-            s.erase(iter);
-          delete p;
-        }        
+    for (auto& i: indices) {
+      if (rec[i] != NULL && (int64_t)available == rec[i]) // do nothing
+        continue;
+      if (rec[i] != NULL && available == NULL) {
+        available = (set<int>*)rec[i];  // set the available
+        continue;
       }
-    }
-    if (available == NULL) {
-      available = new set<int>();
-      s.insert(available);
-    }      
-    for(auto& i: indices) {
-      available->insert(i);
-      rec[i] = (int64_t)available;
+      if (rec[i] != NULL) { // available is not NULL and not equal to rec[i], merge
+        set<int>* p = (set<int>*) rec[i];
+        for (auto& j: *p)
+          available->insert(j);
+        auto iter = s.find(p);
+        if (iter != s.end())
+          s.erase(iter);
+        delete p;
+      }
+      else if (available == NULL) {
+        available = new set<int>({i});
+        s.insert(available);
+      }
+      else
+        available->insert(i);
+      rec[i] = (int64_t)available;  // update the corresponding set address for index
     }
   }
 
@@ -125,9 +125,11 @@ int main() {
    {"Tony", "tony1@mail.com", "tony4@mail.com"},
    {"Martin", "mj@mail.com", "blue_horse@mail.com"},
    {"Mary", "mary@mail.com"},
+   {"Kendra", "kendrag@mail.com", "white_sheep@mail.com"},
    {"Gary", "yellow_duck@mail.com", "gr@mail.com"},
    {"Tony", "tony1@mail.com", "tony2@mail.com"},
    {"Martin", "m_bird@mail.com", "mjk@mail.com"},
+   {"Kendra", "kendrag@mail.com", "white_sheep@mail.com", "pink_fish@mail.com"},
    {"John", "johnsmith@mail.com", "john_newyork@mail.com"},
    {"Gary", "red_sheep@mail.com", "hello_world@mail.com"},
    {"Tony", "tony4@mail.com", "tony5@mail.com"},
