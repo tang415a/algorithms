@@ -58,23 +58,15 @@ int commonDivisor(int a, int b) {
 bool hasGroupsSizeX(vector<int>& deck) {
   map<int, int> m;
   for (auto& c: deck) {
-    if (m.find(c) == m.end())
-      m[c] = 1;
-    else
-      m[c]++;
+    m[c]++;
   }
   int groupSize = 0;
   for (auto& i: m) {
     if (i.second == 1)
       return false;
-    if (groupSize == 0)
-      groupSize = i.second;
-    else {
-      int common = commonDivisor(groupSize, i.second);
-      if (common == 1)
-        return false;
-      groupSize = common;
-    }      
+    groupSize = groupSize == 0 ? i.second : commonDivisor(groupSize, i.second);
+    if (groupSize == 1)
+      return false;     
   }
   return true;
 }
