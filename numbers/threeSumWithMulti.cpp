@@ -45,12 +45,10 @@ int threeSumMulti(vector<int>& A, int target) {
   for(int i = 1; i <= target / 3; i++) {
     if (vec[i] == 0)
       continue;
-    for(int j = i; j <= target / 2; j++) {
+    for(int j = i; j <= (target - i) / 2; j++) {
       if (vec[j] == 0)
         continue;
       int k = target - j - i;
-      if (k < j)
-        break;
       if (vec[k] == 0)
         continue;
       if (i == j) {
@@ -60,8 +58,7 @@ int threeSumMulti(vector<int>& A, int target) {
       else {
         res += (j == k ? vec[i] * vec[j] * (vec[j] - 1) / 2 :
                          vec[i] * vec[j] * vec[k]);
-      }
-        
+      }        
     }
   }
   return res % kMod;
@@ -69,7 +66,7 @@ int threeSumMulti(vector<int>& A, int target) {
 
 int main() {
   vector<int> A = {1,1,2,2,3,3,4,4,5,5};
-  int target = 7;
+  int target = 8;
   printf("%d", threeSumMulti(A, target));
   getchar();
   return 0;
