@@ -42,7 +42,7 @@ int threeSumMulti(vector<int>& A, int target) {
     vec[v]++;
   }
   long long res = 0;
-  for(int i = 1; i <= target / 3; i++) {
+  for(int i = 0; i <= target / 3; i++) {
     if (vec[i] == 0)
       continue;
     for(int j = i; j <= (target - i) / 2; j++) {
