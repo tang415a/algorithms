@@ -102,13 +102,11 @@ private:
       if (beginCollect) {
         m_candidates.push(pNode);
       }
-      else if (pNode->right) {
+      if (pNode->left)
         temp.push_back(pNode->left);
+      if (pNode->right)
         temp.push_back(pNode->right);
-      }
-      else {
-        if (pNode->left)
-          temp.push_back(pNode->left);
+      else if(!beginCollect) {
         m_candidates.push(pNode);
         beginCollect = true;
       }
@@ -128,14 +126,18 @@ private:
 
 int main() {
   TreeNode* r = new TreeNode(1);
-  CBTInserter* obj = new CBTInserter(r);
-  int v = obj->insert(2);
+  CBTInserter* p = new CBTInserter(r);
+  int v = p->insert(2);
   printf("%d\n", v);
   for(int i = 3; i < 9; i++)
-    obj->insert(i);
-  print(obj->get_root());
-  clear(obj->get_root());
-  delete obj;
+    p->insert(i);
+  
+  CBTInserter o(r);
+  for(int i = 9; i < 15; i++)
+    o.insert(i);
+  print(p->get_root());
+  clear(p->get_root());
+  delete p;
   getchar();
   return 0;
 }
