@@ -36,7 +36,7 @@ bool detectCapitalUse(const string& word) {
       if (i > 1 && continued)
         return false;
       continued = false;
-    }    
+    }
     else if (!continued)
       return false;
   }

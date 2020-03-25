@@ -38,13 +38,15 @@ int findCircleNum(vector<vector<int>> &matrix) {
   map<int, int> m;
   int p = 0;
   for (int i = 1; i < N; i++) {
+    // we should tranverse lower triangle matrix other than upper triangle
+    // because in this way we can detect circular friendship and filter it out
     for (int j = 0; j < i; j++) {
       if (matrix[i][j] == 0)
         continue;
       int k = j;
       while (m.find(k) != m.end())
         k = m.at(k);
-      if (i != k) {
+      if (i > k) { // k cannot be greater than i and definitely not equal to i
         m[k] = i;
         p++;
       }
