@@ -53,14 +53,46 @@ string removeKDigits(string num, int k)
   return doRemove(num, k, 0, true);
 }
 
+string doRemove2(string& num, int k) {
+  if (k == 0)
+    return num;
+  int len = num.length();
+  if (len <= k)
+    return "";
+  int min = 0;
+  for (int i = 1; i <= k; i++) {
+    if (num[i] < num[min])
+      min = i;
+  }
+  return num.substr(min, 1) + doRemove2(num.substr(min + 1), k - min);
+}
+
+string removeKDigits2(string num, int k) {
+  string res = doRemove2(num, k);
+  int i = 0, len = res.length();
+  while(i < len && res[i] == '0') i++;
+  return i < len ? res.substr(i) : "0";
+}
+
 int main()
 {
   printf("%s\n", removeKDigits("1432219", 3).c_str());
+  printf("%s\n", removeKDigits2("1432219", 3).c_str());
+  
   printf("%s\n", removeKDigits("10200", 1).c_str());
+  printf("%s\n", removeKDigits2("10200", 1).c_str());
+  
   printf("%s\n", removeKDigits("11200", 1).c_str());
+  printf("%s\n", removeKDigits2("11200", 1).c_str());
+
   printf("%s\n", removeKDigits("10", 2).c_str());
+  printf("%s\n", removeKDigits2("10", 2).c_str());
+
   printf("%s\n", removeKDigits("129200", 2).c_str());
+  printf("%s\n", removeKDigits2("129200", 2).c_str());
+  
   printf("%s\n", removeKDigits("109000", 2).c_str());
+  printf("%s\n", removeKDigits2("109000", 2).c_str());
   getchar();
   return 0;
 }

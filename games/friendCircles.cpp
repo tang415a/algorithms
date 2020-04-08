@@ -56,7 +56,7 @@ int findCircleNum(vector<vector<int>> &matrix) {
 }
 
 int main() {
-  vector<vector<int>> v = {{1, 1, 0, 0, 1}, {1, 1, 0, 0, 1}, {1, 0, 1, 0, 1}, {0, 0, 0, 1, 1}, {1, 1, 0, 1, 1}};
+  vector<vector<int>> v = {{1, 1, 0, 0, 1}, {1, 1, 0, 0, 0}, {0, 0, 1, 0, 0}, {0, 0, 0, 1, 0}, {1, 0, 0, 0, 1}};
   printf("%d\n", findCircleNum(v));
   getchar();
   return 0;

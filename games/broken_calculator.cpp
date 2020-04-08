@@ -45,7 +45,7 @@ int brokenCalc(int X, int Y) {
   if (X > Y) return X - Y;
   if ((Y & 0x1) != 0)
     return brokenCalc(X, (Y + 1) >> 1) + 2;
-  return brokenCalc(X, Y >> 1) + 1;   
+  return brokenCalc(X, Y >> 1) + 1;
 }
 
 int main() {
