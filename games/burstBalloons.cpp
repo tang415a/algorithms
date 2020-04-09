@@ -49,7 +49,7 @@ int maxCoins(vector<int>& nums) {
 
   int res = dp[1][N];
 
-  for(int i = 0; i < N; i++)
+  for(int i = 0; i < N + 2; i++)
     delete dp[i];
   delete[] dp;
   delete[] balloons;
