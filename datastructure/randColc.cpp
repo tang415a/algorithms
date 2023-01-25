@@ -1,10 +1,11 @@
 /*
-Design a data structure that supports all following operations in average O(1) time.
+Design a data structure that supports all following operations in average O(1)
+time.
 
 insert(val): Inserts an item val to the set if not already present.
 remove(val): Removes an item val from the set if present.
-getRandom: Returns a random element from current set of elements. Each element must have the same probability of being returned.
-Example:
+getRandom: Returns a random element from current set of elements. Each element
+must have the same probability of being returned. Example:
 
 // Init an empty set.
 RandomizedSet randomSet = new RandomizedSet();
@@ -31,32 +32,33 @@ randomSet.insert(2);
 randomSet.getRandom();
 */
 
-#include <time.h>
-#include <stdio.h>
 #include <map>
+#include <stdio.h>
+#include <time.h>
 #include <vector>
+
 using namespace std;
 
 class RandomizedSet {
 public:
   /** Initialize your data structure here. */
-  RandomizedSet() {
-    srand(time(NULL));
-  }
-  
-  /** Inserts a value to the set. Returns true if the set did not already contain the specified element. */
+  RandomizedSet() { srand(time(NULL)); }
+
+  /** Inserts a value to the set. Returns true if the set did not already
+   * contain the specified element. */
   bool insert(int val) {
-    if (m_indices.find(val) == m_indices.end()){
+    if (m_indices.find(val) == m_indices.end()) {
       m_indices[val] = m_data.size();
       m_data.push_back(val);
       return true;
     }
     return false;
   }
-  
-  /** Removes a value from the set. Returns true if the set contained the specified element. */
+
+  /** Removes a value from the set. Returns true if the set contained the
+   * specified element. */
   bool remove(int val) {
-    auto& iter = m_indices.find(val);
+    auto &iter = m_indices.find(val);
     if (iter == m_indices.end())
       return false;
     int idx = iter->second, last = m_data.size() - 1;
@@ -68,12 +70,13 @@ public:
     m_indices.erase(iter);
     return true;
   }
-  
+
   /** Get a random element from the set. */
   int getRandom() {
     int idx = rand() % m_data.size();
     return m_data[idx];
   }
+
 private:
   map<int, int> m_indices;
   vector<int> m_data;
@@ -93,12 +96,11 @@ int main() {
   printf("Insert: %d\n", set.insert(1));
   printf("Insert: %d\n", set.insert(2));
   int one = 0, two = 0;
-  for (int i = 0; i < 1000; i++)
-  {
+  for (int i = 0; i < 1000; i++) {
     int v = set.getRandom();
     if (v == 1)
       one++;
-    else if(v == 2)
+    else if (v == 2)
       two++;
   }
   printf("one: %d, two: %d\n", one, two);

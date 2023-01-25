@@ -65,13 +65,134 @@ int doCalc(const vector<int>& days, const vector<int>& costs, int start, int cos
   return min;
 }
 
-int mincostTickets(const vector<int>& days, const vector<int>& costs) {
+int minCostTickets(const vector<int>& days, const vector<int>& costs) {
   return doCalc(days, costs, 0, 0);
 }
 
+int minCostTickets2(const vector<int>& days, const vector<int>& costs) {
+  int N = days.size();
+  int ** dp = new int*[N];
+  for(int i = 0; i < N; i++)
+    dp[i] = new int[N];
+
+  for(int i = 0; i < N; i++) {
+    for(int j = i; j < N; j++) {
+      int n = days[j] - days[i];
+      int k = 0;
+      for(; k < 3; k++) {
+        if (n < durations[k]) {
+          dp[i][j] = costs[k];
+          break;
+        }
+      }
+      if (k == 3)
+        dp[i][j] = -1;
+    }
+  }
+
+  for(int n = 1; n < N; n++) {
+    for(int l = 0; l < N - n; l++) {
+      int r = l + n;
+      for(int k = l; k < r; k++) {
+        int costs = dp[l][k] + dp[k+1][r];
+        if (dp[l][r] < 0 || dp[l][r] > costs)
+          dp[l][r] = costs;
+      }
+    }
+  }
+
+  int res = dp[0][N - 1];
+  for(int i = 0; i < N; i++)
+    delete[] dp[i];
+  delete[] dp;
+  return res;
+}
+
+#include <set>
+int smaller(int i, int j) {
+  return i < j ? i : j;
+}
+
+int dp(int i, int max, int* memo, const vector<int>& costs, const set<int>& daySet) {
+  if (i >= max)
+    return 0;
+  if (memo[i] > 0)
+    return memo[i];
+
+  int ans;
+  if (daySet.find(i + 1) == daySet.end())
+    ans = dp(i + 1, max, memo, costs, daySet);
+  else {
+    ans = smaller(costs[0] + dp(i + durations[0], max, memo, costs, daySet), costs[1] + dp(i + durations[1], max, memo, costs, daySet));
+    ans = smaller(ans, costs[2] + dp(i + durations[2], max, memo, costs, daySet));
+  }
+
+  memo[i] = ans;
+  return ans;
+}
+
+
+int minCostTickets3(const vector<int>& days, const vector<int>& costs) {
+  int max = days[days.size() - 1];
+
+  int *memo = new int[max];
+  memset(memo, 0, sizeof(int) * max);
+
+  set<int> daySet;
+  for(auto&d : days) daySet.insert(d);
+  int r = dp(0, max, memo, costs, daySet);
+  delete[] memo;
+  return r;
+}
+
+#include <stdlib.h>
+#include <time.h>
+#include <ctime>
+
+void initialize(vector<int>& days, int siz) {
+  int maxSpan = 10;
+  srand(time(NULL));
+  for (int i = 0; i < siz; i++) {
+    int d = (i == 0 ? 0 : days[i - 1]) + (rand() % maxSpan);
+    days.push_back(d);
+  }
+}
+
 int main() {
-  vector<int> days = {1,3,4,5,6,7,8,9,30,31}, costs = {2,7,15};
-  printf("%d", mincostTickets(days, costs));
+  // vector<int> days = {1,3,4,5,6,7,8,9,30,31}, costs = {2,7,15};
+  // printf("%d\n", minCostTickets(days, costs));
+  // printf("%d\n", minCostTickets2(days, costs));
+
+  // days = {1,4,6,7,8,20};
+  // printf("%d\n", minCostTickets(days, costs));
+  // printf("%d\n", minCostTickets2(days, costs));
+
+  // days = {1,2,3,4,5,6,7,8,9,10,30,31};
+  // printf("%d\n", minCostTickets(days, costs));
+  // printf("%d\n", minCostTickets2(days, costs));
+
+  int siz = 365;
+  vector<int> days, costs = {2,7,15};
+  initialize(days, siz);
+  
+  clock_t startTime, endTime;
+  // startTime = clock();
+  // printf("%d\n", minCostTickets(days, costs));
+  // endTime = clock();
+  // printf("The run time is %fs\n", (double)(endTime - startTime) / CLOCKS_PER_SEC);
+
+  // printf("\n");
+
+  startTime = clock();
+  printf("%d\n", minCostTickets2(days, costs));
+  endTime = clock();
+  printf("The run time is %fs\n", (double)(endTime - startTime) / CLOCKS_PER_SEC);
+
+  startTime = clock();
+  printf("%d\n", minCostTickets3(days, costs));
+  endTime = clock();
+  printf("The run time is %fs\n", (double)(endTime - startTime) / CLOCKS_PER_SEC);
+
   getchar();
   return 0;
 }
