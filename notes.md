@@ -16,10 +16,15 @@
 * odd one / odd two / odd three
 * increased
 * number of arithmetic slices / sub sequences
+* hamming distance
+* remove k digits
+* print combination
+* print permutation
 
 ## Strings
 * first single char
 * asterisk
+* non-repeated chars
 
 ## Games
 * burst balloons
@@ -30,6 +35,7 @@
 ## data structure
 * reverse list
 * circular list
+* intersect list
 * rand colc
 * rand colc duplicate
 * min stack
