@@ -2,6 +2,8 @@
 // Note that the order of integers appearing in the sequence may not be switched.
 // e.g. given an array: 1,5,2,8,3,7,4,6,0 then it will output 1,2,3,4,6
 
+// you may see increased.cpp for a solution in C++
+
 let hash;
 function process(arr, i) {
   if (i in hash)

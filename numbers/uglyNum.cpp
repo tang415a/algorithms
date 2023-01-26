@@ -15,7 +15,7 @@ int ugly(int n)
   {
     int min = 0, minVal = rec[b[0]] * m[0];
     for(int i = 1; i < 3; i++)
-    {     
+    {
       int curVal = rec[b[i]] * m[i];
       if(curVal < minVal)
       {

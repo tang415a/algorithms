@@ -35,6 +35,7 @@ There are no hyphens or hyphenated words.
 #include <stdio.h>
 #include <map>
 #include <vector>
+#include <string>
 using namespace std;
 
 bool isLowercase(char c) {
