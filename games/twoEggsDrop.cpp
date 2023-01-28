@@ -55,12 +55,41 @@ int twoEggDrop(int n) {
   return i;
 }
 
+int twoEggDrop2(int n) {
+  int c = 1, i = 1;
+  while (c < n) {
+    c += ++i;
+  }
+  return i;
+}
+
+int twoEggDrop3(int n) {
+  int c = 1, i = 1;
+  while (c < n) {
+    c += i;
+    i++;
+  }
+  return c == n ? i : i - 1;
+}
+
 int main() {
   cout << twoEggDrop(1) << endl;
+  cout << twoEggDrop2(1) << endl;
+  cout << twoEggDrop3(1) << endl;
   cout << twoEggDrop(2) << endl;
+  cout << twoEggDrop2(2) << endl;
+  cout << twoEggDrop3(2) << endl;
   cout << twoEggDrop(3) << endl;
+  cout << twoEggDrop2(3) << endl;
+  cout << twoEggDrop3(3) << endl;
   cout << twoEggDrop(10) << endl;
+  cout << twoEggDrop2(10) << endl;
+  cout << twoEggDrop3(10) << endl;
   cout << twoEggDrop(100) << endl;
+  cout << twoEggDrop2(100) << endl;
+  cout << twoEggDrop3(100) << endl;
   cout << twoEggDrop(1000) << endl;
+  cout << twoEggDrop2(1000) << endl;
+  cout << twoEggDrop3(1000) << endl;
   return 0;
 }

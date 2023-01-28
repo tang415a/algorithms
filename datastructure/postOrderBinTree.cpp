@@ -1,5 +1,5 @@
-// Write an algorithm to traverse a binary tree in a post order without recursion.
-// For example,
+// Write an algorithm to traverse a binary tree in a post order without
+// recursion. For example,
 //      1
 //    2   3
 //  4       5
@@ -7,21 +7,19 @@
 //   9 10
 // it prints out: 6 9 10 7 4 2 8 5 3 1
 
-#include <stdio.h>
 #include <stack>
+#include <iostream>
 
 using namespace std;
 
-struct TreeNode
-{
-  TreeNode *left;
-  TreeNode *right;
-  int val;
+struct TreeNode {
+  TreeNode *left = nullptr;
+  TreeNode *right = nullptr;
+  int val = 0;
 };
 
-void postOrder(TreeNode *root)
-{
-  if (root == NULL)
+void postOrder(TreeNode *root) {
+  if (root == nullptr)
     return;
 
   const char ST_LEFT = 0;
@@ -31,45 +29,36 @@ void postOrder(TreeNode *root)
 
   stack<TreeNode *> s;
   s.push(root);
-  while (true)
-  {
+  while (true) {
     auto n = s.top();
-    if (action == ST_LEFT)
-    {
+    if (action == ST_LEFT) {
       if (n->left)
         s.push(n->left);
       else
         action = ST_RIGHT;
-    }
-    else if (action == ST_RIGHT)
-    {
-      if (n->right)
-      {
+    } else if (action == ST_RIGHT) {
+      if (n->right) {
         s.push(n->right);
         action = ST_LEFT;
-      }
-      else
+      } else
         action = ST_NONE;
-    }
-    else
-    {
-      printf("%d ", n->val);
+    } else {
+      cout << n->val << " ";
       s.pop();
       if (s.empty())
         break;
-      action = s.top()->right == n ? ST_NONE : ST_RIGHT;
+      if (s.top()->right != n)
+        action = ST_RIGHT;
+      // action = s.top()->right == n ? ST_NONE : ST_RIGHT;
     }
   }
 }
 
-int main()
-{
+int main() {
   const int siz = 10;
 
   TreeNode nodes[siz];
-  for (int i = 0; i < siz; i++)
-  {
-    nodes[i].left = nodes[i].right = NULL;
+  for (int i = 0; i < siz; i++) {
     nodes[i].val = i + 1;
   }
 

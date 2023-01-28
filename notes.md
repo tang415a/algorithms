@@ -25,6 +25,8 @@
 * first single char
 * asterisk
 * non-repeated chars
+* nChars
+* string distance
 
 ## Games
 * burst balloons
@@ -39,3 +41,5 @@
 * rand colc
 * rand colc duplicate
 * min stack
+* preOrder/inOrder/postOrder iteration over binary tree
+* binary tree output by levels

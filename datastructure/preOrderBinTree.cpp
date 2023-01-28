@@ -1,5 +1,5 @@
-// Write an algorithm to traverse a binary tree in a pre order without recursion.
-// For example,
+// Write an algorithm to traverse a binary tree in a pre order without
+// recursion. For example,
 //      1
 //    2   3
 //  4       5
@@ -7,26 +7,24 @@
 //   9 10
 // it prints out: 1 2 4 6 7 9 10 3 5 8
 
-#include <stdio.h>
 #include <stack>
+#include <stdio.h>
+
 
 using namespace std;
 
-struct TreeNode
-{
+struct TreeNode {
   TreeNode *left;
   TreeNode *right;
   int val;
 };
 
-void preOrder(TreeNode *root)
-{
+void preOrder(TreeNode *root) {
   if (root == NULL)
     return;
-  stack<TreeNode*> s;
+  stack<TreeNode *> s;
   s.push(root);
-  while(!s.empty())
-  {
+  while (!s.empty()) {
     auto n = s.top();
     s.pop();
     printf("%d ", n->val);
@@ -37,12 +35,11 @@ void preOrder(TreeNode *root)
   }
 }
 
-int main()
-{
+int main() {
   const int siz = 10;
 
   TreeNode nodes[siz];
-  for(int i = 0; i < siz; i++) {
+  for (int i = 0; i < siz; i++) {
     nodes[i].left = nodes[i].right = NULL;
     nodes[i].val = i + 1;
   }

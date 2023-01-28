@@ -7,50 +7,45 @@
 //   9 10
 // it prints out: 6 4 9 7 10 2 1 3 8 5
 
-#include <stdio.h>
+#include <iostream>
 #include <stack>
 
 using namespace std;
 
-struct TreeNode
-{
-  TreeNode *left;
-  TreeNode *right;
-  int val;
+struct TreeNode {
+  TreeNode *left = nullptr;
+  TreeNode *right = nullptr;
+  int val = 0;
 };
 
-void inOrder(TreeNode *root)
-{
-  if (root == NULL)
+void inOrder(TreeNode *root) {
+  if (root == nullptr)
     return;
-  stack<TreeNode*> s;
+  stack<TreeNode *> s;
   s.push(root);
   bool search = true;
-  while(!s.empty())
-  {
+  while (!s.empty()) {
     auto n = s.top();
-    if (n->left && search) {
+    if (search && n->left) {
       s.push(n->left);
-    }
-    else {
-      printf("%d ", n->val);
+    } else {
+      cout << n->val << " ";
       s.pop();
-      search = false;
       if (n->right) {
         s.push(n->right);
         search = true;
+      } else {
+        search = false;
       }
     }
   }
 }
 
-int main()
-{
+int main() {
   const int siz = 10;
 
   TreeNode nodes[siz];
-  for(int i = 0; i < siz; i++) {
-    nodes[i].left = nodes[i].right = NULL;
+  for (int i = 0; i < siz; i++) {
     nodes[i].val = i + 1;
   }
 
