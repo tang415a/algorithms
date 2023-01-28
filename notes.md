@@ -20,19 +20,22 @@
 * remove k digits
 * print combination
 * print permutation
+* largest sum of sub arrays of a (circular) array
 
 ## Strings
 * first single char
 * asterisk
 * non-repeated chars
-* nChars
+* n chars out of m chars (combination)
 * string distance
+* reverse words
 
 ## Games
 * burst balloons
 * elimination game
 * friend circles
 * broken calculator
+* frog jump
 
 ## data structure
 * reverse list
@@ -43,3 +46,7 @@
 * min stack
 * preOrder/inOrder/postOrder iteration over binary tree
 * binary tree output by levels
+
+# Advanced
+## Numbers
+* min stranger

@@ -1,12 +1,12 @@
-// Given an array of positive integers, find out the minimum positive integer that has not been included in the array.
-// For example, for [1, 5, 7, 2, 8], the output is 3.
-// For [5, 3, 2, 7], the output is 1.
+// Given an array of positive integers, find out the minimum positive integer
+// that has not been included in the array. For example, for [1, 5, 7, 2, 8],
+// the output is 3. For [5, 3, 2, 7], the output is 1.
 
-#include <stdio.h>
 #include <memory.h>
+#include <stdio.h>
 
 // algorithm 1
-int minStranger (int*arr, int siz){
+int minStranger(int *arr, int siz) {
   int l = 0, r = siz;
   while (l < r) {
     if (arr[l] == l + 1)
