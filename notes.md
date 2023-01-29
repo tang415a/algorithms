@@ -51,3 +51,4 @@
 ## Numbers
 * min stranger
 * find ones
+* fast inv sqrt
