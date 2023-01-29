@@ -83,6 +83,5 @@ int main() {
   auto r = wordSubsets(A, B);
   for(auto& s: r)
     printf("%s ", s);
-  getchar();
   return 0;
 }

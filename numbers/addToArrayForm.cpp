@@ -70,6 +70,5 @@ int main() {
   for(auto& v: r) {
     printf("%d ", v);
   }
-  getchar();
   return 0;
 }

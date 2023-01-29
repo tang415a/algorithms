@@ -187,6 +187,5 @@ int main() {
       printf("%s ", s.c_str());
     printf("\n");
   }
-  getchar();
   return 0;
 }

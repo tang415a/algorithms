@@ -42,6 +42,6 @@ int lastRemainingNumber(int n) {
 int main() {
   for (int i = 1; i < 100; i++)
     printf("%d\n", lastRemainingNumber(i));
-  getchar();
+  
   return 0;
 }

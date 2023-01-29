@@ -1,13 +1,16 @@
 /*
 
-Given a string S of '(' and ')' parentheses, we add the minimum number of parentheses ( '(' or ')', and in any positions ) so that the resulting parentheses string is valid.
+Given a string S of '(' and ')' parentheses, we add the minimum number of
+parentheses ( '(' or ')', and in any positions ) so that the resulting
+parentheses string is valid.
 
 Formally, a parentheses string is valid if and only if:
 
 It is the empty string, or
-It can be written as AB (A concatenated with B), where A and B are valid strings, or
-It can be written as (A), where A is a valid string.
-Given a parentheses string, return the minimum number of parentheses we must add to make the resulting string valid.
+It can be written as AB (A concatenated with B), where A and B are valid
+strings, or It can be written as (A), where A is a valid string. Given a
+parentheses string, return the minimum number of parentheses we must add to make
+the resulting string valid.
 
 Example 1:
 
@@ -39,17 +42,16 @@ S only consists of '(' and ')' characters.
 #include <string>
 using namespace std;
 
-int minAddValidateParentheses(string& s) {
+int minAddValidateParentheses(string &s) {
   int res = 0, sum = 0;
-  for(auto &c: s) {
+  for (auto &c : s) {
     if (c == '(') {
       if (sum < 0) {
         res -= sum;
         sum = 0;
       }
       sum++;
-    }
-    else if (c == ')') {
+    } else if (c == ')') {
       sum--;
     }
   }
@@ -57,11 +59,12 @@ int minAddValidateParentheses(string& s) {
   return res;
 }
 
-int minAddValidateParentheses2(string& s) {
+int minAddValidateParentheses2(string &s) {
   int l = 0, m = 0;
-  for(auto& c: s) {
-    if(c == '(') ++l;
-    else if(c == ')' && l > 0) {
+  for (auto &c : s) {
+    if (c == '(')
+      ++l;
+    else if (c == ')' && l > 0) {
       ++m;
       --l;
     }
@@ -72,6 +75,5 @@ int minAddValidateParentheses2(string& s) {
 int main() {
   string s = "()))((";
   printf("%d", minAddValidateParentheses2(s));
-  getchar();
   return 0;
 }

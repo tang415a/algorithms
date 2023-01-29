@@ -1,5 +1,6 @@
 /*
-Calculate the sum of two integers a and b, but you are not allowed to use the operator + and -.
+Calculate the sum of two integers a and b, but you are not allowed to use the
+operator + and -.
 
 Example 1:
 
@@ -24,14 +25,12 @@ int getSum(int a, int b) {
         res |= mask;
       else
         carry = true;
-    }
-    else if (bit1 == 0 && bit2 == 0) {
+    } else if (bit1 == 0 && bit2 == 0) {
       if (carry) {
         res |= mask;
         carry = false;
       }
-    }
-    else if (!carry)
+    } else if (!carry)
       res |= mask;
     mask <<= 1;
   } while (mask > 0);
@@ -41,6 +40,5 @@ int getSum(int a, int b) {
 int main() {
   printf("%d\n", getSum(367, 209));
   printf("%d\n", getSum(-2, 3));
-  getchar();
   return 0;
 }

@@ -137,7 +137,5 @@ int main() {
     analyzeRoot(nodes, d, _v, from, to);
     printf("\nfrom %d to %d we have maximum distance %d", from, to, d);
   }
-
-  getchar();
   return 0;
 }

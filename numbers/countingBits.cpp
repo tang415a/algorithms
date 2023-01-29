@@ -51,6 +51,5 @@ int main() {
   auto res = countBits(32);
   for(auto& r: res)
     printf("%d ", r);
-  getchar();
   return 0;
 }

@@ -16,6 +16,5 @@ bool canWin(int n)
 int main()
 {
 	printf("%d", canWin(5));
-	getchar();
 	return 0;
 }

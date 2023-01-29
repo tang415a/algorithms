@@ -67,6 +67,5 @@ int main()
 {
   string s = "cbedddedc";
   printf("%s", removeDuplicateLetters(s).c_str());
-  getchar();
   return 0;
 }

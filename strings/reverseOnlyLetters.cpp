@@ -47,6 +47,5 @@ int main() {
   string str = "Test1ng-Leet=code-Q!";
   reverseOnlyLetters(str);
   printf("%s", str.c_str());
-  getchar();
   return 0;
 }

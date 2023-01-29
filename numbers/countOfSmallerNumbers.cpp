@@ -78,5 +78,5 @@ int main() {
   auto r = countSmaller(nums);
   for(auto i: r)
     printf("%d ", i);
-  getchar();
+  return 0;
 }

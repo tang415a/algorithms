@@ -192,7 +192,5 @@ int main() {
   printf("%d\n", minCostTickets3(days, costs));
   endTime = clock();
   printf("The run time is %fs\n", (double)(endTime - startTime) / CLOCKS_PER_SEC);
-
-  getchar();
   return 0;
 }

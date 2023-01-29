@@ -45,6 +45,5 @@ int partitionDisjoint(vector<int>& A) {
 int main() {
   vector<int> A = {5,0,3,8,6};
   printf("%d", partitionDisjoint(A));
-  getchar();
   return 0;
 }

@@ -70,6 +70,5 @@ int main() {
   int arr[] = {-2, 5, -1};
   int lower = -2, upper = 2;
   printf("%d", countRangeSum(arr, sizeof(arr) / sizeof(arr[0]), lower, upper));
-  getchar();
   return 0;
 }

@@ -40,6 +40,5 @@ void printAllPossibilities(int *p, int siz, int n) {
 int main() {
   int arr[] = {1,2,3,4,5,6};
   printAllPossibilities(arr, sizeof(arr) / sizeof(arr[0]), 6);
-  getchar();
   return 0;
 }

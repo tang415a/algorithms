@@ -74,6 +74,5 @@ bool hasGroupsSizeX(vector<int>& deck) {
 int main() {
   vector<int> deck = {1,1,1,2,2,2,3,3};
   printf("%d", hasGroupsSizeX(deck));
-  getchar();
   return 0;
 }

@@ -42,6 +42,5 @@ int main() {
     s.push(i);
   }
   sort(s);
-  getchar();
   return 0;
 }

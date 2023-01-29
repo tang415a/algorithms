@@ -60,6 +60,5 @@ int maxCoins(vector<int>& nums) {
 int main() {
   vector<int> balloons = {3,1,5,8};
   printf("%d", maxCoins(balloons));
-  getchar();
   return 0;
 }

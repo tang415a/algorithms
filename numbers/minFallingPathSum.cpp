@@ -1,13 +1,16 @@
 /*
-Given a square array of integers A, we want the minimum sum of a falling path through A.
+Given a square array of integers A, we want the minimum sum of a falling path
+through A.
 
-A falling path starts at any element in the first row, and chooses one element from each row.  The next row's choice must be in a column that is different from the previous row's column by at most one.
+A falling path starts at any element in the first row, and chooses one element
+from each row.  The next row's choice must be in a column that is different from
+the previous row's column by at most one.
 
 Example 1:
 
 Input: [[1,2,3],[4,5,6],[7,8,9]]
 Output: 12
-Explanation: 
+Explanation:
 The possible falling paths are:
 [1,4,7], [1,4,8], [1,5,7], [1,5,8], [1,5,9]
 [2,4,7], [2,4,8], [2,5,7], [2,5,8], [2,5,9], [2,6,8], [2,6,9]
@@ -23,13 +26,13 @@ Note:
 #include <vector>
 using namespace std;
 
-int minFallingPathSum(const vector<vector<int>>& A) {
+int minFallingPathSum(const vector<vector<int>> &A) {
   vector<int> slots;
-  for(auto& v: A[0])
+  for (auto &v : A[0])
     slots.push_back(v);
   int siz = A.size();
-  for(int i = 1; i < siz; i++) {
-    for(int j = 0; j < siz; j++) {
+  for (int i = 1; i < siz; i++) {
+    for (int j = 0; j < siz; j++) {
       int min = A[i][j];
       if (j > 0 && min > A[i][j - 1])
         min = A[i][j - 1];
@@ -39,7 +42,7 @@ int minFallingPathSum(const vector<vector<int>>& A) {
     }
   }
   int res = slots[0];
-  for(int i = 1; i < siz; i++) {
+  for (int i = 1; i < siz; i++) {
     if (res > slots[i])
       res = slots[i];
   }
@@ -47,9 +50,8 @@ int minFallingPathSum(const vector<vector<int>>& A) {
 }
 
 int main() {
-  vector<vector<int>> arr = {{1,2,3},{4,5,6},{7,8,9}};
+  vector<vector<int>> arr = {{1, 2, 3}, {4, 5, 6}, {7, 8, 9}};
   int r = minFallingPathSum(arr);
-  printf("%d",r);
-  getchar();
+  printf("%d", r);
   return 0;
 }

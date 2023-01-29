@@ -80,6 +80,5 @@ int main() {
   auto r = numSmallerByFrequency(queries, words);
   for(auto& v: r)
     printf("%d ", v);
-  getchar();
   return 0;
 }

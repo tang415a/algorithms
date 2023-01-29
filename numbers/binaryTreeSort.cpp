@@ -6,8 +6,8 @@ struct TreeNode {
   TreeNode *left, *right;
 };
 
-void insert_node(TreeNode* &root, int val) {
-  if(!root){
+void insert_node(TreeNode *&root, int val) {
+  if (!root) {
     root = new TreeNode({val, NULL, NULL});
     return;
   }
@@ -18,7 +18,7 @@ void insert_node(TreeNode* &root, int val) {
     insert_node(root->right, val);
 }
 
-void free_tree(TreeNode* root) {
+void free_tree(TreeNode *root) {
   if (root) {
     free_tree(root->left);
     free_tree(root->right);
@@ -27,7 +27,7 @@ void free_tree(TreeNode* root) {
   }
 }
 
-void convert(TreeNode* root, int *arr, int& idx) {
+void convert(TreeNode *root, int *arr, int &idx) {
   if (root) {
     convert(root->left, arr, idx);
     arr[idx++] = root->val;
@@ -35,10 +35,10 @@ void convert(TreeNode* root, int *arr, int& idx) {
   }
 }
 
-void tree_sort(int* arr, int siz) {
-  TreeNode* root = NULL;
+void tree_sort(int *arr, int siz) {
+  TreeNode *root = NULL;
   int i = 0;
-  for(; i < siz; i++)
+  for (; i < siz; i++)
     insert_node(root, arr[i]);
   i = 0;
   convert(root, arr, i);
@@ -48,8 +48,7 @@ void tree_sort(int* arr, int siz) {
 int main() {
   int arr[] = {2, 1, 0, -1, 3, 4, 2, 0, -5, 6, -3};
   tree_sort(arr, sizeof(arr) / sizeof(arr[0]));
-  for(auto& v: arr)
+  for (auto &v : arr)
     printf("%d ", v);
-  getchar();
   return 0;
 }

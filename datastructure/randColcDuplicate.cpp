@@ -105,6 +105,5 @@ int main() {
   printf("Remove: %d\n", colc.remove(2));
   printf("Remove: %d\n", colc.remove(3));
   printf("Value: %d\n", colc.getRandom());
-  getchar();
   return 0;
 }

@@ -79,6 +79,5 @@ int main() {
     printf("They are possible.");
   else
     printf("They are not possible.");
-  getchar();  
   return 0;
 }

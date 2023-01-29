@@ -71,6 +71,5 @@ int largestPerimeter(vector<int>& A) {
 int main() {
   vector<int> A = {3,2,3,4};
   printf("%d", largestPerimeter(A));
-  getchar();
   return 0;
 }

@@ -94,16 +94,15 @@ int main() {
   //         a
   //   b       c
   // d  e    d  e
-  // TreeNode n[7] = {0,1,2,3,4,3,4};
-  // n[0].left = n + 1;
-  // n[0].right = n + 2;
-  // n[1].left = n + 3;
-  // n[1].right = n + 4;
-  // n[2].left = n + 5;
-  // n[2].right = n + 6;
+  TreeNode n[7] = {0,1,2,3,4,3,4};
+  n[0].left = n + 1;
+  n[0].right = n + 2;
+  n[1].left = n + 3;
+  n[1].right = n + 4;
+  n[2].left = n + 5;
+  n[2].right = n + 6;
 
   auto str = smallestFromLeaf(n);
   printf(str.c_str());
-  getchar();
   return 0;
 }

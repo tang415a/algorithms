@@ -54,6 +54,5 @@ int main() {
   s = "caieabcoeaeo";
   printf("%d\n", nonRepeatedChars(s));
   printf("%d\n", nonRepeatedChars(s.c_str()));
-
-  getchar();
+  return 0;
 }

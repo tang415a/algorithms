@@ -44,6 +44,5 @@ int minStranger2(int *arr, int siz) {
 int main() {
   int arr[] = {2, 1, 2, 5, 3, 16, 10, 9, 4, 8, 7};
   printf("%d", minStranger2(arr, sizeof(arr) / sizeof(arr[0])));
-  getchar();
   return 0;
 }

@@ -51,6 +51,5 @@ int main() {
     else
       printf("%d false\n", i);
   }
-  getchar();
   return 0;
 }

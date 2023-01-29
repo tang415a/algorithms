@@ -47,6 +47,5 @@ int main() {
   vector<int> prices = {1, 3, 2, 8, 4, 9};
   const int fee = 2;
   printf("%d", maxProfit(prices, fee));
-  getchar();
   return 0;
 }

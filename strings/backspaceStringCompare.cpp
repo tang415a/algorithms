@@ -1,5 +1,6 @@
 /*
-Given two strings S and T, return if they are equal when both are typed into empty text editors. # means a backspace character.
+Given two strings S and T, return if they are equal when both are typed into
+empty text editors. # means a backspace character.
 
 Example 1:
 
@@ -35,26 +36,26 @@ Can you solve it in O(N) time and O(1) space?
 #include <string>
 using namespace std;
 
-char getLastChar(string str, int& pos, int backspaces) {
-	if (pos < 0)
-		return '#';
-	if (str[pos] != '#')
-		return backspaces == 0 ? str[pos--] : getLastChar(str, --pos, backspaces - 1);
-	return getLastChar(str, --pos, backspaces + 1);
+char getLastChar(string str, int &pos, int backspaces) {
+  if (pos < 0)
+    return '#';
+  if (str[pos] != '#')
+    return backspaces == 0 ? str[pos--]
+                           : getLastChar(str, --pos, backspaces - 1);
+  return getLastChar(str, --pos, backspaces + 1);
 }
 
 bool backspaceCompare(string S, string T) {
   int i = S.size() - 1, j = T.size() - 1;
-	do {
-		if (getLastChar(S, i, 0) != getLastChar(T, j, 0))
-			return false;
-	} while(i >= 0 || j >= 0);
-	return true;
+  do {
+    if (getLastChar(S, i, 0) != getLastChar(T, j, 0))
+      return false;
+  } while (i >= 0 || j >= 0);
+  return true;
 }
 
 int main() {
-	const string S = "a##c", T = "#a#c";
-	printf("%d", backspaceCompare(S, T));
-	getchar();
-	return 0;
+  const string S = "a##c", T = "#a#c";
+  printf("%d", backspaceCompare(S, T));
+  return 0;
 }

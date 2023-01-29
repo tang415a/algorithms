@@ -1,14 +1,21 @@
-// Given a binary tree with N nodes, each node has a different value from {1, ..., N}.
+// Given a binary tree with N nodes, each node has a different value from {1,
+// ..., N}.
 
-// A node in this binary tree can be flipped by swapping the left child and the right child of that node.
+// A node in this binary tree can be flipped by swapping the left child and the
+// right child of that node.
 
-// Consider the sequence of N values reported by a preorder traversal starting from the root.  Call such a sequence of N values the voyage of the tree.
+// Consider the sequence of N values reported by a preorder traversal starting
+// from the root.  Call such a sequence of N values the voyage of the tree.
 
-// (Recall that a preorder traversal of a node means we report the current node's value, then preorder-traverse the left child, then preorder-traverse the right child.)
+// (Recall that a preorder traversal of a node means we report the current
+// node's value, then preorder-traverse the left child, then preorder-traverse
+// the right child.)
 
-// Our goal is to flip the least number of nodes in the tree so that the voyage of the tree matches the voyage we are given.
+// Our goal is to flip the least number of nodes in the tree so that the voyage
+// of the tree matches the voyage we are given.
 
-// If we can do so, then return a list of the values of all nodes flipped.  You may return the answer in any order.
+// If we can do so, then return a list of the values of all nodes flipped.  You
+// may return the answer in any order.
 
 // If we cannot do so, then return the list [-1].
 
@@ -37,7 +44,7 @@ using namespace std;
 
 /**
  * Definition for a binary tree node.
- * 
+ *
  */
 struct TreeNode {
   int val;
@@ -46,14 +53,14 @@ struct TreeNode {
   TreeNode(int x) : val(x), left(NULL), right(NULL) {}
 };
 
-int doFlip(TreeNode*left, TreeNode*right, const vector<int>& voyage, int &st) {
-  TreeNode *first = NULL, *second = NULL; 
+int doFlip(TreeNode *left, TreeNode *right, const vector<int> &voyage,
+           int &st) {
+  TreeNode *first = NULL, *second = NULL;
   int r = 0, tmp;
-  if(left && left->val == voyage[st]) {
+  if (left && left->val == voyage[st]) {
     first = left;
     second = right;
-  }
-  else if(right && right->val == voyage[st]){
+  } else if (right && right->val == voyage[st]) {
     first = right;
     second = left;
     if (left)
@@ -76,7 +83,7 @@ int doFlip(TreeNode*left, TreeNode*right, const vector<int>& voyage, int &st) {
   }
   return r;
 }
-vector<int> flipMatchVoyage(TreeNode* root, const vector<int>& voyage) {
+vector<int> flipMatchVoyage(TreeNode *root, const vector<int> &voyage) {
   if (voyage.empty()) {
     if (root == NULL)
       return {0};
@@ -94,8 +101,7 @@ int main() {
   n1.left = &n2;
   n2.right = &n3;
   n1.right = &n4;
-  auto res = flipMatchVoyage(&n1, {1,4, 2,3});
+  auto res = flipMatchVoyage(&n1, {1, 4, 2, 3});
   printf("%d", res[0]);
-  getchar();
   return 0;
 }

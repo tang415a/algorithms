@@ -50,3 +50,4 @@
 # Advanced
 ## Numbers
 * min stranger
+* find ones

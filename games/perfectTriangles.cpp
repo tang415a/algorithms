@@ -141,6 +141,5 @@ int main() {
   };
 
   printf("%d", isRectangleCover(rectangles));
-  getchar();
   return 0;
 }

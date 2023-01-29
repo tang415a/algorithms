@@ -108,6 +108,5 @@ int main() {
   printf("Remove: %d\n", set.remove(2));
   printf("Remove: %d\n", set.remove(3));
   printf("Value: %d\n", set.getRandom());
-  getchar();
   return 0;
 }

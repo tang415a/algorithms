@@ -89,6 +89,6 @@ int main() {
                            {1, 0, 0, 0, 1}};
   printf("%d\n", findCircleNum(v));
   printf("%d\n", findCircleNum2(v));
-  getchar();
+  
   return 0;
 }

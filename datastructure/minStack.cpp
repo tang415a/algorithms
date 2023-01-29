@@ -1,5 +1,6 @@
 /*
-Design a data structure that supports all following operations in average O(1) time.
+Design a data structure that supports all following operations in average O(1)
+time.
 
 push(val): Pushes an item val to the stack.
 pop(): Pops the top item out of the stack.
@@ -7,8 +8,9 @@ top(): Returns the top item.
 min(): Returns the minimum value of all the items in the stack.
 */
 
-#include <stdio.h>
 #include <stack>
+#include <stdio.h>
+
 using namespace std;
 
 class MinStack {
@@ -29,14 +31,10 @@ public:
   }
 
   /** Returns the top item **/
-  int top() {
-    return m_data.top();
-  }
+  int top() { return m_data.top(); }
 
   /** Returns the minimum value of all the items in the stack **/
-  int min() {
-    return m_min.top();
-  }
+  int min() { return m_min.top(); }
 
 private:
   stack<int> m_data;
@@ -57,6 +55,5 @@ int main() {
   s.pop();
   printf("top: %d\n", s.top());
   printf("min: %d\n", s.min());
-  getchar();  
   return 0;
 }

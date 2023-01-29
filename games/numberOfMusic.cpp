@@ -120,6 +120,5 @@ int main()
   }
   printf("%d\n", possiblePlaylists2(10, 20, 5));
 
-  getchar();
   return 0;
 }

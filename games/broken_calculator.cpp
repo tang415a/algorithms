@@ -51,6 +51,5 @@ int brokenCalc(int X, int Y) {
 int main() {
   int X = 3, Y = 10;
   printf("%d", brokenCalc(X, Y));
-  getchar();
   return 0;
 }
