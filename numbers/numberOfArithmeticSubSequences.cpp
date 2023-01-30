@@ -150,7 +150,7 @@ void findSubSeqs(int *p, int size, ArithmeticSubSeqs &subSeqs,
 int numberOfArithmeticSubSeqs(vector<int> &A) {
   int siz = static_cast<int>(A.size());
   qsort(&A[0], siz);
-  // std::sort(A.begin(), A.end());
+  // sort(A.begin(), A.end());
   vector<int> diff;
   diff.resize(siz - 1);
   for (int i = 1; i < siz; ++i) {

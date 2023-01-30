@@ -77,6 +77,9 @@ int measureDist2(const string &a, const string &b) {
     }
   }
   int ret = cache[la][lb];
+  for (int i = 0; i <= la; ++i) {
+    delete[] cache[i];
+  }
   delete[] cache;
   return ret;
 }
