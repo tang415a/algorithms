@@ -37,8 +37,8 @@ Constraints:
 using namespace std;
 
 int sumOfFlooredPairs(const vector<int> &nums) {
-  const int kMod = 10e9 + 7;
-  const int kMax = 10e5;
+  const int kMod = 1e9 + 7;
+  const int kMax = 1e5;
   int *count = new int[kMax];
   memset(count, 0, sizeof(int) * kMax);
   int n = nums.size();
