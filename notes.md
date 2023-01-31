@@ -17,6 +17,7 @@
 * increased
 * number of arithmetic slices / sub sequences
 * hamming distance
+* ones
 * remove k digits
 * print combination
 * print permutation
