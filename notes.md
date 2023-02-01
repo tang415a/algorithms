@@ -32,6 +32,7 @@
 * reverse words
 
 ## Games
+* rotate image
 * burst balloons
 * elimination game
 * friend circles

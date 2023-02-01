@@ -59,17 +59,67 @@ vector<int> getOrder(vector<vector<int>>& tasks) {
   sort(begin(tasks), end(tasks));
   set<vector<int>> p;
   vector<int> ans(n);
-  int step = tasks[0][0];
-  for (int i = 0, s = 0; i < n; ++i) {
-    while(s < n && tasks[s][0] <= step) {
-      vector<int> a = {tasks[s][1], tasks[s][2]};
+  for (int i = 0, s = 0, step = tasks[0][0]; i < n; ++i) {
+    while (s < n && tasks[s][0] <= step) {
+      vector<int> a = { tasks[s][1], tasks[s][2] };
       p.insert(a);
       ++s;
     }
+
     auto it = p.begin();
     ans[i] = (*it)[1];
-    step += (*it)[0];
-    p.erase(it);
+    if (s < n) {
+      step += (*it)[0];
+      p.erase(it);
+      if (p.empty() && step < tasks[s][0]) {
+          step = tasks[s][0];
+      }
+    } else {
+      p.erase(it);
+    }
+  }
+  return ans;
+}
+
+#include <queue>
+struct Data {
+    int t, i;
+    bool operator < (const Data &rhs) const {
+        return t < rhs.t || (t == rhs.t && i < rhs.i);
+    }
+};
+
+auto comp = [](const Data& left, const Data& right) {
+    return left.t > right.t || (left.t == right.t && left.i > right.i);
+};
+vector<int> getOrder2(vector<vector<int>>& tasks) {
+  int n = tasks.size();
+  for (int i = 0; i < n; ++i) {
+      tasks[i].push_back(i);
+  }
+  sort(begin(tasks), end(tasks));
+
+  priority_queue<Data, vector<Data>, decltype(comp)> p(comp);
+  vector<int> ans(n);
+  for (int i = 0, s = 0, step = tasks[0][0]; i < n; ++i) {
+    while (s < n && tasks[s][0] <= step) {
+      Data a = { tasks[s][1], tasks[s][2] };
+      p.push(a);
+      ++s;
+    }
+
+    auto it = p.top();
+    ans[i] = it.i;
+    if (s < n) {
+      step += it.t;
+      p.pop();
+      if (p.empty() && step < tasks[s][0]) {
+          step = tasks[s][0];
+      }
+    }
+    else {
+      p.pop();
+    }
   }
   return ans;
 }
@@ -77,13 +127,42 @@ vector<int> getOrder(vector<vector<int>>& tasks) {
 int main() {
   vector<vector<int>> tasks = {{1,2},{2,4},{3,2},{4,1}};
   auto r = getOrder(tasks);
-  for (auto i : r)
-    cout << i << " ";
-  cout << endl;
+  auto r1 = getOrder2(tasks);
+  for (int i = 0, n = r.size(); i < n; ++i) {
+    if (r[i] != r1[i]) {
+      cout << "err" << endl;
+      return 1;
+    }
+  }
+
   tasks = {{7,10},{7,12},{7,5},{7,4},{7,2}};
   r = getOrder(tasks);
-  for (auto i : r)
-    cout << i << " ";
-  cout << endl;
+  r1 = getOrder2(tasks);
+  for (int i = 0, n = r.size(); i < n; ++i) {
+    if (r[i] != r1[i]) {
+      cout << "err" << endl;
+      return 1;
+    }
+  }
+
+  tasks = {{5, 2} ,{7, 2},{9, 4},{6, 3},{5, 10},{1, 1}};
+  r = getOrder(tasks);
+  r1 = getOrder2(tasks);
+  for (int i = 0, n = r.size(); i < n; ++i) {
+    if (r[i] != r1[i]) {
+      cout << "err" << endl;
+      return 1;
+    }
+  }
+
+  tasks = {{35,36},{11,7},{15,47},{34,2},{47,19},{16,14},{19,8},{7,34},{38,15},{16,18},{27,22},{7,15},{43,2},{10,5},{5,4},{3,11}};
+  r = getOrder(tasks);
+  r1 = getOrder2(tasks);
+  for (int i = 0, n = r.size(); i < n; ++i) {
+    if (r[i] != r1[i]) {
+      cout << "err" << endl;
+      return 1;
+    }
+  }
   return 0;
 }
