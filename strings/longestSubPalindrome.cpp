@@ -21,18 +21,18 @@ char *preProcess(char *s) {
   return ret;
 }
 
-char *longestPalindrome(char *s, size_t &max) {
-  size_t len = strlen(s);
+char *longestPalindrome(char *s, int &max) {
+  int len = strlen(s);
   if (len < 2)
     return s;
 
   char *ptr = preProcess(s);
   int *P = new int[2 * len + 2];
 
-  size_t center = 0; /* the center of palindrome */
-  size_t right = 0;  /* the right bound of palindrome */
-  for (size_t i = 1; i < 2 * len + 2; ++i) {
-    size_t mirror = 2 * center - i; /* center - (i - center) */
+  int center = 0; /* the center of palindrome */
+  int right = 0;  /* the right bound of palindrome */
+  for (int i = 1; i < 2 * len + 2; ++i) {
+    int mirror = 2 * center - i; /* center - (i - center) */
 
     // P[i] is the length of palindrome centering at i
     // it is the smaller value between right - i and P[mirror]
@@ -100,7 +100,7 @@ int longestPalindrome2(const string &s) {
 }
 
 int main() {
-  size_t max = 0;
+  int max = 0;
   char s[] = "abcdeedcig";
   cout << longestPalindrome(s, max) << endl;
   cout << max << endl;
