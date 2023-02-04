@@ -55,3 +55,11 @@
 * find ones
 * fast inv sqrt
 * min interval
+
+## Strings
+* longest sub palindrome
+* shortest palindrome
+* string search
+
+## Games
+* max building height

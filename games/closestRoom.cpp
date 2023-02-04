@@ -53,35 +53,88 @@ k == queries.length
 
 using namespace std;
 
-vector<int> closestRoom(const vector<vector<int>> &rooms,
-                        const vector<vector<int>> &queries) {
+vector<int> closestRoom__(const vector<vector<int>> &rooms,
+                          const vector<vector<int>> &queries) {
   int m = queries.size(), n = rooms.size();
   vector<int> ret(m);
   for (int i = 0; i < m; ++i) {
     int a = 0;
     ret[i] = -1;
     for (int j = 0; j < n; ++j) {
-        if (rooms[j][1] < queries[i][1])
-            continue;
-        int b = abs(rooms[j][0] - queries[i][0]);
-        if (ret[i] < 0 || a > b) {
-            a = b;
-            ret[i] = rooms[j][0];
-        } else if (a == b && ret[i] >= 0 && ret[i] > rooms[j][0]) {
-            ret[i] = rooms[j][0];
-        }
+      if (rooms[j][1] < queries[i][1])
+        continue;
+      int b = abs(rooms[j][0] - queries[i][0]);
+      if (ret[i] < 0 || a > b) {
+        a = b;
+        ret[i] = rooms[j][0];
+      } else if (a == b && ret[i] >= 0 && ret[i] > rooms[j][0]) {
+        ret[i] = rooms[j][0];
+      }
     }
   }
   return ret;
 }
 
+#include <numeric>
+#include <set>
+
+vector<int> closestRoom(vector<vector<int>> &rooms,
+                        vector<vector<int>> &queries) {
+  int m = queries.size();
+  vector<int> idx(m);
+  iota(idx.begin(), idx.end(), 0);
+
+  sort(idx.begin(), idx.end(), [&queries](int idx1, int idx2) {
+    return queries[idx1][1] > queries[idx2][1];
+  });
+  sort(rooms.begin(), rooms.end(),
+       [](const vector<int> &room1, const vector<int> &room2) {
+         return room1[1] > room2[1];
+       });
+
+  vector<int> ans(m, -1);
+  int room_idx = 0;
+  set<int> valid_rooms;
+  for (int e : idx) {
+    int preferred = queries[e][0];
+    int min_size = queries[e][1];
+
+    while (room_idx < rooms.size() && rooms[room_idx][1] >= min_size) {
+      valid_rooms.insert(rooms[room_idx][0]);
+      room_idx++;
+    }
+
+    if (valid_rooms.empty()) {
+      continue;
+    }
+
+    auto it = valid_rooms.upper_bound(preferred);
+    if (it != valid_rooms.end()) {
+      ans[e] = *it;
+    }
+    if (it != valid_rooms.begin()) {
+      it--;
+      if (ans[e] == -1) {
+        ans[e] = *it;
+      } else if (preferred - *it <= ans[e] - preferred) {
+        ans[e] = *it;
+      }
+    }
+  }
+
+  return ans;
+}
+
 int main() {
-  auto a = closestRoom({{2, 2}, {1, 2}, {3, 2}}, {{3, 1}, {3, 3}, {5, 2}});
+  vector<vector<int>> rooms = {{2, 2}, {1, 2}, {3, 2}},
+                      queries = {{3, 1}, {3, 3}, {5, 2}};
+  auto a = closestRoom(rooms, queries);
   for (int b : a)
     cout << b << " ";
   cout << endl;
-  a = closestRoom({{1, 4}, {2, 3}, {3, 5}, {4, 1}, {5, 2}},
-                  {{2, 3}, {2, 4}, {2, 5}});
+  rooms = {{1, 4}, {2, 3}, {3, 5}, {4, 1}, {5, 2}};
+  queries = {{2, 3}, {2, 4}, {2, 5}};
+  a = closestRoom(rooms, queries);
   for (int b : a)
     cout << b << " ";
   cout << endl;

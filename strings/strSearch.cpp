@@ -74,9 +74,10 @@ int goodShift(int i, const string &p, int *goodShiftTable) {
   return lp;
 }
 
-int search(const std::string &s, const std::string &p,
-           int (&badShiftTable)[256]) {
+int search(const std::string &s, const std::string &p) {
   int ls = s.length(), lp = p.length(), offset = lp - 1;
+  int badShiftTable[256];
+  memset(badShiftTable, 0, sizeof(int) * 256);
   int *goodShiftTable = new int[lp];
   memset(goodShiftTable, 0, sizeof(int) * lp);
   if (offset < ls) {
@@ -100,27 +101,21 @@ int search(const std::string &s, const std::string &p,
 
 int main() {
   {
-    int badShiftTable[256];
-    memset(badShiftTable, 0, sizeof(int) * 256);
-    int r = search("aabbccdd", "bcc", badShiftTable);
+    int r = search("aabbccdd", "bcc");
     if (r >= 0)
       cout << "found at " << r << endl;
     else
       cout << "not found" << endl;
   }
   {
-    int badShiftTable[256];
-    memset(badShiftTable, 0, sizeof(int) * 256);
-    int r = search("abcdefegioioas", "gio", badShiftTable);
+    int r = search("abcdefegioioas", "gio");
     if (r >= 0)
       cout << "found at " << r << endl;
     else
       cout << "not found" << endl;
   }
   {
-    int badShiftTable[256];
-    memset(badShiftTable, 0, sizeof(int) * 256);
-    int r = search("mitiozebionioiojisd", "nioio", badShiftTable);
+    int r = search("mitiozebionioiojisd", "nioio");
     if (r >= 0)
       cout << "found at " << r << endl;
     else
