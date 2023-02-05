@@ -125,6 +125,90 @@ vector<int> closestRoom(vector<vector<int>> &rooms,
   return ans;
 }
 
+struct TreeNode {
+  TreeNode *left = nullptr, *right = nullptr;
+  int val = 0;
+};
+
+void clear(TreeNode *root) {
+  if (root == nullptr)
+    return;
+  clear(root->left);
+  clear(root->right);
+  delete root;
+}
+
+void insert(TreeNode *root, int v) {
+  if (v < root->val) {
+    if (root->left == nullptr) {
+      root->left = new TreeNode();
+      root->left->val = v;
+    } else {
+      insert(root->left, v);
+    }
+  } else if (v > root->val) {
+    if (root->right == nullptr) {
+      root->right = new TreeNode();
+      root->right->val = v;
+    } else {
+      insert(root->right, v);
+    }
+  }
+}
+
+int find(TreeNode *root, int target) {
+  if (root == nullptr)
+    return 0;
+  if (root->val == target)
+    return root->val;
+  if (root->val < target) {
+    int i = find(root->right, target);
+    if (i == 0)
+      return root->val;
+    if (i <= target)
+      return i;
+    return i + root->val < 2 * target ? i : root->val;
+  }
+  int i = find(root->left, target);
+  if (i == 0)
+    return root->val;
+  if (i >= target)
+    return i;
+  return i + root->val < 2 * target ? root->val : i;
+}
+
+vector<int> closestRoom2(vector<vector<int>> &rooms,
+                         vector<vector<int>> &queries) {
+  int m = queries.size(), n = rooms.size();
+  for (int i = 0; i < m; i++) {
+    queries[i].emplace_back(i);
+  }
+  sort(queries.begin(), queries.end(),
+       [](const vector<int> &l, const vector<int> &r) { return l[1] > r[1]; });
+  sort(rooms.begin(), rooms.end(),
+       [](const vector<int> &l, const vector<int> &r) { return l[1] > r[1]; });
+
+  vector<int> ans(m, -1);
+  TreeNode *root = nullptr;
+  int i = 0;
+  for (const auto &q : queries) {
+    while (i < n && q[1] <= rooms[i][1]) {
+      if (root == nullptr) {
+        root = new TreeNode();
+        root->val = rooms[i][0];
+      } else {
+        insert(root, rooms[i][0]);
+      }
+      ++i;
+    }
+    if (root) {
+      ans[q[2]] = find(root, q[0]);
+    }
+  }
+  clear(root);
+  return ans;
+}
+
 int main() {
   vector<vector<int>> rooms = {{2, 2}, {1, 2}, {3, 2}},
                       queries = {{3, 1}, {3, 3}, {5, 2}};
@@ -132,9 +216,32 @@ int main() {
   for (int b : a)
     cout << b << " ";
   cout << endl;
+
+  a = closestRoom2(rooms, queries);
+  for (int b : a)
+    cout << b << " ";
+  cout << endl;
+
   rooms = {{1, 4}, {2, 3}, {3, 5}, {4, 1}, {5, 2}};
   queries = {{2, 3}, {2, 4}, {2, 5}};
   a = closestRoom(rooms, queries);
+  for (int b : a)
+    cout << b << " ";
+  cout << endl;
+
+  a = closestRoom2(rooms, queries);
+  for (int b : a)
+    cout << b << " ";
+  cout << endl;
+
+  rooms = {{4, 5}, {1, 4}, {3, 4}};
+  queries = {{2, 3}, {2, 4}, {2, 5}};
+  a = closestRoom(rooms, queries);
+  for (int b : a)
+    cout << b << " ";
+  cout << endl;
+
+  a = closestRoom2(rooms, queries);
   for (int b : a)
     cout << b << " ";
   cout << endl;

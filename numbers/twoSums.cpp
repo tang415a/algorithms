@@ -3,7 +3,8 @@ Given an integer array and a number N. Find if there are two integers inside the
 array whose sum equals N.
 */
 
-#include <stdio.h>
+#include <iostream>
+using namespace std;
 
 void do_qsort(int *arr, int low, int high) {
   if (low >= high)
@@ -46,12 +47,41 @@ bool possibleSum(int *arr, int siz, int N) {
   return false;
 }
 
+#include <unordered_map>
+#include <vector>
+
+vector<int> twoSum(vector<int> &nums, int target) {
+  vector<int> ans;
+  unordered_map<int, int> mymap;
+
+  for (int i = 0; i < nums.size(); i++) {
+    int v = target - nums[i];
+    if (mymap.count(v) > 0) {
+      ans.emplace_back(mymap[v]);
+      ans.emplace_back(i);
+      break;
+    }
+    mymap[nums[i]] = i;
+  }
+
+  return ans;
+}
+
 int main() {
   int arr[] = {4, 5, 8, 2};
   int N = 11;
   if (possibleSum(arr, sizeof(arr) / sizeof(arr[0]), N))
-    printf("it is possible");
+    cout << "it is possible" << endl;
   else
-    printf("it is not possible");
+    cout << "it is not possible" << endl;
+
+  vector<int> v = {4, 5, 8, 2};
+  int target = 10;
+  auto r = twoSum(v, target);
+  if (r.empty()) {
+    cout << "it is impossible" << endl;
+  } else {
+    cout << v[r[0]] << " + " << v[r[1]] << " = " << target << endl;
+  }
   return 0;
 }
