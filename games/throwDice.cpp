@@ -1,15 +1,16 @@
 /*
- Print out the possibility of the sum for throwing a certain number of dices. 
+ Print out the possibility of the sum for throwing a certain number of dices.
  Given the number of dices and the range of the numbers on each dice.
 
- void printAllPossibilities(int *p, int siz, int n)
+ void printAllPossibilities(int m, int n), where m means the dice number range
+ is from 1 to m and n is the number of dices.
 
  For example, there are six dices and the numbers on each dice are from 1 to 6.
- printAllPossibilites({1,2,3,4,5,6}, 6, 6);
+ printAllPossibilites(6, 6);
  */
 
-#include <stdio.h>
-#include <math.h>
+#include <iostream>
+using namespace std;
 
 int numOf(int min, int max, int rc, int rn) {
   if (rn < 0 || rn * min > rc || rn * max < rc)
@@ -23,22 +24,44 @@ int numOf(int min, int max, int rc, int rn) {
   return res;
 }
 
-void printAllPossibilities(int *p, int siz, int n) {
-  int min = p[0], max = p[0];
-  for (int i = 1; i < siz; i++) {
-    if (p[i] > max) max = p[i];
-    if (p[i] < min) min = p[i];
-  }
-
-  int total = pow(max - min + 1, n);
-  for (int i = min * n; i <= max * n; i++) {
-    int res = numOf(min, max, i, n);
-    printf("%d %f\n", i, res * 1.0 / total);
+void printAllPossibilities(int m, int n) {
+  int total = 1;
+  for (int i = 0; i < n; i++)
+    total *= m;
+  for (int i = n; i <= m * n; i++) {
+    int res = numOf(1, m, i, n);
+    cout << i << " " << res * 1.0 / total << endl;
   }
 }
 
+void iterate(int n, int m, int base, int min, int *p) {
+  if (n <= 0) {
+    p[base - min]++;
+    return;
+  }
+  for (int i = 0; i < m; i++) {
+    base += (i + 1);
+    iterate(n - 1, m, base, min, p);
+    base -= (i + 1);
+  }
+}
+
+void printAllPossibilities2(int m, int n) {
+  int s = (m - 1) * n + 1;
+  int *p = new int[s];
+  memset(p, 0, sizeof(int) * s);
+  iterate(n, m, 0, n, p);
+  int total = 1;
+  for (int i = 0; i < n; ++i)
+    total *= m;
+  for (int i = 0; i < s; ++i) {
+    cout << i + n << " " << static_cast<float>(p[i]) / total << endl;
+  }
+  delete[] p;
+}
+
 int main() {
-  int arr[] = {1,2,3,4,5,6};
-  printAllPossibilities(arr, sizeof(arr) / sizeof(arr[0]), 6);
+  printAllPossibilities(6, 6);
+  printAllPossibilities2(6, 6);
   return 0;
 }

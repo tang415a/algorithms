@@ -41,6 +41,7 @@ All words in A[i] are unique: there isn’t i != j with A[i] == A[j].
 
 #include <stdio.h>
 #include <vector>
+#include <string>
 using namespace std;
 
 bool check(string& one, char* criterion) {
