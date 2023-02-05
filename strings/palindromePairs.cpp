@@ -35,6 +35,7 @@ Constraints:
 words[i] consists of lowercase English letters.
 */
 
+#include <iostream>
 #include <map>
 #include <string>
 #include <vector>
@@ -54,9 +55,10 @@ bool isPalindrome(const string &one, int st, int ed) {
 vector<vector<int>> palindromePairs(const vector<string> &words) {
   vector<vector<int>> res;
   map<string, vector<int>> wordMap;
-  for (int i = 0; i < words.size(); i++) {
+  int n = words.size();
+  for (int i = 0; i < n; i++) {
     auto s = words[i];
-    std::reverse(s.begin(), s.end());
+    reverse(s.begin(), s.end());
     auto it = wordMap.find(s);
     if (it != wordMap.end()) {
       it->second.push_back(i);
@@ -65,14 +67,26 @@ vector<vector<int>> palindromePairs(const vector<string> &words) {
     }
   }
 
-  for (int i = 0; i < words.size(); i++) {
+  auto iter = wordMap.find("");
+  if (iter != wordMap.end()) {
+    for (int i = 0; i < n; i++) {
+      if (!words[i].empty() && isPalindrome(words[i], 0, words[i].size() - 1)) {
+        for (int idx: iter->second) {
+          res.push_back({i, idx});
+          res.push_back({idx, i});
+        }
+      }
+    }
+  }
+
+  for (int i = 0; i < n; i++) {
     auto &s = words[i];
     int st = 1, ed = s.size() - 1;
     while (st <= ed) {
       if (isPalindrome(s, st, ed)) {
         auto it = wordMap.find(s.substr(0, st));
         if (it != wordMap.end()) {
-          for (auto &idx : it->second) {
+          for (int idx : it->second) {
             res.push_back({i, idx});
           }
         }
@@ -84,7 +98,7 @@ vector<vector<int>> palindromePairs(const vector<string> &words) {
       if (isPalindrome(s, st, ed)) {
         auto it = wordMap.find(s.substr(ed + 1));
         if (it != wordMap.end()) {
-          for (auto &idx : it->second) {
+          for (int idx : it->second) {
             res.push_back({idx, i});
           }
         }
@@ -93,7 +107,7 @@ vector<vector<int>> palindromePairs(const vector<string> &words) {
     }
     auto it = wordMap.find(s);
     if (it != wordMap.end()) {
-      for (auto &idx : it->second) {
+      for (int idx : it->second) {
         if (idx != i)
           res.push_back({i, idx});
       }
@@ -103,14 +117,29 @@ vector<vector<int>> palindromePairs(const vector<string> &words) {
 }
 
 int main() {
-  const vector<string> words = {"abcd", "dcba", "lls", "s", "sssll"};
-  auto res = palindromePairs(words);
-  printf("[");
+  auto res = palindromePairs({"abcd", "dcba", "lls", "s", "sssll"});
+  cout << "[";
   for (int i = 0; i < res.size(); i++) {
     if (i != 0)
-      printf(",");
-    printf("[%d,%d]", res[i][0], res[i][1]);
+      cout << ",";
+    cout << "[" << res[i][0] << "," << res[i][1] << "]";
   }
-  printf("]");
+  cout << "]" << endl;
+  res = palindromePairs({"bat", "tab", "cat"});
+  cout << "[";
+  for (int i = 0; i < res.size(); i++) {
+    if (i != 0)
+      cout << ",";
+    cout << "[" << res[i][0] << "," << res[i][1] << "]";
+  }
+  cout << "]" << endl;
+  res = palindromePairs({"aa", ""});
+  cout << "[";
+  for (int i = 0; i < res.size(); i++) {
+    if (i != 0)
+      cout << ",";
+    cout << "[" << res[i][0] << "," << res[i][1] << "]";
+  }
+  cout << "]" << endl;
   return 0;
 }
