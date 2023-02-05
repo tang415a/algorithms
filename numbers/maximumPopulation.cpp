@@ -76,10 +76,39 @@ int maximumPopulation2(const vector<vector<int>> &logs) {
   return res;
 }
 
+// Priority queue is implemented using heap. It uses a comp operator to move
+// priority items to the bottom. By default the comp operator is less, which
+// will move the smaller items to the bottom. In this case we use greater
+// function as the comparator.
+#include <queue>
+int maximumPopulation3(const vector<vector<int>> &logs) {
+  auto v = logs;
+  sort(v.begin(), v.end());
+  int i = 0, m = 1, ans = v[0][0];
+  priority_queue<int, vector<int>, greater<int>> q;
+  for (int j = 1, n = v.size(); j < n; ++j) {
+    for (; i <= j; i++)
+      q.push(v[i][1]);
+    while (!q.empty() && q.top() <= v[j][0]) {
+      q.pop();
+    }
+    int s = q.size();
+    if (m < s) {
+      m = s;
+      ans = v[j][0];
+    }
+  }
+  return ans;
+}
+
 int main() {
   cout << maximumPopulation({{1993, 1999}, {2000, 2010}}) << endl;
   cout << maximumPopulation2({{1993, 1999}, {2000, 2010}}) << endl;
+  cout << maximumPopulation3({{1993, 1999}, {2000, 2010}}) << endl;
   cout << maximumPopulation({{1950, 1961}, {1960, 1971}, {1970, 1981}}) << endl;
-  cout << maximumPopulation2({{1950, 1961}, {1960, 1971}, {1970, 1981}}) << endl;
+  cout << maximumPopulation2({{1950, 1961}, {1960, 1971}, {1970, 1981}})
+       << endl;
+  cout << maximumPopulation3({{1950, 1961}, {1960, 1971}, {1970, 1981}})
+       << endl;
   return 0;
 }
