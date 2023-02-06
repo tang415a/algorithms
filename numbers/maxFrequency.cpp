@@ -53,12 +53,30 @@ int maxFrequency(vector<int> &nums, int k) {
   return i - j;
 }
 
+int maxFrequency2(vector<int> const &nums, int k) {
+  auto cpy = nums;
+  sort(cpy.begin(), cpy.end());
+  int r = cpy[0], m = 2;
+  for (int i = 1, n = cpy.size(); i < n; i++) {
+    r += cpy[i];
+    if (m * cpy[i] - r > k) {
+      r -= cpy[i + 1 - m];
+    } else {
+      m++;
+    }
+  }
+  return m - 1;
+}
+
 int main() {
   vector<int> nums = {1, 2, 4};
   cout << maxFrequency(nums, 5) << endl;
+  cout << maxFrequency2(nums, 5) << endl;
   nums = {1, 4, 8, 13};
   cout << maxFrequency(nums, 5) << endl;
+  cout << maxFrequency2(nums, 5) << endl;
   nums = {3, 9, 6};
   cout << maxFrequency(nums, 2) << endl;
+  cout << maxFrequency2(nums, 2) << endl;
   return 0;
 }
