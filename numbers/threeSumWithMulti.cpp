@@ -37,7 +37,7 @@ using namespace std;
 
 int threeSumMulti(const vector<int> &A, int target) {
   const int kMaxN = 100;
-  const int kMod = 10e9 + 7;
+  const int kMod = 1e9 + 7;
   vector<int> vec(kMaxN + 1, 0);
   for (auto &v : A) {
     vec[v]++;
