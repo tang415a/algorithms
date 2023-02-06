@@ -30,6 +30,7 @@
 * n chars out of m chars (combination)
 * string distance
 * reverse words
+* longest sub palindrome
 
 ## Games
 * rotate image
@@ -57,9 +58,9 @@
 * min interval
 
 ## Strings
-* longest sub palindrome
 * shortest palindrome
 * string search
+* longest palindrome 1
 
 ## Games
 * max building height

@@ -10,16 +10,42 @@ int maxIncrSubSeq(int *p, int size) {
   cache[0] = p[0];
   int n = 1;
   for (int i = 1; i < size; ++i) {
-    if (p[i] > cache[n - 1]) {
-      cache[n] = p[i];
-      ++n;
-    }
-    for (int j = n; j >= 0; --j) {
-      if (p[i] < cache[j] && (j == 0 || p[i] > cache[j - 1])) {
-        cache[j] = p[i];
+    int l = 0, h = n - 1;
+    while (l <= h) {
+      int mid = l + (h - l) / 2;
+      if (cache[mid] == p[i]) {
         break;
       }
+      if (cache[mid] < p[i]) {
+        l = mid + 1;
+      } else {
+        h = mid - 1;
+      }
     }
+    if (l > h) {
+      if (l < n)
+        cache[l] = p[i];
+      else
+        cache[n++] = p[i];
+    }
+    // if (p[i] > cache[n - 1]) {
+    //   cache[n] = p[i];
+    //   ++n;
+    // } else {
+    //   int j = n - 1;
+    //   for (; j > 0; --j) {
+    //     if (p[i] == cache[j]) {
+    //       break;
+    //     }
+    //     if (p[i] > cache[j - 1]) {
+    //       cache[j] = p[i];
+    //       break;
+    //     }
+    //   }
+    //   if (j == 0 && p[i] < cache[0]) {
+    //     cache[0] = p[i];
+    //   }
+    // }
   }
   delete[] cache;
   return n;
@@ -31,17 +57,36 @@ int maxIncrSubSeq(int *p, int *g, int size) {
   cache[0] = p[0];
   int n = 1, e = 0;
   for (int i = 1; i < size; ++i) {
-    if (p[i] > cache[n - 1]) {
-      cache[n] = p[i];
-      ++n;
-      e = i;
-    }
-    for (int j = n; j >= 0; --j) {
-      if (p[i] < cache[j] && (j == 0 || p[i] > cache[j - 1])) {
-        cache[j] = p[i];
+    int l = 0, h = n - 1;
+    while (l <= h) {
+      int mid = l + (h - l) / 2;
+      if (cache[mid] == p[i]) {
         break;
       }
+      if (cache[mid] < p[i]) {
+        l = mid + 1;
+      } else {
+        h = mid - 1;
+      }
     }
+    if (l > h) {
+      if (l < n)
+        cache[l] = p[i];
+      else
+        cache[n++] = p[i];
+    }
+    // if (p[i] > cache[n - 1]) {
+    //   cache[n] = p[i];
+    //   ++n;
+    //   e = i;
+    // } else {
+    //   for (int j = n - 1; j >= 0; --j) {
+    //     if (p[i] < cache[j] && (j == 0 || p[i] > cache[j - 1])) {
+    //       cache[j] = p[i];
+    //       break;
+    //     }
+    //   }
+    // }
   }
   int i = n - 1;
   g[i] = cache[i];

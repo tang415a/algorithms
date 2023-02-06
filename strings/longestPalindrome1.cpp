@@ -50,7 +50,7 @@ int longestPalindrome(const string &word1, const string &word2) {
   int cache[26];
   memset(cache, -1, sizeof(int) * 26);
   for (int i = 0; i < sum; i++) {
-    int& j = cache[c[i] - 'a'];
+    int &j = cache[c[i] - 'a'];
     if (j >= 0) {
       p[j] = i;
     }
@@ -77,8 +77,7 @@ int longestPalindrome(const string &word1, const string &word2) {
         }
       }
       if (j == ans && (ans > 0 || (ans == 0 && m >= n1 && i < n1))) {
-        ret[ans] = m;
-        ans++;
+        ret[ans++] = m;
         isOdd = false;
       }
     }
@@ -88,17 +87,123 @@ int longestPalindrome(const string &word1, const string &word2) {
   return isOdd ? (2 * ans + 1) : (2 * ans);
 }
 
+int longestPalindrome2(const string &a, const string &b) {
+  int n1 = a.length(), n2 = b.length(), n = n1 + n2;
+  int **p = new int *[n];
+  for (int i = 0; i < n; i++) {
+    p[i] = new int[n];
+    p[i][i] = 1;
+  }
+
+  string s = a + b;
+  int ans = 0;
+  for (int i = 0; i < n - 1; i++) {
+    if (s[i] == s[i + 1]) {
+      p[i][i + 1] = 2;
+      if (i == n1 - 1)
+        ans = 2;
+    } else {
+      p[i][i + 1] = 1;
+    }
+  }
+  for (int i = 3; i <= n; i++) {
+    for (int j = 0; j <= n - i; j++) {
+      if (s[j] == s[j + i - 1]) {
+        p[j][j + i - 1] = 2 + p[j + 1][j + i - 2];
+        if (j < n1 && j + i - 1 >= n1 && ans < p[j][j + i - 1]) {
+          ans = p[j][j + i - 1];
+        }
+      } else {
+        p[j][j + i - 1] = max(p[j][j + i - 2], p[j + 1][j + i - 1]);
+      }
+    }
+  }
+  for (int i = 0; i < n; i++) {
+    delete[] p[i];
+  }
+  delete[] p;
+  return ans;
+}
+
+#include <algorithm>
+
+int cm1[1000], cm2[1000];
+void build_common(const string &w1, const string &w2) {
+  int s1 = size(w1), s2 = size(w2);
+
+  for (int j = 0, c = w1[0], prev = 0; j < s2; ++j) {
+    cm2[j] = prev = prev || w2[j] == c;
+  }
+
+  cm1[0] = cm2[s2 - 1];
+
+  for (int i = 1; i < s1; ++i) {
+    int c = w1[i], prev = cm2[0];
+    cm2[0] = prev || c == w2[0];
+
+    for (int j = 1; j < s2; ++j) {
+      swap(cm2[j], prev = (w2[j] == c) ? 1 + prev : max(cm2[j], cm2[j - 1]));
+    }
+
+    cm1[i] = cm2[s2 - 1];
+  }
+}
+
+void build_pals(const string &w, int ps[]) {
+  int s = size(w);
+  vector<int> pp(s);
+  pp[s - 1] = 1;
+  ps[s - 1] <<= 1;
+
+  if (s > 1 && ps[s - 2]) {
+    ps[s - 2] = (ps[s - 2] << 1) + 1;
+  }
+
+  for (int i = s - 2; i > 0; --i) {
+    pp[i] = 1;
+
+    for (int j = i + 1, prev = 0; j < s; ++j) {
+      swap(pp[j], prev = (w[i] == w[j]) ? 2 + prev : max(pp[j], pp[j - 1]));
+    }
+
+    if (ps[i - 1]) {
+      ps[i - 1] = (ps[i - 1] << 1) + pp[s - 1];
+    }
+  }
+}
+
+int longestPalindrome3(string word1, string word2) {
+  reverse(begin(word2), end(word2));
+  build_common(word1, word2);
+  build_pals(word1, cm1);
+  build_pals(word2, cm2);
+  return max(*max_element(cm1, cm1 + size(word1)),
+             *max_element(cm2, cm2 + size(word2)));
+}
+
 int main() {
   cout << longestPalindrome("bb", "b") << endl;
+  cout << longestPalindrome2("bb", "b") << endl;
   cout << longestPalindrome("cacbbf", "gcac") << endl;
+  cout << longestPalindrome2("cacbbf", "gcac") << endl;
   cout << longestPalindrome("cacbbca", "bcbac") << endl;
+  cout << longestPalindrome2("cacbbca", "bcbac") << endl;
   cout << longestPalindrome("cacb", "cbba") << endl;
+  cout << longestPalindrome2("cacb", "cbba") << endl;
   cout << longestPalindrome("ab", "ab") << endl;
+  cout << longestPalindrome2("ab", "ab") << endl;
   cout << longestPalindrome("aa", "bb") << endl;
+  cout << longestPalindrome2("aa", "bb") << endl;
   cout << longestPalindrome("abcd", "abcd") << endl;
+  cout << longestPalindrome2("abcd", "abcd") << endl;
   cout << longestPalindrome("abcd", "dcba") << endl;
+  cout << longestPalindrome2("abcd", "dcba") << endl;
   cout << longestPalindrome("aabaa", "aabb") << endl;
+  cout << longestPalindrome2("aabaa", "aabb") << endl;
   cout << longestPalindrome("abcde", "edcig") << endl;
+  cout << longestPalindrome2("abcde", "edcig") << endl;
   cout << longestPalindrome("igdcef", "edcig") << endl;
+  cout << longestPalindrome2("igdcef", "edcig") << endl;
+  cout << longestPalindrome3("igdcef", "edcig") << endl;
   return 0;
 }

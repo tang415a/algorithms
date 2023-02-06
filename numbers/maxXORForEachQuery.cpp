@@ -48,10 +48,9 @@ using namespace std;
 vector<int> getMaximumXor(const vector<int> &nums, int maximumBit) {
   int n = nums.size();
   vector<int> res(n);
-  int x = 0, m = (1 << maximumBit) - 1;
-  for (int i = 0; i < n; i++) {
-    x ^= nums[i];
-    res[n - 1 - i] = x ^ m;
+  res[n - 1] = ((1 << maximumBit) - 1) ^ nums[0];
+  for (int i = 1; i < n; i++) {
+    res[n - 1 - i] = res[n - i] ^ nums[i];
   }
   return res;
 }
