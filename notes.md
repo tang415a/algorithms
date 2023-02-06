@@ -31,6 +31,8 @@
 * string distance
 * reverse words
 * longest sub palindrome
+* add strings
+* words sum equal
 
 ## Games
 * rotate image
