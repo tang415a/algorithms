@@ -53,14 +53,14 @@ int sumOfFlooredPairs(const vector<int> &nums) {
     }
   }
 
-  long long res = n;
+  long long int res = n;
   for (int i = 0; i < m; ++i) {
-    long long c = count[value[i] - 1];
+    long long int c = count[value[i] - 1];
     if (c > 1) {
       res += c * (c - 1);
     }
     for (int j = i + 1; j < m; ++j) {
-      long long c1 = count[value[j] - 1];
+      long long int c1 = count[value[j] - 1];
       res += c * c1 * value[j] / value[i];
     }
   }

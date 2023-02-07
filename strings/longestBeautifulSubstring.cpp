@@ -39,28 +39,28 @@ word consists of characters 'a', 'e', 'i', 'o', and 'u'.
 #include <vector>
 using namespace std;
 int longestBeautifulSubstring(const string &word) {
-    int charFreq = 0, currLen = 0, maxLen = 0;
-    for (int i = 1, n = word.length(); i < n; ++i) {
-        if (word[i] == word[i - 1]) {
-            currLen++;
-        } else if (word[i] > word[i - 1]) {
-            currLen++;
-            charFreq++;
-        } else {
-            charFreq = 1;
-            currLen = 1;
-        }
-
-        if (charFreq == 5 && currLen > maxLen) {
-            maxLen = currLen;
-        }
+  int charFreq = 0, currLen = 0, maxLen = 0;
+  for (int i = 1, n = word.length(); i < n; ++i) {
+    if (word[i] == word[i - 1]) {
+      currLen++;
+    } else if (word[i] > word[i - 1]) {
+      currLen++;
+      charFreq++;
+    } else {
+      charFreq = 1;
+      currLen = 1;
     }
-    return maxLen;
+
+    if (charFreq == 5 && currLen > maxLen) {
+      maxLen = currLen;
+    }
+  }
+  return maxLen;
 }
 
 int main() {
-    cout << longestBeautifulSubstring("aeiaaioaaaaeiiiiouuuooaauuaeiu") << endl;
-    cout << longestBeautifulSubstring("aeeeiiiioooauuuaeiou") << endl;
-    cout << longestBeautifulSubstring("a") << endl;
-    return 0;
+  cout << longestBeautifulSubstring("aeiaaioaaaaeiiiiouuuooaauuaeiu") << endl;
+  cout << longestBeautifulSubstring("aeeeiiiioooauuuaeiou") << endl;
+  cout << longestBeautifulSubstring("a") << endl;
+  return 0;
 }

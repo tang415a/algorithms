@@ -9,7 +9,7 @@ Note:
 4. You must not use any built-in BigInteger library or convert the inputs to integer directly.
 */
 
-#include "stdio.h"
+#include <iostream>
 #include <string>
 using namespace std;
 
@@ -22,7 +22,7 @@ string addStrings(string num1, string num2) {
   char carry = 0;
   string result = "";
   for (int i = longSize - 1, j = shortSize - 1; i >= 0; i--, j--) {
-    char digit = j >= 0 ? longStr[i] - '0' + shortStr[j] - '0' + carry : longStr[i] - '0' + carry;
+    char digit = j >= 0 ? (longStr[i] - '0' + shortStr[j] - '0' + carry) : (longStr[i] - '0' + carry);
     carry = digit / 10;
     digit = digit % 10 + '0';
     result = digit + result;
@@ -34,6 +34,7 @@ string addStrings(string num1, string num2) {
 }
 
 int main() {
-  printf(addStrings("92345", "12789").c_str());
+  cout << addStrings("92345", "12789") << endl;
+  cout << addStrings("1234", "567") << endl;
   return 0;
 }
