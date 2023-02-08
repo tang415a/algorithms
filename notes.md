@@ -72,7 +72,9 @@
 # References
 1. What is `Monotonic Stack`? 
 https://algo.monster/problems/mono_stack_intro
-2. Fast I/O for Competitive Programming
+2. Problems for mono stack on LeetCode
+https://leetcode.com/tag/monotonic-stack/
+3. Fast I/O for Competitive Programming
 https://www.geeksforgeeks.org/fast-io-for-competitive-programming/
 ```C++
   ios::sync_with_stdio(false);
