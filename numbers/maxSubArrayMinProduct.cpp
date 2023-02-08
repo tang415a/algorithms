@@ -48,21 +48,67 @@ Constraints:
 
 using namespace std;
 
-int maxSumMinProduct(const vector<int> &nums) {
-  int ret = nums[0];
-  for (int i = 0, l = nums.size(); i < l; ++i) {
-    int sum = nums[i];
-    for (int start = i; --start >= 0 && nums[start] >= nums[i]; ) {
-      sum += nums[start];
-    }
-    for (int end = i; ++end < l && nums[end] >= nums[i]; ) {
-      sum += nums[end];
-    }
-    sum *= nums[i];
-    if (sum > ret)
-      ret = sum;
+// some immature thoughts..
+int maxSumMinProduct__(const vector<int> &nums) {
+  long long int ret = nums[0], sum = nums[0];
+  int l = -1, h = 1, n = nums.size();
+  while (h < n && nums[h] >= nums[0]) {
+    sum += nums[h++];
   }
-  return ret;
+  ret = sum * nums[0];
+  for (int i = 1; i < n; ++i) {
+    if (nums[i] == nums[i - 1])
+      continue;
+    if (nums[i] > nums[i - 1]) {
+      l = i - 1;
+      sum = nums[i];
+      for (int k = i + 1; k < h; k++) {
+        if (nums[k] < nums[i]) {
+          h = k;
+          break;
+        }
+        sum += nums[k];
+      }
+    } else {
+      while (l >= 0 && nums[l] >= nums[i]) {
+        sum += nums[l--];
+      }
+      while (h < n && nums[h] >= nums[i]) {
+        sum += nums[h++];
+      }
+    }
+    long long int tmp = sum * nums[i];
+    if (tmp > ret)
+      ret = tmp;
+  }
+
+  return ret % 1000000007;
+}
+
+// https://leetcode.com/problems/maximum-subarray-min-product/solutions/1198896/O(n)-Monostack-with-picture/
+// When we need to pop back from the stack, it means for the back element j:
+// * Elements from j to i - 1 are all greater than j
+// * Elements before j to the stack front are all less than j
+// which makes j is the min of the sub array
+// After the insertion, the elements begin to rise from the insertion position
+// whose value is greater than j
+// To make it simple, we will store indexes of elements, as we can get their
+// values from the original array. Another trick is sum[i, j) = sum[0, j) -
+// sum[0, i).
+int maxSumMinProduct(const vector<int> &n) {
+  long long int res = 0;
+  vector<long long int> dp(n.size() + 1), st;
+  for (int i = 0; i < n.size(); ++i)
+    dp[i + 1] = dp[i] + n[i];
+  for (int i = 0; i <= n.size(); ++i) {
+    while (!st.empty() && (i == n.size() || n[st.back()] > n[i])) {
+      int j = st.back();
+      st.pop_back();
+      res = max(res, n[j] * (dp[i] - dp[st.empty() ? 0 : st.back() + 1]));
+    }
+    st.push_back(i);
+  }
+  return res % 1000000007;
 }
 
 int main() {

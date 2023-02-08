@@ -58,6 +58,7 @@
 * find ones
 * fast inv sqrt
 * min interval
+* max sub array sum min product (monotonic stack)
 
 ## Strings
 * shortest palindrome
@@ -66,3 +67,14 @@
 
 ## Games
 * max building height
+* water trap
+
+# References
+1. What is `Monotonic Stack`? 
+https://algo.monster/problems/mono_stack_intro
+2. Fast I/O for Competitive Programming
+https://www.geeksforgeeks.org/fast-io-for-competitive-programming/
+```C++
+  ios::sync_with_stdio(false);
+  cin.tie(nullptr);
+```

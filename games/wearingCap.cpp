@@ -34,6 +34,8 @@ using namespace std;
 /*
 https://www.geeksforgeeks.org/bitmasking-and-dynamic-programming-set-1-count-ways-to-assign-unique-cap-to-every-person/
 
+bit masking and dynamic programming
+
 consider the case when ith cap is not included in the arrangement
 countWays(mask, i) = countWays(mask, i+1) +
                     when ith cap is included in the arrangement

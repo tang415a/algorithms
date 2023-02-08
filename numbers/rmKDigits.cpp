@@ -21,9 +21,15 @@ Input: num = "10", k = 2
 Output: "0"
 Explanation: Remove all the digits from the number and it is left with nothing
 which is 0.
+
+Constraints:
+
+1 <= k <= num.length <= 10^5
+num consists of only digits.
+num does not have any leading zeros except for the zero itself.
 */
 
-#include <stdio.h>
+#include <iostream>
 #include <string>
 
 using namespace std;
@@ -31,11 +37,11 @@ using namespace std;
 string doRemove(string num, int k, int st, bool leading) {
   int all = num.size() - st;
   if (k >= all)
-    return "0";
+    return leading ? "0" : "";
   int min = st;
-  for (int i = st + 1; i <= st + k; i++) {
-    if (num[min] > num[i])
-      min = i;
+  for (int i = 1; i <= k; i++) {
+    if (num[min] > num[st + i])
+      min = st + i;
   }
   if (k == min - st) {
     if (leading)
@@ -46,7 +52,7 @@ string doRemove(string num, int k, int st, bool leading) {
   if (leading)
     leading = num[min] == '0';
   return (leading ? "" : num.substr(min, 1)) +
-         doRemove(num, min + 1, k - min + st, leading);
+         doRemove(num, k - min + st, min + 1, leading);
 }
 
 string removeKDigits(string num, int k) { return doRemove(num, k, 0, true); }
@@ -73,24 +79,59 @@ string removeKDigits2(string num, int k) {
   return i < len ? res.substr(i) : "0";
 }
 
+string removeKDigits3(const string &num, int k) {
+  string st;
+  int i = 0, n = num.length();
+  for (; i < n; i++) {
+    while (k > 0 && !st.empty() && (i == n || num[i] < st.back())) {
+      st.pop_back();
+      k--;
+    }
+    if ((st.empty() && num[i] != '0') || !st.empty()) {
+      st.push_back(num[i]);
+    }
+  }
+  n = st.length();
+  if (n <= k) return "0";
+  return st.substr(0, n - k);
+}
+
 int main() {
-  printf("%s\n", removeKDigits("1432219", 3).c_str());
-  printf("%s\n", removeKDigits2("1432219", 3).c_str());
+  cout << removeKDigits("78956", 2) << endl;
+  cout << removeKDigits2("78956", 2) << endl;
+  cout << removeKDigits3("78956", 2) << endl;
 
-  printf("%s\n", removeKDigits("10200", 1).c_str());
-  printf("%s\n", removeKDigits2("10200", 1).c_str());
+  cout << removeKDigits("13579", 3) << endl;
+  cout << removeKDigits2("13579", 3) << endl;
+  cout << removeKDigits3("13579", 3) << endl;
 
-  printf("%s\n", removeKDigits("11200", 1).c_str());
-  printf("%s\n", removeKDigits2("11200", 1).c_str());
+  cout << removeKDigits("1432219", 3) << endl;
+  cout << removeKDigits2("1432219", 3) << endl;
+  cout << removeKDigits3("1432219", 3) << endl;
 
-  printf("%s\n", removeKDigits("10", 2).c_str());
-  printf("%s\n", removeKDigits2("10", 2).c_str());
+  cout << removeKDigits("10200", 1) << endl;
+  cout << removeKDigits2("10200", 1) << endl;
+  cout << removeKDigits3("10200", 1) << endl;
 
-  printf("%s\n", removeKDigits("129200", 2).c_str());
-  printf("%s\n", removeKDigits2("129200", 2).c_str());
+  cout << removeKDigits("11200", 1) << endl;
+  cout << removeKDigits2("11200", 1) << endl;
+  cout << removeKDigits3("11200", 1) << endl;
 
-  printf("%s\n", removeKDigits("109000", 2).c_str());
-  printf("%s\n", removeKDigits2("109000", 2).c_str());
+  cout << removeKDigits("10", 2) << endl;
+  cout << removeKDigits2("10", 2) << endl;
+  cout << removeKDigits3("10", 2) << endl;
+
+  cout << removeKDigits("129200", 2) << endl;
+  cout << removeKDigits2("129200", 2) << endl;
+  cout << removeKDigits3("129200", 2) << endl;
+
+  cout << removeKDigits("109000", 2) << endl;
+  cout << removeKDigits2("109000", 2) << endl;
+  cout << removeKDigits3("109000", 2) << endl;
+
+  cout << removeKDigits("000", 2) << endl;
+  cout << removeKDigits2("000", 2) << endl;
+  cout << removeKDigits3("000", 2) << endl;
 
   return 0;
 }
