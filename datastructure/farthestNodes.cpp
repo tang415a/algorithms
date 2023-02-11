@@ -30,6 +30,15 @@ struct TreeNode {
   int val;
 };
 
+int analyzeRoot(TreeNode *root, int &d) {
+  if (root == nullptr)
+    return -1;
+  int d1 = analyzeRoot(root->left, d) + 1, d2 = analyzeRoot(root->right, d) + 1;
+  if (d < d1 + d2)
+    d = d1 + d2;
+  return d1 < d2 ? d2 : d1;
+}
+
 int analyzeRoot(TreeNode *root, int &d, int &v, int &from, int &to) {
   if (root == nullptr) {
     return -1;
@@ -131,11 +140,13 @@ int main() {
 
   TreeNode *one, *two;
   int d = farthest(nodes, one, two);
-  printf("from %d to %d we have maximum distance %d", one->val, two->val, d);
+  printf("from %d to %d we have maximum distance %d\n", one->val, two->val, d);
   {
     int d = 0, _v = 0, from = 0, to = 0;
     analyzeRoot(nodes, d, _v, from, to);
-    printf("\nfrom %d to %d we have maximum distance %d", from, to, d);
+    printf("from %d to %d we have maximum distance %d\n", from, to, d);
+    analyzeRoot(nodes, d);
+    printf("maximum distance: %d\n", d);
   }
   return 0;
 }

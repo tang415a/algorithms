@@ -51,6 +51,19 @@ vector<int> nextGreaterElements(const vector<int> &nums) {
   return res;
 }
 
+/*
+stack           nums[n - 1]       stack
+nums[0]              |            nums[n-1]   ---- circular searching order
+nums[1]              |            nums[i]
+...                \ | /          ...
+nums[n-1]           \|/           nums[n-1]
+
+nums[0..i-1] smaller than nums[n-1] erased and nums[i] is greater than nums[n-1]
+
+When pushing an item j to the stack, the items smaller than j and also behind j
+in the circular searching order will be erased since with the presence of j,
+these items are useless. In the next round, j will be the first item to compare.
+*/
 #include <stack>
 vector<int> nextGreaterElements2(const vector<int> &nums) {
   stack<int> st;
