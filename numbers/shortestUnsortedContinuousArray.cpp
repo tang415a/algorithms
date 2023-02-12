@@ -67,10 +67,38 @@ int findUnsortedSubarray(const vector<int> &nums) {
   return n - j - k;
 }
 
+/*
+  nums:   [ _ _ _ _ _ _ _ _ _ _ _ ]
+                |       |end -> ascending
+ascending ->    |start
+*/
+int findUnsortedSubarray2(const vector<int> &nums) {
+  int ans = 0;
+  int i = 0;
+  int j = nums.size() - 1;
+  int curr_min = INT_MAX;
+  int curr_max = INT_MIN;
+  int start = 0, end = -1;
+  while (j >= 0) {
+    if (nums[i] >= curr_max)
+      curr_max = nums[i]; // from `end` + 1 to n - 1, it is ascending to the max
+    else
+      end = i;
+    if (nums[j] <= curr_min)
+      curr_min = nums[j]; // from 0 to `start` - 1, it is ascending from the min
+    else
+      start = j;
+    ++i;
+    --j;
+  }
+  // [start, end] whose values are between [min', max'] needs to be sorted
+  return end - start + 1;
+}
+
 int main() {
-  cout << findUnsortedSubarray({2, 6, 4, 8, 10, 9, 15}) << endl;
-  cout << findUnsortedSubarray({1, 2, 3, 4}) << endl;
-  cout << findUnsortedSubarray({4, 2, 3, 1}) << endl;
-  cout << findUnsortedSubarray({1}) << endl;
+  cout << findUnsortedSubarray2({2, 6, 4, 8, 10, 9, 15}) << endl;
+  cout << findUnsortedSubarray2({1, 2, 3, 4}) << endl;
+  cout << findUnsortedSubarray2({4, 2, 3, 1}) << endl;
+  cout << findUnsortedSubarray2({1}) << endl;
   return 0;
 }
