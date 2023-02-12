@@ -42,8 +42,7 @@ int findUnsortedSubarray(const vector<int> &nums) {
   int j = n;
   for (int i = 0; i < n; i++) {
     while (m > 0 && nums[s[m - 1]] > nums[i]) {
-      m--;
-      j = min(j, m);
+      j = --m;
     }
     if (j == 0)
       break;
@@ -57,8 +56,7 @@ int findUnsortedSubarray(const vector<int> &nums) {
   m = 0;
   for (int i = n - 1; i >= 0; i--) {
     while (m > 0 && nums[s[m - 1]] < nums[i]) {
-      m--;
-      k = min(k, m);
+      k = --m;
     }
     if (k == 0)
       break;
