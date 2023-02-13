@@ -87,9 +87,9 @@ double findMedianSortedArrays(const vector<int> &A, const vector<int> &B) {
   if (n > m)
     return findMedianSortedArrays(B, A);
   if (n == 0)
-    return m % 2 == 0 ? (double)(B[m / 2 - 1] + B[m / 2]) / 2 : B[m / 2];
+    return m & 0x1 == 0 ? (double)(B[m / 2 - 1] + B[m / 2]) / 2 : B[m / 2];
   if (m == 0)
-    return n % 2 == 0 ? (double)(A[n / 2 - 1] + A[n / 2]) / 2 : A[n / 2];
+    return n & 0x1 == 0 ? (double)(A[n / 2 - 1] + A[n / 2]) / 2 : A[n / 2];
   int left = 0, right = n;
   while (left <= right) {
     // partitionA + partitionB = (n+m+1)/2
