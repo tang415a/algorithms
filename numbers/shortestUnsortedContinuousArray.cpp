@@ -69,8 +69,8 @@ int findUnsortedSubarray(const vector<int> &nums) {
 
 /*
   nums:   [ _ _ _ _ _ _ _ _ _ _ _ ]
-                |       |end -> ascending
-ascending ->    |start
+ ----->(greater)|       |end -> ascending
+ascending ->    |start  <-----(less)
 */
 int findUnsortedSubarray2(const vector<int> &nums) {
   int ans = 0;

@@ -2,6 +2,7 @@
 
 #include <stdio.h>
 
+// time complexity: O(n)
 void merge_arr(int *arr, int low, int mid, int high) {
   int* temp = new int[high - low + 1];
   int i = low, j = mid + 1, k = 0;
@@ -18,6 +19,7 @@ void merge_arr(int *arr, int low, int mid, int high) {
   delete[] temp;
 }
 
+// call O(log(n)) times
 void merge_sort(int *arr, int low, int high) {
   if (low >= high)
     return;
