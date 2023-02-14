@@ -69,6 +69,10 @@
 * max building height
 * water trap
 
+# Skills
+* divide and conquer
+* dynamic programming
+* monotonic stack
 # References
 1. What is `Monotonic Stack`? 
 https://algo.monster/problems/mono_stack_intro
