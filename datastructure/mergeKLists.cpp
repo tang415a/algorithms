@@ -37,6 +37,7 @@ The sum of lists[i].length will not exceed 10^4.
 */
 
 #include <iostream>
+#include <queue>
 #include <vector>
 
 using namespace std;
@@ -88,7 +89,6 @@ vector<ListNode *> createLists(const vector<vector<int>> &v) {
   return ans;
 }
 
-#include <queue>
 ListNode *mergeKLists(const vector<ListNode *> &lists) {
   if (lists.empty()) {
     return nullptr;
@@ -101,6 +101,7 @@ ListNode *mergeKLists(const vector<ListNode *> &lists) {
       pq.push({n->val, n});
     }
   }
+  // head is a dummy node whose next is the true head
   ListNode head;
   ListNode *dummy = &head;
   while (!pq.empty()) {

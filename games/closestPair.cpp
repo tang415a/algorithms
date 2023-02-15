@@ -33,7 +33,7 @@ float bruteForce(const vector<vector<int>> &pts, int start, int end) {
 }
 
 float stripClosest(const vector<vector<int>> &pts, vector<int> &indices,
-                  int target, float d) {
+                   int target, float d) {
   int i = target;
   while (--i >= 0 && pts[target][0] - pts[i][0] < d) {
     indices.emplace_back(i);
@@ -50,7 +50,17 @@ float stripClosest(const vector<vector<int>> &pts, vector<int> &indices,
   // Pick all points one by one and try the next points till the difference
   // between y coordinates is smaller than d.
   for (int i = 0, m = indices.size(); i < m - 1; i++) {
-    // This is a proven fact that this loop runs at most 6 times
+    /* This is a proven fact that this loop runs at most 6 times
+     * where d is the shortest distance among the points on the left / right
+     * side of line l
+     *        Line l
+     *    |     |     |
+     *    +  d  +  d  +
+     *    |     |     |
+     *  d |     |     | d
+     *    +  d  +  d  +
+     *    |     |     |
+     */
     for (int j = i + 1; j < m && pts[j][1] - pts[i][1] < min; j++) {
       float dj = distance(pts[i], pts[j]);
       if (dj < min) {

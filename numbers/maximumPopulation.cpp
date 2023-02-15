@@ -80,6 +80,12 @@ int maximumPopulation2(const vector<vector<int>> &logs) {
 // priority items to the bottom. By default the comp operator is less, which
 // will move the smaller items to the bottom. In this case we use greater
 // function as the comparator.
+// https://en.cppreference.com/w/cpp/container/priority_queue
+// A priority queue is a container adaptor that provides constant time lookup of
+// the largest (by default) element, at the expense of logarithmic insertion and
+// extraction. A user-provided Compare can be supplied to change the ordering,
+// e.g. using std:: greater < T > would cause the smallest element to appear as
+// the top() .
 #include <queue>
 int maximumPopulation3(const vector<vector<int>> &logs) {
   auto v = logs;

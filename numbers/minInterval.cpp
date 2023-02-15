@@ -49,6 +49,8 @@ intervals[i].length == 2
 1 <= queries[j] <= 10^7
 */
 
+// you may refer to skyline which is similar to this problem
+
 #include <algorithm>
 #include <iostream>
 #include <set>

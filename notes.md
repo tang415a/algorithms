@@ -73,6 +73,10 @@
 * divide and conquer
 * dynamic programming
 * monotonic stack
+* decrease and conquer
+* transform and conquer
+* space and time tradeoffs
+
 # References
 1. What is `Monotonic Stack`? 
 https://algo.monster/problems/mono_stack_intro
