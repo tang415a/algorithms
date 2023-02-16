@@ -41,11 +41,11 @@ struct TreeNode {
   int val;
   TreeNode *left;
   TreeNode *right;
-  TreeNode(int x) : val(x), left(NULL), right(NULL) {}
+  TreeNode(int x) : val(x), left(nullptr), right(nullptr) {}
 };
 
 void clear(TreeNode *r) {
-  if (r == NULL)
+  if (r == nullptr)
     return;
   clear(r->left);
   clear(r->right);
@@ -53,7 +53,7 @@ void clear(TreeNode *r) {
 }
 
 void print(TreeNode *r) {
-  if (r == NULL)
+  if (r == nullptr)
     return;
   vector<TreeNode *> temp;
   temp.push_back(r);
@@ -95,7 +95,7 @@ public:
 
 private:
   void process(TreeNode *root) {
-    if (root == NULL)
+    if (root == nullptr)
       return;
 
     vector<TreeNode *> temp;

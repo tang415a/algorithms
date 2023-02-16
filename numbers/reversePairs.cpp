@@ -41,11 +41,11 @@ struct TreeNode {
   int count;
   TreeNode *left;
   TreeNode *right;
-  TreeNode(int x) : val(x), left(NULL), right(NULL), count(1) {}
+  TreeNode(int x) : val(x), left(nullptr), right(nullptr), count(1) {}
 };
 
 void clear(TreeNode *r) {
-  if (r == NULL)
+  if (r == nullptr)
     return;
   clear(r->left);
   clear(r->right);
