@@ -56,7 +56,6 @@ vector<int> beautifulArray(int n, map<int, vector<int>> &memo) {
     }
   }
   memo.insert(make_pair(n, ans));
-  memo.insert(make_pair(n, ans));
   return ans;
 }
 
