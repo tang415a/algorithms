@@ -63,32 +63,25 @@ idi is unique.
 
 using namespace std;
 
-int maxBuilding(int n, vector<vector<int>> &restrictions)
-{
+int maxBuilding(int n, vector<vector<int>> &restrictions) {
   sort(begin(restrictions), end(restrictions));
-  for (int s = restrictions.size(), i = s - 1; i >= 0; --i)
-  {
+  for (int s = restrictions.size(), i = s - 1; i >= 0; --i) {
     if (restrictions[i][1] >= restrictions[i][0] - 1)
       restrictions.erase(restrictions.begin() + i);
   }
   if (restrictions.empty())
     return n - 1;
-  for (int i = 1, s = restrictions.size(); i < s; ++i)
-  {
+  for (int i = 1, s = restrictions.size(); i < s; ++i) {
     int d = restrictions[i][0] - restrictions[i - 1][0];
-    if (restrictions[i][1] - restrictions[i - 1][1] > d)
-    {
+    if (restrictions[i][1] - restrictions[i - 1][1] > d) {
       restrictions[i][1] = restrictions[i - 1][1] + d;
-    }
-    else if (restrictions[i - 1][1] - restrictions[i][1] > d)
-    {
+    } else if (restrictions[i - 1][1] - restrictions[i][1] > d) {
       // restrictions[i - 1][1] = restrictions[i][1] + d;
       // if (i > 1) {
       //   --i;
       //   continue;
       // }
-      do
-      {
+      do {
         restrictions[i - 1][1] = restrictions[i][1] + d;
       } while (--i > 0 && (restrictions[i - 1][1] - restrictions[i][1] >
                            (d = restrictions[i][0] - restrictions[i - 1][0])));
@@ -96,8 +89,7 @@ int maxBuilding(int n, vector<vector<int>> &restrictions)
   }
 
   int r = 0, x = 1, y = 0;
-  for (auto &i : restrictions)
-  {
+  for (auto &i : restrictions) {
     int ym = (i[0] - x + i[1] + y) / 2;
     if (r < ym)
       r = ym;
@@ -110,27 +102,35 @@ int maxBuilding(int n, vector<vector<int>> &restrictions)
   return r;
 }
 
-struct RData
-{
-  int d = 0, s = 0;
+struct RData {
+  int d = 0, s = 0; // d: y - x; s: x + y of restriction
 };
 
-int maxBuilding2(int n, vector<vector<int>> &restrictions)
-{
+// a better approach
+// observations
+// * say if there are two adjacent valid restrictions (x0, y0) and (x1, y1),
+//   then the maximum height of this range can be calculated by:
+//   ym = (x1 - x0 + y0 + y1) / 2 = (x1 + y1 + y0 - x0) / 2
+// * for the last section between (xn, n), ym = n + yn - xn
+// * forward validness of restriction: y1 - y0 <= x1 - x0, i.e. y1 - x1 <= y0 -
+//   x0; in other words, if yi - xi > y(i-1) - x(i-1), the restriction can be
+//   ignored
+// * backward validness of restriction: y0 - y1 <= x1 - x0, i.e. x0 + y0 <= x1 +
+//   y1; in other words, if x(i-1) + y(i-1) > xi + yi, the restriction can be
+//   ignored
+int maxBuilding2(int n, vector<vector<int>> &restrictions) {
   sort(begin(restrictions), end(restrictions));
   int s = restrictions.size();
   vector<RData> c(s);
-  int k = -1;
-  for (int i = 0; i < s; i++)
-  {
+  int k = -1; // the initial value of y - x
+  for (int i = 0; i < s; i++) {
     int d = restrictions[i][1] - restrictions[i][0];
     if (d >= k)
       continue;
     c[i].d = k = d;
   }
-  k = n << 1;
-  for (int i = s - 1; i >= 0; i--)
-  {
+  k = n << 1; // safety guard of x + y
+  for (int i = s - 1; i >= 0; i--) {
     if (c[i].d == 0)
       continue;
     int d = restrictions[i][0] + restrictions[i][1];
@@ -138,10 +138,9 @@ int maxBuilding2(int n, vector<vector<int>> &restrictions)
       continue;
     c[i].s = k = d;
   }
-  k = -1;
+  k = -1; // the initial value of y - x
   int ans = 0;
-  for (int i = 0; i < s; i++)
-  {
+  for (int i = 0; i < s; i++) {
     if (c[i].s == 0)
       continue;
     int ym = (k + c[i].s) / 2;
@@ -155,11 +154,9 @@ int maxBuilding2(int n, vector<vector<int>> &restrictions)
   return ans;
 }
 
-int maxBuilding3(int n, vector<vector<int>> restrictions)
-{
+int maxBuilding3(int n, vector<vector<int>> restrictions) {
   vector<pair<int, int>> segments;
-  for (const auto &r : restrictions)
-  {
+  for (const auto &r : restrictions) {
     segments.push_back(make_pair(r[0], r[1]));
   }
   segments.push_back(make_pair(1, 0));
@@ -168,36 +165,37 @@ int maxBuilding3(int n, vector<vector<int>> restrictions)
 
   int m = segments.size();
 
+  // forward restrictions
   vector<int> lcaps(m);
   lcaps[0] = 0;
-  for (int k = 1; k < m; ++k)
-  {
-    lcaps[k] = min(segments[k].second, lcaps[k - 1] + segments[k].first - segments[k - 1].first);
+  for (int k = 1; k < m; ++k) {
+    lcaps[k] = min(segments[k].second,
+                   lcaps[k - 1] + segments[k].first - segments[k - 1].first);
   }
 
+  // backward restrictions
   vector<int> rcaps(m);
   rcaps[m - 1] = n;
-  for (int k = m - 2; k >= 0; --k)
-  {
-    rcaps[k] = min(segments[k].second, rcaps[k + 1] + segments[k + 1].first - segments[k].first);
+  for (int k = m - 2; k >= 0; --k) {
+    rcaps[k] = min(segments[k].second,
+                   rcaps[k + 1] + segments[k + 1].first - segments[k].first);
   }
 
   int tallest = 0;
-  for (int k = 0; k < m - 1; ++k)
-  {
+  for (int k = 0; k < m - 1; ++k) {
     int x1 = segments[k].first;
     int h1 = min(lcaps[k], rcaps[k]);
 
     int x2 = segments[k + 1].first;
     int h2 = min(lcaps[k + 1], rcaps[k + 1]);
 
-    tallest = max(tallest, max(h1, h2) + (int)ceil(((x2 - x1) - abs(h2 - h1)) / 2));
+    tallest =
+        max(tallest, max(h1, h2) + (int)ceil(((x2 - x1) - abs(h2 - h1)) / 2));
   }
   return tallest;
 }
 
-int main()
-{
+int main() {
   // {
   //   vector<vector<int>> restrictions = {{10, 8}, {12, 5}, {15, 1}};
   // cout << maxBuilding(20, restrictions) << endl;
@@ -207,48 +205,42 @@ int main()
   // }
   vector<vector<int>> restrictions = {{2, 1}, {4, 1}};
   int n = 5;
-  if (maxBuilding2(n, restrictions) != maxBuilding(n, restrictions))
-  {
+  if (maxBuilding2(n, restrictions) != maxBuilding(n, restrictions)) {
     cout << "err" << endl;
     return 1;
   }
   restrictions = {};
   n = 6;
-  if (maxBuilding2(n, restrictions) != maxBuilding(n, restrictions))
-  {
+  if (maxBuilding2(n, restrictions) != maxBuilding(n, restrictions)) {
     cout << "err" << endl;
     return 1;
   }
   restrictions = {{5, 3}, {2, 5}, {7, 4}, {10, 3}};
   n = 10;
-  if (maxBuilding2(n, restrictions) != maxBuilding(n, restrictions))
-  {
+  if (maxBuilding2(n, restrictions) != maxBuilding(n, restrictions)) {
     cout << "err" << endl;
     return 1;
   }
   restrictions = {{10, 8}, {12, 5}, {15, 1}};
   n = 20;
-  if (maxBuilding2(n, restrictions) != maxBuilding(n, restrictions))
-  {
+  if (maxBuilding2(n, restrictions) != maxBuilding(n, restrictions)) {
     cout << "err" << endl;
     return 1;
   }
   restrictions = {{10, 9}, {15, 5}};
-  if (maxBuilding2(n, restrictions) != maxBuilding(n, restrictions))
-  {
+  if (maxBuilding2(n, restrictions) != maxBuilding(n, restrictions)) {
     cout << "err" << endl;
     return 1;
   }
   restrictions = {{10, 5}, {12, 7}, {15, 1}};
-  if (maxBuilding2(n, restrictions) != maxBuilding(n, restrictions))
-  {
+  if (maxBuilding2(n, restrictions) != maxBuilding(n, restrictions)) {
     cout << "err" << endl;
     return 1;
   }
-  restrictions = {{1, 7}, {2, 7}, {3, 7}, {4, 7}, {5, 7}, {7, 7}, {8, 7}, {9, 7}, {10, 7}};
+  restrictions = {{1, 7}, {2, 7}, {3, 7}, {4, 7}, {5, 7},
+                  {7, 7}, {8, 7}, {9, 7}, {10, 7}};
   n = 10;
-  if (maxBuilding2(n, restrictions) != maxBuilding(n, restrictions))
-  {
+  if (maxBuilding2(n, restrictions) != maxBuilding(n, restrictions)) {
     cout << "err" << endl;
     return 1;
   }
