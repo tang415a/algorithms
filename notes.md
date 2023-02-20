@@ -41,6 +41,7 @@
 * friend circles
 * broken calculator
 * frog jump
+* min speed to arrive on time (binary search)
 
 ## data structure
 * reverse list
