@@ -53,6 +53,15 @@
 * preOrder/inOrder/postOrder iteration over binary tree
 * binary tree output by levels
 
+# Shaders
+* For ads shading, the following types of vectors are needed in calculation:
+  1. n: vertex normal in eye space;
+  2. ve: vertex position in eye space;
+  3. light position in eye space;
+  4. s = light pos in eyespace - ve;
+  5. r: the reflection of -s regarding n;
+  6. v: the direction of where we are looking at in eye space, i.e. -ve.
+
 # Advanced
 ## Numbers
 * min stranger

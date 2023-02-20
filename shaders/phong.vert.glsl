@@ -21,7 +21,6 @@ uniform struct MaterialInfo {
 
 uniform mat4 ModelViewMatrix;
 uniform mat3 NormalMatrix;
-uniform mat4 ProjectionMatrix;
 uniform mat4 MVP;
 
 // Per-Vertex approach of Phong model - also known as Gouraud shading
