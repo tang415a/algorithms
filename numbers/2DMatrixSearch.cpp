@@ -61,6 +61,7 @@ bool searchMatrix(const vector<vector<int>> &matrix, int target) {
   return searchBlock(matrix, target, 0, m - 1, 0, n - 1);
 }
 
+// a better approach
 bool searchMatrix2(const vector<vector<int>> &matrix, int target) {
   int m = matrix.size();
   int n = matrix[0].size();

@@ -1,5 +1,6 @@
 #version 450
 // vk
+// input 2d texture
 layout(binding = 1) uniform sampler2D samplerColor;
 
 layout(binding = 0) uniform UBO {

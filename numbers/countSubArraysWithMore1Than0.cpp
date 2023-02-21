@@ -195,16 +195,16 @@ int subarraysWithMoreOnesThanZeros(const vector<int> &nums) {
 
 #include <time.h>
 int main() {
-  // cout << countOfSubArrays({0, 1, 1, 0, 1}) << endl;
-  // cout << countOfSubArrays({0}) << endl;
-  // cout << countOfSubArrays({1}) << endl;
-  // srand((unsigned int)time(NULL));
-  // vector<int> arr(100000);
-  // for (int i = 0; i < 100000; i++) {
-  //   arr[i] = rand() % 2;
-  // }
-  // cout << countOfSubArrays(arr) << endl;
-  // cout << countOfSubArrays2(arr) << endl;
+  cout << countOfSubArrays({0, 1, 1, 0, 1}) << endl;
+  cout << countOfSubArrays({0}) << endl;
+  cout << countOfSubArrays({1}) << endl;
+  srand((unsigned int)time(NULL));
+  vector<int> arr(100000);
+  for (int i = 0; i < 100000; i++) {
+    arr[i] = rand() % 2;
+  }
+  cout << countOfSubArrays(arr) << endl;
+  cout << countOfSubArrays2(arr) << endl;
   cout << subarraysWithMoreOnesThanZeros({0, 0, 0, 0}) << endl;
   return 0;
 }
