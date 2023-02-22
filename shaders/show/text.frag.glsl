@@ -26,18 +26,18 @@ vec2 ch_pos = vec2(0.0, 0.0);                         // character position(X,Y)
 /* 16 segment display...Akin to LED Display.
 
 Segment bit positions:
-  __2__ __14__
+  __2__ __1__
  |\    |    /|ereboa danow
- 5  11 40 9  0
+ 3  11 10 9  0
  |   \ | /   |
  |    \|/    |
   _12__ __8__
  |           |
  |    /|\    |
  4   / | \   7
- | 13 1  15 |
+ | 13 14 15  |
  | /   |   \ |
-  __3__|__6__
+  __5__|__6__
 
 15 12 11 8 7  4 3  0
  |  | |  | |  | |  |
