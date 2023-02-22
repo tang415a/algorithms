@@ -42,6 +42,7 @@
 * broken calculator
 * frog jump
 * min speed to arrive on time (binary search)
+* video stitching
 
 ## data structure
 * reverse list

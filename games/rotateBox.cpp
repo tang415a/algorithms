@@ -16,30 +16,21 @@ the bottom of the box.
 
 Return an n x m matrix representing the box after the rotation described above.
 
-
-
 Example 1:
-
-
-
 Input: box = [["#",".","#"]]
 Output: [["."],
          ["#"],
          ["#"]]
+
 Example 2:
-
-
-
 Input: box = [["#",".","*","."],
               ["#","#","*","."]]
 Output: [["#","."],
          ["#","#"],
          ["*","*"],
          [".","."]]
+
 Example 3:
-
-
-
 Input: box = [["#","#","*",".","*","."],
               ["#","#","#","*",".","."],
               ["#","#","#",".","#","."]]
@@ -49,7 +40,6 @@ Output: [[".","#","#"],
          ["#","*","."],
          ["#",".","*"],
          ["#",".","."]]
-
 
 Constraints:
 
