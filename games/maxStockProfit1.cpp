@@ -54,9 +54,22 @@ int maxProfit(const vector<int> &prices) {
   return ans;
 }
 
+// a better approach: greedy
+int maxProfit2(const vector<int> &prices) {
+  int profit = 0;
+  for (int i = 0; i < prices.size() - 1; i++) {
+    if (prices[i] < prices[i + 1])
+      profit += (prices[i + 1] - prices[i]);
+  }
+  return profit;
+}
+
 int main() {
   cout << maxProfit({7, 1, 5, 3, 6, 4}) << endl;
   cout << maxProfit({1, 2, 3, 4, 5}) << endl;
   cout << maxProfit({7, 6, 4, 3, 1}) << endl;
+  cout << maxProfit2({7, 1, 5, 3, 6, 4}) << endl;
+  cout << maxProfit2({1, 2, 3, 4, 5}) << endl;
+  cout << maxProfit2({7, 6, 4, 3, 1}) << endl;
   return 0;
 }
