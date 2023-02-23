@@ -43,8 +43,8 @@ int subarraysWithOnesAndZerosEqual(const vector<int> &nums) {
   for (int i : s) {
     c[i + n]++; // remapping from i to i + n
   }
-  int ans = c[n];
   constexpr int kMod = 1'000'000'007;
+  int ans = c[n] % kMod;
   for (int i : c) {
     ans += i * (i - 1) / 2;
     ans %= kMod;

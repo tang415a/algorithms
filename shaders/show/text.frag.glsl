@@ -110,6 +110,7 @@ example: letter A
   ch_pos = ch_start;                                                           \
   ch_pos.y -= 12.0;
 
+// the distance between uv and turned on seg
 float dseg(vec2 p0, vec2 p1) {
   vec2 dir = normalize(p1 - p0);
   vec2 cp = (uv - ch_pos - p0) * mat2(dir.x, dir.y, -dir.y, dir.x);
@@ -124,7 +125,6 @@ float d = 1e6;
 
 void ddigit(int n) {
   float v = 1e6;
-  vec2 cp = uv - ch_pos;
   if (n == 0)
     v = min(v, dseg(vec2(-0.405, -1.000), vec2(-0.500, -1.000)));
   if (bit(n, 0))
@@ -160,6 +160,7 @@ void ddigit(int n) {
   if (bit(n, 15))
     v = min(v, dseg(vec2(0.063, -0.063), vec2(0.438, -0.938)));
   ch_pos.x += ch_space.x;
+  // the less d is, the closer the final fragment color is to char color
   d = min(d, v);
 }
 mat2 rotate(float a) {
@@ -175,8 +176,17 @@ vec3 hsv2rgb_smooth(in vec3 c) {
 
   return c.z * mix(vec3(1.0), rgb, c.y);
 }
+
 void main(void) {
   vec2 aspect = resolution.xy / resolution.y;
+  // gl_FragCoord — contains the window-relative coordinates of the current
+  // fragment. gl_FragCoord may be redeclared with the additional layout
+  // qualifier identifiers origin_upper_left or pixel_center_integer. By
+  // default, gl_FragCoord assumes a lower-left origin for window coordinates
+  // and assumes pixel centers are located at half-pixel centers. For example,
+  // the (x, y) location (0.5, 0.5) is returned for the lower-left-most pixel in
+  // a window.
+  // uv is the ratio of frag coords with (0.0, 0.0) at center
   uv = (gl_FragCoord.xy / resolution.y) - aspect / 2.0;
   float _d = 1.0 - length(uv);
   uv *= 18.0;
@@ -193,6 +203,7 @@ void main(void) {
   _ _ _ M A S S I V E _ S H I T nl2;
   _ _ _ R I G H T _ N O W nl3;
 
+  // mix(x, y, a) = x * (1 - a) + y * a
   vec3 color = mix(ch_color, bg_color, 1.0 - (0.08 / d * 2.0)); // shading
   gl_FragColor = vec4(color, 1.0);
 }

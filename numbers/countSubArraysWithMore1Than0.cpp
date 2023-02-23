@@ -176,6 +176,7 @@ Use Fenwick tree to get the sum.
      ____________   j
                 i
 */
+// a better approach
 int subarraysWithMoreOnesThanZeros(const vector<int> &nums) {
   constexpr int kMod = 1'000'000'007;
   int ans = 0;

@@ -44,7 +44,7 @@
 * min speed to arrive on time (binary search)
 * video stitching
 
-## data structure
+## Data structure
 * reverse list
 * circular list
 * intersect list
@@ -85,13 +85,13 @@
 * closest pair / convex hull
 
 # Skills
-* divide and conquer
 * dynamic programming
-* monotonic stack
+* divide and conquer
 * decrease and conquer
 * transform and conquer
 * space and time tradeoffs
-
+* monotonic stack
+* Fenwick tree
 # References
 1. What is `Monotonic Stack`? 
 https://algo.monster/problems/mono_stack_intro
@@ -105,3 +105,7 @@ https://www.geeksforgeeks.org/fast-io-for-competitive-programming/
 ```
 4. Vulkan tutorial on rendering a fullscreen quad without buffers
 https://www.saschawillems.de/blog/2016/08/13/vulkan-tutorial-on-rendering-a-fullscreen-quad-without-buffers/
+5. GLSL Sandbox Gallery
+https://glslsandbox.com/
+6. OpenGL API Documentation
+https://docs.gl/

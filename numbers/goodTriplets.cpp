@@ -118,6 +118,69 @@ long long goodTriplets(const vector<int> &nums1, const vector<int> &nums2) {
   return ans;
 }
 
+class FenwickTree {
+public:
+  FenwickTree(int n) : sums(n + 1) {}
+
+  void update(int i, int delta) {
+    while (i < sums.size()) {
+      sums[i] += delta;
+      i += lowbit(i);
+    }
+  }
+
+  int get(int i) const {
+    int sum = 0;
+    while (i > 0) {
+      sum += sums[i];
+      i -= lowbit(i);
+    }
+    return sum;
+  }
+
+private:
+  vector<int> sums;
+
+  static inline int lowbit(int i) { return i & -i; }
+};
+
+#include <unordered_map>
+long long goodTriplets2(const vector<int> &nums1, const vector<int> &nums2) {
+  const int n = nums1.size();
+  long long ans = 0;
+  unordered_map<int, int> numToIndex;
+  vector<int> A;
+  // leftSmaller[i] := # of A[j] < A[i], where 0 <= j < i
+  vector<int> leftSmaller(n);
+  // rightLarger[i] := # of A[j] > A[i], where i < j < n
+  vector<int> rightLarger(n);
+  FenwickTree tree1(n); // To calculate leftSmaller
+  FenwickTree tree2(n); // To calculate rightLarger
+
+  for (int i = 0; i < n; ++i)
+    numToIndex[nums1[i]] = i;
+
+  // Remap each num in nums2 to the according index in nums1 as A
+  // Then, rephrase the problem as finding increasing triplets in A
+  for (const int num : nums2)
+    A.push_back(numToIndex[num]);
+
+  for (int i = 0; i < n; ++i) {
+    leftSmaller[i] = tree1.get(A[i]);
+    tree1.update(A[i] + 1, 1);
+  }
+
+  for (int i = n - 1; i >= 0; --i) {
+    rightLarger[i] = tree2.get(n) - tree2.get(A[i]);
+    tree2.update(A[i] + 1, 1);
+  }
+
+  for (int i = 0; i < n; ++i)
+    ans += static_cast<long>(leftSmaller[i]) * rightLarger[i];
+
+  return ans;
+}
+
 int main() {
   cout << goodTriplets({2, 0, 1, 3}, {0, 1, 2, 3}) << endl;
   cout << goodTriplets({4, 0, 1, 3, 2}, {4, 1, 0, 2, 3}) << endl;
@@ -125,6 +188,12 @@ int main() {
   cout << goodTriplets({0, 1, 2, 3, 4}, {4, 3, 2, 1, 0}) << endl;
   cout << goodTriplets({0, 1, 2, 3, 4}, {1, 4, 2, 0, 3}) << endl;
   cout << goodTriplets({0, 1, 2, 3, 4, 5, 6}, {1, 4, 2, 0, 3, 5, 6}) << endl;
+  cout << goodTriplets2({2, 0, 1, 3}, {0, 1, 2, 3}) << endl;
+  cout << goodTriplets2({4, 0, 1, 3, 2}, {4, 1, 0, 2, 3}) << endl;
+  cout << goodTriplets2({0, 1, 2, 3, 4}, {0, 1, 2, 3, 4}) << endl;
+  cout << goodTriplets2({0, 1, 2, 3, 4}, {4, 3, 2, 1, 0}) << endl;
+  cout << goodTriplets2({0, 1, 2, 3, 4}, {1, 4, 2, 0, 3}) << endl;
+  cout << goodTriplets2({0, 1, 2, 3, 4, 5, 6}, {1, 4, 2, 0, 3, 5, 6}) << endl;
   /*  0, 3, 5   0, 3, 6   0, 5, 6   1, 2, 3
       1, 2, 5   1, 2, 6   1, 3, 5   1, 3, 6
       1, 4, 5   1, 4, 6   1, 5, 6   2, 3, 5

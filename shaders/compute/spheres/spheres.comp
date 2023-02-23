@@ -1,0 +1,39 @@
+// https://www.ronja-tutorials.com/post/050-compute-shader/
+// In the Compute Shader I first include the functions from my tutorial on
+// randomness and add a new variable called time. In the kernel function I get a
+// random vector(based on the kernel index), normalize it and get it to a random
+// length between 0.1 and 1 (if I let it go too short bad math can happen too
+// easily and some points become NaN). Then I generate a new vector thats
+// orthogonal to that one by taking the cross product between the vector and a
+// different random vector(this isn’t guaranteed to work, if the vectors are
+// paralell the cross product is (0,0,0) and can’t e normalized, but it works
+// well enough) and give its length the same treatment to make it be between 0.1
+// and 0.9. The random looking numbers I add to the inputs are to avoid some of
+// the symmetry so not all random functions return the same result. Then I get a
+// time variable by multiplying the time by 2(that 2 could be a uniform value if
+// you want to adjust the speed manually) and give it a offset by a random value
+// multiplied by some big-ish odd number.
+
+// Each #kernel tells which function to compile; you can have many kernels
+#pragma kernel Spheres
+
+#include "Random.cginc"
+
+// variables
+RWStructuredBuffer<float3> Result;
+uniform float Time;
+
+[numthreads(64, 1, 1)] void Spheres(uint3 id
+                                    : SV_DispatchThreadID) {
+  // generate 2 orthogonal vectors
+  float3 baseDir =
+      normalize(rand1dTo3d(id.x) - 0.5) * (rand1dTo1d(id.x) * 0.9 + 0.1);
+  float3 orthogonal =
+      normalize(cross(baseDir, rand1dTo3d(id.x + 7.1393) - 0.5)) *
+      (rand1dTo1d(id.x + 3.7443) * 0.9 + 0.1);
+  // scale the time and give it a random offset
+  float scaledTime = Time * 2 + rand1dTo1d(id.x) * 712.131234;
+  // calculate a vector based on vectors
+  float3 dir = baseDir * sin(scaledTime) + orthogonal * cos(scaledTime);
+  Result[id.x] = dir * 20;
+}
