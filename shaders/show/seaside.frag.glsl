@@ -17,7 +17,6 @@ mat2 m2 = mat2(0.8, 0.6, -0.6, 0.8);
 mat2 im2 = mat2(0.8, -0.6, 0.6, 0.8);
 
 float noise(in vec2 p) {
-
   float res = 0.;
   float f = 1.;
   for (int i = 0; i < 3; i++) {
@@ -45,7 +44,6 @@ vec3 noised(in vec2 p) { // noise with derivatives
 }
 
 float fbmabs(vec2 p) {
-
   float f = 1.;
   float r = 0.0;
   for (int i = 0; i < 8; i++) {
@@ -88,7 +86,6 @@ float terrainIq(
 float swissTurbulence(
     vec2 p) // from http://www.decarpentier.nl/scape-procedural-extensions
 {
-
   float lacunarity = 2.0;
   float gain = 0.5;
   float warp = 0.15;
@@ -108,7 +105,6 @@ float swissTurbulence(
 float jordanTurbulence(
     vec2 p) // from http://www.decarpentier.nl/scape-procedural-extensions
 {
-
   float lacunarity = 2.0;
   float gain1 = 0.8;
   float gain = 0.5;
@@ -190,7 +186,6 @@ float march(in vec3 ro, in vec3 rd) {
 }
 
 vec3 transform(in vec3 p) {
-
   p.zx = p.xz;
   p.z = -p.z;
   return p;

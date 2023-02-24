@@ -31,10 +31,13 @@ b does not contain leading zeros.
 using namespace std;
 
 int superPow(int a, vector<int> &b) {
-  vector<bool> d(6670);
-  int j = 0;
+  int ans = 1;
   for (int i = 0, n = b.size(); i < n;) {
-    d[j++] = (b[n - 1] & 0x1) == 0 ? false : true;
+    if (b[n - 1] & 0x1) {
+      ans *= a;
+      ans %= 1337;
+    }
+    a = (a * a) % 1337;
     bool carry = false;
     for (int k = i; k < n; k++) {
       if (carry)
@@ -45,14 +48,6 @@ int superPow(int a, vector<int> &b) {
     while (b[i] == 0) {
       i++;
     }
-  }
-  int ans = 1;
-  for (int i = 0; i < j; i++) {
-    if (d[i]) {
-      ans *= a;
-      ans %= 1337;
-    }
-    a = (a * a) % 1337;
   }
   return ans;
 }
@@ -71,6 +66,8 @@ int main() {
   b = {0};
   cout << superPow(3, b) << endl;
   b = {1, 0, 0};
+  cout << superPow(2, b) << endl;
+  b = {1, 0, 0, 0};
   cout << superPow(2, b) << endl;
   return 0;
 }
