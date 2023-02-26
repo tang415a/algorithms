@@ -109,3 +109,5 @@ https://www.saschawillems.de/blog/2016/08/13/vulkan-tutorial-on-rendering-a-full
 https://glslsandbox.com/
 6. OpenGL API Documentation
 https://docs.gl/
+7. Deferred Rendering Is Here To Save The Day!
+https://www.gamedesigning.org/learn/deferred-rendering/

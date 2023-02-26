@@ -15,7 +15,7 @@ Explanation: The three ranges are : [0,0], [2,2], [0,2] and their respective sum
 #include <stdio.h>
 struct TreeNode {
   int val;
-  int cnt;
+  int cnt;  // the count of children including itself
   TreeNode *left, *right;
 };
 
@@ -45,12 +45,21 @@ int greater_than(TreeNode* root, int val) {
     if (root->val < val)
       return greater_than(root->right, val);
     if (root->val > val)
+      // subtract the children of left that are less than val
       return root->cnt - (root->left ? root->left->cnt : 0) + greater_than(root->left, val);
     return root->right ? root->right->cnt : 0;
   }
   return 0;
 }
 
+// hints:
+// Sum[0..j] > s - upper - 1
+// Sum[0..i] = s
+// -> Sum(j..i] <= upper    (1)
+// Sum[0..j] > s - lower
+// Sum[0..i] = s
+// -> Sum(j..i] < lower     (2)
+// (1) - (2) is what we are looking for
 int countRangeSum(int *arr, int siz, int lower, int upper) {
   int s = 0, res = 0;
   TreeNode* root = NULL;  
