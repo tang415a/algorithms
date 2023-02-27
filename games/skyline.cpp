@@ -87,6 +87,7 @@ vector<vector<int>> getSkyline(const vector<vector<int>> &buildings) {
   return res;
 }
 
+// a better approach
 #include <queue>
 vector<vector<int>> getSkyline2(const vector<vector<int>> &buildings) {
   int edge_idx = 0;
