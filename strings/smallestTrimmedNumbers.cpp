@@ -81,8 +81,8 @@ vector<int> smallestTrimmedNumbers(const vector<string> &nums,
       i++;
     }
     for (; k < cq[j][0]; k++) {
-      int count[10];
-      memset(count, 0, sizeof(int) * 10);
+      int count[10] = {0}; // rest elements are initialized to zero
+      // memset(count, 0, sizeof(int) * 10);
       for (int x = 0; x < m; x++) {
         count[nums[x][l - 1 - k] - '0']++;
       }
