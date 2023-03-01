@@ -798,9 +798,9 @@ void _mainImage(out vec4 fragColor, in vec2 fragCoord) {
         int f = int(mod(iTime * 10.0, 3.0));
         if (f == 0)
           spr = sprMarioWalk1(int(x - (marioX - screenX)), int(y - marioY));
-        if (f == 1)
+        else if (f == 1)
           spr = sprMarioWalk2(int(x - (marioX - screenX)), int(y - marioY));
-        if (f == 2)
+        else if (f == 2)
           spr = sprMarioWalk3(int(x - (marioX - screenX)), int(y - marioY));
       } else {
         spr = sprMarioJump(int(x - (marioX - screenX)), int(y - marioY));
