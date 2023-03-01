@@ -6,6 +6,7 @@
 * merge sort
 * heap sort
 * quick sort
+* radix sort
 
 ## Searching
 * binary search
