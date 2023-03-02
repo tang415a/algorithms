@@ -65,23 +65,60 @@ using namespace std;
 
 int carFleet(int target, const vector<int> &position,
              const vector<int> &speed) {
-  int n = position.size();
-  vector<vector<int>> cars(n);
+  const int n = position.size();
+  // it is better to use pair<int, int> instead of vector<int>
+  vector<pair<int, int>> cars(n);
   for (int i = 0; i < n; i++) {
-    cars[i] = {target - position[i], i};
+    cars[i] = {target - position[i], speed[i]};
   }
   sort(cars.begin(), cars.end());
-  for (int i = 1; i < n;) {
-    if (speed[cars[i][1]] < speed[cars[i - 1][1]] ||
-        cars[i][0] * speed[cars[i - 1][1]] >
-            cars[i - 1][0] * speed[cars[i][1]]) {
-      i++;
-      continue;
+  int ans = n;
+  float t = (float)(cars[0].first) / cars[0].second;
+  for (int i = 1; i < n; i++) {
+    float ti = (float)(cars[i].first) / cars[i].second;
+    if (ti <= t) {
+      ans--;
+    } else {
+      t = ti;
     }
-    cars.erase(cars.begin() + i);
-    n--;
   }
-  return cars.size();
+  return ans;
+}
+
+int carFleet2(int target, const vector<int> &position,
+              const vector<int> &speed) {
+  if (position.empty())
+    return 0;
+  if (position.size() == 1)
+    return 1;
+
+  const size_t cars_count = position.size();
+  vector<pair<int, int>> cars(cars_count);
+
+  for (size_t i = 0; i < cars_count; ++i) {
+    cars[i].first = position[i];
+    cars[i].second = speed[i];
+  }
+
+  sort(cars.begin(), cars.end());
+
+  int fleet_num = 1;
+
+  float fleet_time = float(target - cars[cars_count - 1].first) /
+                     float(cars[cars_count - 1].second);
+
+  for (int i = cars_count - 2; i >= 0; i--) {
+    const auto [p, s] = cars[i];
+    const float time = float(target - p) / float(s);
+
+    // slower than fleet
+    if (time > fleet_time) {
+      fleet_time = time;
+      ++fleet_num;
+    }
+  }
+
+  return fleet_num;
 }
 
 int main() {

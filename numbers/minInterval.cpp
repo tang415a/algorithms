@@ -72,9 +72,9 @@ using namespace std;
 // if the interval begins to cover the query, i.e. higher bound exceeds the
 // query, bingo.
 vector<int> minInterval(vector<vector<int>> &intervals, vector<int> &queries) {
-  set<vector<int>> s;
+  set<pair<int, int>> s;
 
-  vector<vector<int>> iQueries;
+  vector<pair<int, int>> iQueries;
   for (int i = 0; i < queries.size(); i++) {
     iQueries.push_back({queries[i], i});
   }
@@ -87,25 +87,56 @@ vector<int> minInterval(vector<vector<int>> &intervals, vector<int> &queries) {
   int i = 0, len = intervals.size();
 
   for (auto &iq : iQueries) {
-    int q = iq[0];
-    int idx = iq[1];
-
-    while (i < len && intervals[i][0] <= q) {
+    while (i < len && intervals[i][0] <= iq.first) {
       s.insert({intervals[i][1] - intervals[i][0] + 1, intervals[i][1]});
       i++;
     }
     while (!s.empty()) {
       auto it = s.begin();
-      if ((*it)[1] >= q)
+      if (it->second >= iq.first)
         break;
+      // the interval is entirely smaller than query and therefore is useless
+      // from now on
       s.erase(s.begin());
     }
     if (!s.empty()) {
-      auto it = s.begin();
-      result[idx] = (*it)[0];
+      result[iq.second] = s.begin()->first;
     }
   }
+  return result;
+}
 
+// use priority_queue instead; seems a better approach
+#include <queue>
+vector<int> minInterval2(vector<vector<int>> &intervals, vector<int> &queries) {
+  vector<pair<int, int>> iQueries;
+  for (int i = 0; i < queries.size(); i++) {
+    iQueries.push_back({queries[i], i});
+  }
+
+  sort(intervals.begin(), intervals.end());
+  sort(iQueries.begin(), iQueries.end());
+
+  vector<int> result(queries.size(), -1);
+
+  int i = 0, len = intervals.size();
+  priority_queue<pair<int, int>, vector<pair<int, int>>, greater<pair<int, int>>> pq;
+  for (auto &iq : iQueries) {
+    while (i < len && intervals[i][0] <= iq.first) {
+      pq.push({intervals[i][1] - intervals[i][0] + 1, intervals[i][1]});
+      i++;
+    }
+    while (!pq.empty()) {
+      auto it = pq.top();
+      if (it.second >= iq.first) {
+        result[iq.second] = it.first;
+        break;
+      }
+      // the interval is entirely smaller than query and therefore is useless
+      // from now on
+      pq.pop();
+    }
+  }
   return result;
 }
 
@@ -120,6 +151,21 @@ int main() {
   intervals = {{2, 3}, {2, 5}, {1, 8}, {20, 25}};
   queries = {2, 19, 5, 22};
   res = minInterval(intervals, queries);
+  for (int i : res)
+    cout << i << " ";
+  cout << endl;
+  
+  // use the second approach
+  intervals = {{1, 4}, {2, 4}, {3, 6}, {4, 4}};
+  queries = {2, 3, 4, 5};
+  res = minInterval2(intervals, queries);
+  for (int i : res)
+    cout << i << " ";
+  cout << endl;
+
+  intervals = {{2, 3}, {2, 5}, {1, 8}, {20, 25}};
+  queries = {2, 19, 5, 22};
+  res = minInterval2(intervals, queries);
   for (int i : res)
     cout << i << " ";
   cout << endl;
