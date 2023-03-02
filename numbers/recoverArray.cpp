@@ -119,6 +119,60 @@ vector<int> recoverArray(const vector<int> &nums) {
   return ans;
 }
 
+// a second better approach
+#include <unordered_set>
+vector<int> recoverArray2(const vector<int> &input) {
+  auto nums = input;
+  int n = nums.size();
+  // find all possible k
+  unordered_set<long> ks;
+  for (int i = 1; i < n; i++) {
+    long sum = nums[i] + nums[0];
+    if (!(sum & 1))
+      ks.insert(max(nums[0], nums[i]) - (sum >> 1));
+  }
+  sort(nums.begin(), nums.end());
+
+  // iterate all possible k and use two pointers to check if it works
+  vector<int> ans;
+  for (auto k : ks) {
+    if (!k)
+      continue;
+
+    long k2 = k << 1;
+    // find the start position of upper to nums[0]
+    int upperi =
+        lower_bound(nums.begin(), nums.end(), nums[0] + k2) - nums.begin();
+    if (upperi == n || nums[upperi] != nums[0] + k2)
+      continue; // no such upper
+
+    bool used[2000] = {};
+    used[0] = used[upperi++] = true;
+    ans.push_back(nums[0] + k);
+
+    for (int loweri = 1; upperi < n; loweri++) {
+      if (used[loweri])
+        continue;
+
+      long upper = nums[loweri] + k2;
+      while (upperi < n && (upper > nums[upperi] || used[upperi]))
+        upperi++;
+
+      if (upperi == n || upper != nums[upperi])
+        break; // no such upper
+
+      used[upperi++] = true;
+      ans.push_back(nums[loweri] + k);
+    }
+
+    if (ans.size() == (n >> 1))
+      break; // found all of the original array
+
+    ans.clear();
+  }
+  return ans;
+}
+
 int main() {
   vector<int> r = recoverArray({2, 10, 6, 4, 8, 12});
   for (int i : r) {
@@ -131,6 +185,22 @@ int main() {
   }
   cout << endl;
   r = recoverArray({5, 435});
+  for (int i : r) {
+    cout << i << " ";
+  }
+  cout << endl;
+  // use the second approach
+  r = recoverArray2({2, 10, 6, 4, 8, 12});
+  for (int i : r) {
+    cout << i << " ";
+  }
+  cout << endl;
+  r = recoverArray2({1, 1, 3, 3});
+  for (int i : r) {
+    cout << i << " ";
+  }
+  cout << endl;
+  r = recoverArray2({5, 435});
   for (int i : r) {
     cout << i << " ";
   }
