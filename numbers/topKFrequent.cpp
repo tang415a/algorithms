@@ -99,16 +99,16 @@ vector<int> topKFrequent2(const vector<int> &nums, int k) {
       f[x++] = 1;
     }
   }
-  priority_queue<vector<int>> pq;
+  priority_queue<pair<int, int>> pq;
   for (int i = 0; i < x; i++) {
-    pq.push(vector<int>{-f[i], r[i]});
+    pq.push(make_pair(-f[i], r[i]));
     while (pq.size() > k) {
       pq.pop();
     }
   }
   f.resize(k);
   for (int i = 0; i < k; i++) {
-    f[i] = pq.top().back();
+    f[i] = pq.top().second;
     pq.pop();
   }
   return f;
