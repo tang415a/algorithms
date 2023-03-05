@@ -25,7 +25,6 @@ All the numbers of nums are unique.
 #include <iostream>
 #include <vector>
 
-
 using namespace std;
 
 vector<vector<int>> subsets(const vector<int> &nums) {
@@ -40,8 +39,36 @@ vector<vector<int>> subsets(const vector<int> &nums) {
   return res;
 }
 
+void solve(vector<vector<int>> &ans, int i, const vector<int> &ip, vector<int> op) {
+  if (ip.size() == i) {
+    ans.push_back(op);
+    return;
+  }
+  // do not select ip[i]
+  solve(ans, i + 1, ip, op);
+  op.push_back(ip[i]);
+  // select ip[i]
+  solve(ans, i + 1, ip, op);
+  return;
+}
+
+vector<vector<int>> subsets2(const vector<int> &ip) {
+  vector<vector<int>> ans;
+  vector<int> op;
+  solve(ans, 0, ip, op);
+  return ans;
+}
+
 int main() {
   auto r = subsets({1, 2, 3});
+  for (auto &l : r) {
+    cout << "[ ";
+    for (int i : l) {
+      cout << i << " ";
+    }
+    cout << "]" << endl;
+  }
+  r = subsets2({1, 2, 3});
   for (auto &l : r) {
     cout << "[ ";
     for (int i : l) {

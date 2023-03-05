@@ -22,7 +22,7 @@ Output: false
 
 Constraints:
 
-2 <= s.length <= 105
+2 <= s.length <= 10^5
 s[i] is either '0' or '1'.
 s[0] == '0'
 1 <= minJump <= maxJump < s.length
@@ -37,7 +37,7 @@ bool jump(string s, int minJump, int maxJump, bool *cache, int cur) {
   for (int i = minJump; i <= maxJump; ++i) {
     int n = cur + i;
     if (n >= s.length())
-        return false;
+      return false;
     if (s[n] == '0' && !cache[n]) {
       cache[n] = true;
       if (jump(s, minJump, maxJump, cache, n))
@@ -47,7 +47,7 @@ bool jump(string s, int minJump, int maxJump, bool *cache, int cur) {
   return false;
 }
 
-bool canReach(string s, int minJump, int maxJump) {
+bool canReach(const string &s, int minJump, int maxJump) {
   size_t siz = s.length();
   if (s[siz - 1] != '0')
     return false;
@@ -59,8 +59,58 @@ bool canReach(string s, int minJump, int maxJump) {
   return ret;
 }
 
+// a better approach
+#include <vector>
+bool canReach2(const string &s, int minJump, int maxJump) {
+  const int n = s.length();
+  if (s[n - 1] != '0')
+    return false;
+  vector<int> c = {0};
+  int m = 0, x = 0;
+  while (x < c.size()) {
+    int y = max(m + 1, c[x] + minJump);
+    m = c[x] + maxJump;
+    while (y < n && y <= m) {
+      if (s[y] == '0') {
+        if (y == n - 1)
+          return true;
+        c.push_back(y);
+      }
+      y++;
+    }
+    x++;
+  }
+  return false;
+}
+
+// another approach using dynamic programming
+const int max_n = 1E5;
+bool dp[max_n];
+bool canReach3(const string &s, int minJump, int maxJump) {
+  const int n = s.size();
+  dp[0] = 1;
+  for (int i = 1, j = 0; i < n; i++) {
+    dp[i] = 0;
+    if (s[i] == '0') {
+      while (j + minJump <= i) {
+        if (dp[j] && j + minJump <= i && i <= j + maxJump) {
+          dp[i] = 1;
+          break;
+        }
+        j++;
+      }
+    }
+  }
+  return dp[n - 1];
+}
+
 int main() {
   cout << canReach("011010", 2, 3) << endl;
   cout << canReach("01101110", 2, 3) << endl;
+  cout << canReach("00111010", 3, 5) << endl;
+  cout << canReach2("011010", 2, 3) << endl;
+  cout << canReach2("01101110", 2, 3) << endl;
+  cout << canReach2("00111010", 3, 5) << endl;
+  cout << canReach2("0001", 3, 5) << endl;
   return 0;
 }

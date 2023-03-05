@@ -64,8 +64,41 @@ vector<int> findOriginalArray(const vector<int> &changed) {
   return ans;
 }
 
+// a better approach
+vector<int> findOriginalArray2(const vector<int> &changed) {
+  if (changed.size() % 2 != 0)
+    return {};
+
+  vector<int> ans;
+  int maxNum = -1;
+
+  for (int i = 0; i < changed.size(); i++)
+    maxNum = max(maxNum, changed[i]);
+
+  vector<int> storeNum(2 * maxNum + 1, 0);
+
+  for (int i = 0; i < changed.size(); i++)
+    storeNum[changed[i]] += 1;
+
+  // in the ascending order, if i exists then 2 * i should also exist
+  // otherwise it is not a doubled array
+  for (int i = 0; i < maxNum + 1; i++) {
+    if (storeNum[i] <= 0)
+      continue;
+    else if (storeNum[i * 2] > 0) {
+      storeNum[i]--;
+      ans.push_back(i);
+      storeNum[i * 2]--;
+      i--;
+    } else {
+      return {};
+    }
+  }
+  return ans;
+}
+
 int main() {
-  auto r = findOriginalArray({1, 3, 4, 2, 6, 8});
+  auto r = findOriginalArray({1, 3, 2, 4, 6, 8});
   for (int i : r) {
     cout << i << " ";
   }
@@ -76,6 +109,11 @@ int main() {
   }
   cout << endl;
   r = findOriginalArray({1});
+  for (int i : r) {
+    cout << i << " ";
+  }
+  cout << endl;
+  r = findOriginalArray2({1, 3, 2, 4, 6, 8});
   for (int i : r) {
     cout << i << " ";
   }
