@@ -48,14 +48,18 @@ long long minCost(const vector<int> &nums, const vector<int> &costs) {
   const int n = nums.size();
   // dp[i] := min cost to jump to i
   vector<long long> dp(n, LLONG_MAX);
-  stack<int> maxStack;
-  stack<int> minStack;
+  stack<int> maxStack; // monotonic stack
+  stack<int> minStack; // monotonic stack
 
   dp[0] = 0;
 
   for (int i = 0; i < n; ++i) {
+    // maxStack is a descending stack, from j to i: nums[i] >= nums[j] &&
+    // nums[j] > nums[k] (any k from (j,i))
     while (!maxStack.empty() && nums[i] >= nums[maxStack.top()])
       dp[i] = min(dp[i], dp[maxStack.top()] + costs[i]), maxStack.pop();
+    // minStack is an ascending stack, from j to i: nums[i] < nums[j] && nums[j]
+    // >= nums[k] (any k from (j,i))
     while (!minStack.empty() && nums[i] < nums[minStack.top()])
       dp[i] = min(dp[i], dp[minStack.top()] + costs[i]), minStack.pop();
     maxStack.push(i);
