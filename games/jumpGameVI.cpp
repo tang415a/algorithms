@@ -55,6 +55,8 @@ int maxResult__(const vector<int> &nums, int k) {
 
 int maxResult(const vector<int> &nums, int k) {
   const int n = nums.size();
+  if (n == 1)
+    return nums[0];
   vector<int> s(n), t(n);
   s[0] = nums[0];
   t[0] = 0;
@@ -69,16 +71,18 @@ int maxResult(const vector<int> &nums, int k) {
     s[h] = y;
     t[h] = i;
   }
-  return s[l] + nums[n - 1];
+  return (t[l] < n - 1 - k ? s[l + 1] : s[l]) + nums[n - 1];
 }
 
 int main() {
   cout << maxResult__({1, -1, -2, 4, -7, 3}, 2) << endl;
   cout << maxResult__({10, -5, -2, 4, 0, 3}, 3) << endl;
   cout << maxResult__({1, -5, -20, 4, -1, 3, -6, -3}, 2) << endl;
+  cout << maxResult__({100, -1, -100, -1, 100}, 2) << endl;
   cout << maxResult({1, -1, -2, 4, -7, 3}, 2) << endl;
   cout << maxResult({10, -5, -2, 4, 0, 3}, 3) << endl;
   cout << maxResult({1, -5, -20, 4, -1, 3, -6, -3}, 2) << endl;
   cout << maxResult({1, 5, 20, 4, 1, 3, 6, 3}, 2) << endl;
+  cout << maxResult({100, -1, -100, -1, 100}, 2) << endl;
   return 0;
 }
