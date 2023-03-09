@@ -94,6 +94,16 @@ int solve2(const vector<vector<int>> &l, const vector<vector<int>> &r, int p,
   }
   return t[p];
 }
+
+int collect(vector<int> &o, const vector<int> &t, const vector<int> &a, int s,
+            int h) {
+  o.emplace_back(t[s]);
+  while (++s < h && a[t[s - 1]] == a[t[s]]) {
+    o.emplace_back(t[s]);
+  }
+  return s;
+}
+
 /*
   e.g.
    8 6 5 4 7
@@ -102,7 +112,7 @@ int solve2(const vector<vector<int>> &l, const vector<vector<int>> &r, int p,
    note that say at the end of array we have:
    8 6 5 4
    then 6 is in the right set (r) of 8, 5 is in the right set (r) of 6, etc.
-  must take care of the situation with equal elements. it is complex; nothing
+  MUST take care of the situation with equal elements. it is complex; nothing
   comes for free.
 */
 int maxJumps2(const vector<int> &arr, int d) {
@@ -113,11 +123,7 @@ int maxJumps2(const vector<int> &arr, int d) {
   for (int i = 1; i < n; i++) {
     if (t[y] < i - d) {
       if (arr[t[y]] > arr[t[y + 1]]) {
-        r[t[y]].emplace_back(t[y + 1]);
-        int z = y + 1;
-        while (++z < x && arr[t[z - 1]] == arr[t[z]]) {
-          r[t[y]].emplace_back(t[z]);
-        }
+        collect(r[t[y]], t, arr, y + 1, x);
       }
       y++;
     }
@@ -143,11 +149,7 @@ int maxJumps2(const vector<int> &arr, int d) {
         }
       }
       while (j < z) {
-        int p = t[j - 1];
-        r[p].emplace_back(t[j]);
-        while (++j < z && arr[t[j]] == arr[t[j - 1]]) {
-          r[p].emplace_back(t[j]);
-        }
+        j = collect(r[t[j - 1]], t, arr, j, z);
       }
     }
     t[x++] = i;
@@ -156,11 +158,7 @@ int maxJumps2(const vector<int> &arr, int d) {
     while (++y < x && arr[t[y - 1]] == arr[t[y]]) {
     }
     while (y < x) {
-      int p = t[y - 1];
-      r[p].emplace_back(t[y]);
-      while (++y < x && arr[t[y - 1]] == arr[t[y]]) {
-        r[p].emplace_back(t[y]);
-      }
+      y = collect(r[t[y - 1]], t, arr, y, x);
     }
   }
   memset(&t[0], 0, sizeof(int) * n);
@@ -237,7 +235,7 @@ int maxJumps3(const vector<int> &arr, int d) {
         int back = stack1.back();
         stack1.pop_back();
         // stack 1 is a descending (not strict) stack
-        // the elements poped out from stack 1 are a descending (not strict)
+        // the elements popped out from stack 1 are a descending (not strict)
         // queue less than arr[i]
         // we can utilize this in backward checking
         stack2.push_back(back);
@@ -264,15 +262,15 @@ int maxJumps3(const vector<int> &arr, int d) {
 }
 
 int main() {
-  cout << maxJumps({6, 4, 14, 6, 8, 13, 9, 7, 10, 6, 12}, 2) << endl;
-  cout << maxJumps({3, 3, 3, 3, 3}, 3) << endl;
-  cout << maxJumps({7, 6, 5, 4, 3, 2, 1}, 1) << endl;
-  cout << maxJumps({10, 8, 6, 4, 2, 1, 3, 5, 7, 9}, 9) << endl;
-  cout << maxJumps2({6, 4, 14, 6, 8, 13, 9, 7, 10, 6, 12}, 2) << endl;
-  cout << maxJumps2({3, 3, 3, 3, 3}, 3) << endl;
-  cout << maxJumps2({7, 6, 5, 4, 3, 2, 1}, 1) << endl;
-  cout << maxJumps2({10, 8, 6, 4, 2, 1, 3, 5, 7, 9}, 9) << endl;
-  cout << maxJumps3({20, 9, 9, 1, 17}, 4) << endl;
+  cout << maxJumps({6, 4, 14, 6, 8, 13, 9, 7, 10, 6, 12}, 2) << endl;  // 4
+  cout << maxJumps({3, 3, 3, 3, 3}, 3) << endl;                        // 1
+  cout << maxJumps({7, 6, 5, 4, 3, 2, 1}, 1) << endl;                  // 7
+  cout << maxJumps({10, 8, 6, 4, 2, 1, 3, 5, 7, 9}, 9) << endl;        // 10
+  cout << maxJumps2({6, 4, 14, 6, 8, 13, 9, 7, 10, 6, 12}, 2) << endl; // 4
+  cout << maxJumps2({3, 3, 3, 3, 3}, 3) << endl;                       // 1
+  cout << maxJumps2({7, 6, 5, 4, 3, 2, 1}, 1) << endl;                 // 7
+  cout << maxJumps2({10, 8, 6, 4, 2, 1, 3, 5, 7, 9}, 9) << endl;       // 10
+  cout << maxJumps3({20, 9, 9, 1, 17}, 4) << endl;                     // 4
   cout << maxJumps2({39, 1,  1,   19, 40, 34, 87, 44, 30, 3,  89, 55, 81, 97,
                      84, 52, 10,  8,  96, 69, 17, 48, 93, 84, 10, 48, 1,  93,
                      65, 24, 100, 26, 24, 33, 52, 17, 15, 26, 8,  87, 69, 47,
@@ -285,7 +283,7 @@ int main() {
                      14, 27, 19,  34, 83, 65, 48, 44, 82, 51, 81, 83, 23, 8,
                      63, 70, 76,  83, 46, 84, 20, 7,  37, 4,  69, 63, 84, 71,
                      91, 78, 58,  25, 63, 85, 98, 78, 21},
-                    62)
+                    62) // 13
        << endl;
   cout << maxJumps2({79, 50, 41, 88, 35, 29, 69, 73, 59, 73, 84, 21, 43, 32, 25,
                      14, 5,  60, 48, 80, 86, 40, 30, 7,  80, 94, 32, 12, 20, 39,
@@ -296,7 +294,7 @@ int main() {
                      88, 89, 10, 50, 3,  12, 21, 32, 88, 58, 62, 69, 25, 91, 78,
                      94, 41, 11, 9,  38, 49, 27, 90, 37, 17, 56, 30, 72, 28, 99,
                      68, 22, 75, 87, 10, 59, 84, 43, 81, 77},
-                    8)
+                    8) // 10
        << endl;
   return 0;
 }
