@@ -27,6 +27,10 @@ int longestPrefixSuffix(const std::string &s) {
     if (s[i] == s[len]) {
       p[i++] = ++len;
     } else {
+      // len is the prefix-suffix of s[0..i-1], which means s[0..len-1] =
+      // s[i-len..i-1] then try with the prefix-suffix in s[0..len-1]. the
+      // prefix-suffix in s[0..len-1] also works in s[i-len..i-1], therefore is
+      // also a prefix-suffix of s[0..i-1].
       if (len > 0) {
         len = p[len - 1];
       } else {
@@ -41,5 +45,6 @@ int longestPrefixSuffix(const std::string &s) {
 int main() {
   cout << longestPrefixSuffix("abcdeijihabcde") << endl;
   cout << longestPrefixSuffix("aaaaijihaaaa") << endl;
+  cout << longestPrefixSuffix("abac") << endl;
   return 0;
 }
