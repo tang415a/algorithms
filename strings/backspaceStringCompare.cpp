@@ -36,6 +36,15 @@ Can you solve it in O(N) time and O(1) space?
 #include <string>
 using namespace std;
 
+// thoughts:
+// procedure - get the char according to the pos and backspaces
+// * if we are out of string, return a special char
+// * if the current char is not a backspace and we don't have backspaces that
+//   are not processed, return the current char
+// * if the current char is not a backspace and we have backspaces that are not
+//   processed, delete the current char and call the procedure recursively
+// * if the current char is a backspace, increase the count of backspaces that
+//   are not processed and call the procedure recursively
 char getLastChar(string str, int &pos, int backspaces) {
   if (pos < 0)
     return '#';

@@ -38,7 +38,7 @@ A and B consist only of lowercase letters.
 #include <string>
 using namespace std;
 
-bool buddyStrings(string A, string B) {
+bool buddyStrings(const string &A, const string &B) {
   int siz = A.size();
   if (siz != B.size())
     return false;
@@ -64,6 +64,36 @@ bool buddyStrings(string A, string B) {
     }
   }
   return false;
+}
+
+#include <unordered_set>
+
+// a better approach
+bool buddyStrings2(const string &s, const string &goal) {
+  if (s == goal) {
+    unordered_set<char> chars;
+    for (char c : s) {
+      if (chars.count(c) > 0) {
+        return true;
+      }
+      chars.insert(c);
+    }
+    return false;
+  }
+  if (s.length() != goal.length()) {
+    return false;
+  }
+  vector<int> diff;
+  for (int i = 0; i < s.length(); ++i) {
+    if (s[i] == goal[i])
+      continue;
+    if (diff.size() == 2) {
+      return false; // 3+ diffs
+    }
+    diff.push_back(i);
+  }
+  return diff.size() == 2 && s[diff[0]] == goal[diff[1]] &&
+         s[diff[1]] == goal[diff[0]];
 }
 
 int main() {
