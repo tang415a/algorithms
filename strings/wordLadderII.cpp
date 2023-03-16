@@ -141,8 +141,10 @@ int main() {
   vector<string> wordList = {"hot", "dot", "dog", "lot", "log", "cog"};
   auto r = findLadders("hit", "cog", wordList);
   for (auto &l : r) {
+    string arrow;
     for (auto &s : l) {
-      cout << s << " ";
+      cout << arrow << s;
+      arrow = " -> ";
     }
     cout << endl;
   }
@@ -150,8 +152,10 @@ int main() {
   wordList = {"hot", "dot", "dog", "lot", "log"};
   r = findLadders("hit", "cog", wordList);
   for (auto &l : r) {
+    string arrow;
     for (auto &s : l) {
-      cout << s << " ";
+      cout << arrow << s;
+      arrow = " -> ";
     }
     cout << endl;
   }
