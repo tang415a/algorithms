@@ -21,7 +21,9 @@ wordList = ["hot","dot","dog","lot","log","cog"]
 Output: 5
 
 Explanation: As one shortest transformation is "hit" -> "hot" -> "dot" -> "dog"
--> "cog", return its length 5. Example 2:
+-> "cog", return its length 5.
+
+Example 2:
 
 Input:
 beginWord = "hit"
@@ -84,24 +86,28 @@ int ladderLength(string beginWord, string endWord, vector<string> &wordList) {
 
 // Graph Node
 struct GNode {
-  string str;
-  vector<GNode *> neighbours;
+  int idx;
+  vector<GNode *> neighbors;
 };
 
-bool moveNext(GNode *node, const string &target, set<string> &cache,
-              int &depth) {
-  if (node->str == target)
-    return true;
-  for (auto pn : node->neighbours) {
-    if (cache.find(pn->str) == cache.end()) {
-      cache.insert(pn->str);
-      depth++;
-      if (moveNext(pn, target, cache, depth))
-        return true;
-      depth--;
+int search(GNode *node, int target, vector<bool> &cache) {
+  vector<GNode *> v = {node};
+  for (int i = 0, depth = 1; i < v.size();) {
+    int n = v.size();
+    depth++;
+    while (i < n) {
+      for (auto pn : v[i]->neighbors) {
+        if (pn->idx == target)
+          return depth;
+        if (!cache[pn->idx]) {
+          cache[pn->idx] = true;
+          v.push_back(pn);
+        }
+      }
+      i++;
     }
   }
-  return false;
+  return 0;
 }
 
 bool oneCharDiff(const string &left, const string &right) {
@@ -114,35 +120,40 @@ bool oneCharDiff(const string &left, const string &right) {
   return diff == 1;
 }
 
-void initGraph(GNode *&graph, const string &beginWord,
-               const vector<string> &wordList) {
+void buildGraph(vector<GNode> &graph, const vector<string> &wordList) {
   size_t s = wordList.size();
-  graph = new GNode[s + 1];
-  graph[0].str = beginWord;
-  for (size_t i = 1; i <= s; ++i) {
-    graph[i].str = wordList[i - 1];
-  }
+  graph.resize(s);
   for (size_t i = 0; i < s; ++i) {
-    for (size_t j = i + 1; j < s + 1; ++j) {
-      if (oneCharDiff(graph[i].str, graph[j].str)) {
-        graph[i].neighbours.emplace_back(graph + j);
-        graph[j].neighbours.emplace_back(graph + i);
+    graph[i].idx = i;
+  }
+  for (size_t i = 0; i < s - 1; ++i) {
+    for (size_t j = i + 1; j < s; ++j) {
+      const auto &left = wordList[graph[i].idx];
+      const auto &right = wordList[graph[j].idx];
+      if (oneCharDiff(left, right)) {
+        graph[i].neighbors.emplace_back(&graph[j]);
+        graph[j].neighbors.emplace_back(&graph[i]);
       }
     }
   }
 }
 
 int ladderLength2(string beginWord, string endWord, vector<string> &wordList) {
-  GNode *graph = nullptr;
-  initGraph(graph, beginWord, wordList);
-  set<string> cache = {beginWord};
-  int depth = 0;
-  if (moveNext(graph, endWord, cache, depth)) {
-    delete[] graph;
-    return depth;
+  int target = -1, n = wordList.size();
+  for (int i = 0; i < n; i++) {
+    if (endWord == wordList[i]) {
+      target = i;
+      break;
+    }
   }
-  delete[] graph;
-  return 0;
+  if (target == -1)
+    return -1;
+  wordList.emplace_back(beginWord);
+  vector<GNode> graph;
+  buildGraph(graph, wordList);
+  vector<bool> cache(n + 1);
+  cache[n] = true;
+  return search(&graph[n], target, cache);
 }
 
 int main() {
