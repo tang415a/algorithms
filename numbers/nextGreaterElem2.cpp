@@ -28,20 +28,19 @@ int nextGreaterElement(int n) {
   int d = 0x7fffffff - n, m = 0, c = n;
   int st[10];
   while (c > 0) {
-    int j = c / 10, i = c - j * 10, k = m - 1;
-    while (k >= 0 && i >= st[k]) {
+    int j = c / 10, i = c - j * 10, k = m;
+    while (k > 0 && i < st[k - 1]) {
       k--;
     }
-    if (k >= 0) {
-      int base1 = 1, x = 0;
-      for (; x < k; x++) {
-        base1 *= 10;
+    if (k < m) {
+      int x = st[k] - i, z = st[k];
+      st[k] = i;
+      for (int y = m - 1; y >= 0; y--) {
+        int a = st[m - 1 - y] - (y == k ? z : st[y]);
+        if (d - a < 10 * x)
+          return -1;
+        x = 10 * x + a;
       }
-      int base2 = base1;
-      for (; x < m; x++) {
-        base2 *= 10;
-      }
-      x = (base2 - base1) * (st[k] - i);
       return d < x ? -1 : x + n;
     }
     st[m++] = i;
@@ -51,10 +50,14 @@ int nextGreaterElement(int n) {
 }
 
 int main() {
-  cout << nextGreaterElement(12) << endl;
-  cout << nextGreaterElement(21) << endl;
-  cout << nextGreaterElement(1122) << endl;
-  cout << nextGreaterElement(2147483647) << endl;
-  cout << nextGreaterElement(2147483634) << endl;
+  cout << nextGreaterElement(12) << endl;         // 21
+  cout << nextGreaterElement(21) << endl;         // -1
+  cout << nextGreaterElement(1122) << endl;       // 1212
+  cout << nextGreaterElement(147532) << endl;     // 152347
+  cout << nextGreaterElement(230241) << endl;     // 230412
+  cout << nextGreaterElement(2147483647) << endl; // -1
+  cout << nextGreaterElement(2147483634) << endl; // 2147483643
+  cout << nextGreaterElement(1999999999) << endl; // -1
+  cout << nextGreaterElement(1299999999) << endl; // 1929999999
   return 0;
 }

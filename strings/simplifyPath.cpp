@@ -58,6 +58,8 @@ string simplifyPath(string path) {
   int j = 0;
   stack<int> st;
   for (int i = 0; i < n; i++) {
+    // "./" and "../" must follow '/' otherwise '.' is part of file/directory
+    // name
     if (path[i] == '.' && j > 0 && ans[j - 1] == '/') {
       // if it is followed with '/' or it is the last char - means the cur dir
       if (i == n - 1 || (i < n - 1 && path[i + 1] == '/')) {
@@ -87,6 +89,45 @@ string simplifyPath(string path) {
   if (ans.length() > 1 && ans.back() == '/')
     ans.pop_back();
   return ans;
+}
+
+string simplifyPath2(string path) {
+  stack<string> st;
+  string res;
+
+  for (int i = 0; i < path.size(); ++i) {
+    if (path[i] == '/')
+      continue;
+    string temp;
+    // iterate till we doesn't traverse the whole string and doesn't encounter
+    // the last /
+    while (i < path.size() && path[i] != '/') {
+      // add path to temp string
+      temp += path[i];
+      ++i;
+    }
+    if (temp == ".")
+      continue;
+    // pop the top element from stack if exists
+    else if (temp == "..") {
+      if (!st.empty())
+        st.pop();
+    } else
+      // push the directory file name to stack
+      st.push(temp);
+  }
+
+  // adding all the stack elements to res
+  while (!st.empty()) {
+    res = "/" + st.top() + res;
+    st.pop();
+  }
+
+  // if no directory or file is present
+  if (res.size() == 0)
+    return "/";
+
+  return res;
 }
 
 int main() {

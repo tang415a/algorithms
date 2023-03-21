@@ -51,40 +51,63 @@ using namespace std;
 // Graph Node
 struct GNode {
   int idx = -1;
-  int prev = -1;
+  vector<int> prev;
   vector<GNode *> neighbors;
 };
 
+void buildPaths(vector<vector<string>> &res, const vector<GNode> &graph,
+                const vector<string> &wordList, int curr, int source,
+                bool create) {
+  if (create) {
+    res.emplace_back(vector<string>());
+    create = false;
+  }
+  if (source == curr) {
+    res.back().emplace_back(wordList[curr]);
+    return;
+  }
+  int start = res.size() - 1;
+  for (int i : graph[curr].prev) {
+    // need to create a new path except the first time
+    buildPaths(res, graph, wordList, i, source, create);
+    create = true;
+  }
+  while (start < res.size()) {
+    res[start++].emplace_back(wordList[curr]);
+  }
+}
+
 void search(vector<vector<string>> &res, vector<GNode> &graph, int source,
-            int target, vector<bool> &cache, const vector<string> &wordList) {
+            int target, const vector<string> &wordList) {
   vector<GNode *> v = {&graph[source]};
-  for (int i = 0; i < v.size();) {
-    int n = v.size();
+  vector<char> cache(graph.size());
+  cache[source] = 2;
+  for (int i = 0, n = v.size(); i < n;) {
     bool found = false;
     while (i < n) {
       for (GNode *pn : v[i]->neighbors) {
         if (pn->idx == target) {
           found = true;
-          vector<string> path;
-          path.emplace_back(wordList[target]);
-          path.emplace_back(wordList[v[i]->idx]);
-          pn = v[i];
-          while (pn->prev != -1) {
-            pn = &graph[pn->prev];
-            path.emplace_back(wordList[pn->idx]);
+          pn->prev.emplace_back(v[i]->idx);
+        } else if (!found && cache[pn->idx] != 2) {
+          // the shortest path to the pn (could be multiple)
+          pn->prev.emplace_back(v[i]->idx);
+          if (cache[pn->idx] == 0) {
+            v.push_back(pn);
+            cache[pn->idx] = 1; // no need to push pn to v again
           }
-          reverse(begin(path), end(path));
-          res.emplace_back(path);
-        } else if (!cache[pn->idx]) {
-          cache[pn->idx] = true;
-          pn->prev = v[i]->idx;
-          v.push_back(pn);
         }
       }
       i++;
     }
-    if (found)
+    if (found) {
+      buildPaths(res, graph, wordList, target, source, true);
       return;
+    }
+    while (n < v.size()) {
+      cache[v[n]->idx] = 2;
+      n++;
+    }
   }
 }
 
@@ -119,22 +142,96 @@ void buildGraph(vector<GNode> &graph, const vector<string> &wordList) {
 vector<vector<string>> findLadders(string beginWord, string endWord,
                                    vector<string> &wordList) {
   vector<vector<string>> res;
-  int target = -1, n = wordList.size();
+  int target = -1, source = -1, n = wordList.size();
   for (int i = 0; i < n; i++) {
     if (endWord == wordList[i]) {
       target = i;
+    } else if (beginWord == wordList[i]) {
+      source = i;
+    }
+    if (source >= 0 && target >= 0) {
       break;
     }
   }
   if (target == -1)
     return res;
-  wordList.emplace_back(beginWord);
+  if (source == -1) {
+    wordList.emplace_back(beginWord);
+    source = n++;
+  }
   vector<GNode> graph;
   buildGraph(graph, wordList);
-  vector<bool> cache(n + 1);
-  cache[n] = true;
-  search(res, graph, n, target, cache, wordList);
+  search(res, graph, source, target, wordList);
   return res;
+}
+
+// second solution
+#include <unordered_set>
+bool isAdjacent(const std::string &s, const std::string &p) {
+  int cnt = 0;
+  for (size_t i = 0; i < s.size(); ++i) {
+    cnt += s[i] != p[i];
+  }
+  return cnt == 1;
+}
+
+void dfs(int i, const std::vector<std::vector<std::string>> &levels,
+         std::vector<std::string> *path,
+         std::vector<std::vector<std::string>> *paths) {
+  if (i < 0) {
+    paths->emplace_back(path->rbegin(), path->rend());
+    return;
+  }
+
+  const auto s = path->back();
+  for (const auto &p : levels[i]) {
+    if (isAdjacent(s, p)) {
+      path->push_back(p);
+      dfs(i - 1, levels, path, paths);
+      path->pop_back();
+    }
+  }
+}
+
+std::vector<std::string>
+getNextLevel(const std::vector<std::string> &prev_level,
+             std::unordered_set<std::string> *words) {
+  std::vector<std::string> level;
+  for (const auto &s : prev_level) {
+    for (auto it = words->begin(); it != words->end();) {
+      if (isAdjacent(s, *it)) {
+        level.push_back(*it);
+        it = words->erase(it);
+      } else {
+        ++it;
+      }
+    }
+  }
+  return level;
+}
+
+std::vector<std::vector<std::string>>
+findLadders2(std::string begin_word, std::string end_word,
+             std::vector<std::string> &word_list) {
+  std::unordered_set<std::string> words{word_list.begin(), word_list.end()};
+  if (!words.count(end_word)) {
+    return {};
+  }
+
+  std::vector<std::vector<std::string>> levels{{begin_word}};
+  words.erase(begin_word);
+
+  while (words.count(end_word)) {
+    levels.push_back(getNextLevel(levels.back(), &words));
+    if (levels.back().empty()) {
+      return {};
+    }
+  }
+
+  std::vector<std::vector<std::string>> paths;
+  std::vector<std::string> path{end_word};
+  dfs(levels.size() - 2, levels, &path, &paths);
+  return paths;
 }
 
 int main() {
@@ -151,6 +248,22 @@ int main() {
   cout << endl;
   wordList = {"hot", "dot", "dog", "lot", "log"};
   r = findLadders("hit", "cog", wordList);
+  for (auto &l : r) {
+    string arrow;
+    for (auto &s : l) {
+      cout << arrow << s;
+      arrow = " -> ";
+    }
+    cout << endl;
+  }
+  cout << endl;
+  /*
+  red -> ted -> tex -> tax
+  red -> rex -> tex -> tax
+  red -> ted -> tad -> tax
+  */
+  wordList = {"ted", "tex", "red", "tax", "tad", "den", "rex", "pee"};
+  r = findLadders("red", "tax", wordList);
   for (auto &l : r) {
     string arrow;
     for (auto &s : l) {

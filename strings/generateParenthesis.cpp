@@ -11,7 +11,6 @@ Example 2:
 Input: n = 1
 Output: ["()"]
 
-
 Constraints:
 
 1 <= n <= 8
@@ -49,13 +48,19 @@ vector<string> generateParenthesis(int n) {
 
 int main() {
   auto r = generateParenthesis(3);
+  string comma;
   for (auto &s : r) {
-    cout << s << " ";
+    cout << comma << s;
+    if (comma.empty())
+      comma = ", ";
   }
   cout << endl;
   r = generateParenthesis(1);
+  comma = "";
   for (auto &s : r) {
-    cout << s << " ";
+    cout << comma << s;
+    if (comma.empty())
+      comma = ", ";
   }
   cout << endl;
   return 0;
