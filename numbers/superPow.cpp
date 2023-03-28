@@ -79,11 +79,15 @@ int binpow(int a, int b) {
   }
   return res;
 }
+// https://brilliant.org/wiki/eulers-totient-function/
+// Euler's totient function (also called the Phi function) counts the number of
+// positive integers less than n that are coprime to n. That is, ϕ(n) is the
+// number of m ∈ N such that 1 ≤ m < n and gcd(m, n) = 1.
 // To calculate ETF(Euler's Totient Function) i.e., phi(n), n must be prime but
-// here n is not prime so we have to calculate phi(n) also.
-// phi(n) = n * (1 - 1 / p1) * (1 - 1 / p2), where p1 and p2 are prime factors
-// of a. Here n is 1337 and for this n p1 = 191 and p2 = 7.
-// phi(1337) = 1337 * (1 - 1 / 191) * (1 - 1 / 7) = 190 * 6 = 1140.
+// here n is not prime so we have to calculate phi(n) also. phi(n) = n * (1 - 1
+// / p1) * (1 - 1 / p2), where p1 and p2 are prime factors of a. Here n is 1337
+// and for this n p1 = 191 and p2 = 7. phi(1337) = 1337 * (1 - 1 / 191) * (1 - 1
+// / 7) = 190 * 6 = 1140.
 int superPow2(int a, const vector<int> &b) {
   int n = b.size();
 
