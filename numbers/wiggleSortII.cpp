@@ -140,7 +140,7 @@ void wiggleSort(vector<int> &nums) {
       nums[kt] = tmp;
       k--;
     } else {
-      // equal to median: increase i only. 
+      // equal to median: increase i only.
       // the element could be used at both odd and even pos
       // keep the element as it is
       i++;
@@ -155,6 +155,8 @@ void wiggleSort2(vector<int> &nums) {
     count[i]++;
   }
 
+  // find the (n + 1) / 2 th element starting from 1, i.e. (n - 1) / 2 th
+  // element starting from 0
   int j = 0, k = 0, n = nums.size(), l = (n + 1) / 2;
   for (; j < 5001 && k + count[j] <= l; j++) {
     k += count[j];
@@ -164,8 +166,9 @@ void wiggleSort2(vector<int> &nums) {
 
   int o = 0;
   if (k < l) {
-    o = l - k;
+    o = l - k;  // should repeat j o times from l
   }
+  // when nums has odd elements, it has l - 1 pairs
   if (n & 0x1) {
     l--;
   }
@@ -183,6 +186,7 @@ void wiggleSort2(vector<int> &nums) {
       j--;
     }
   }
+  // when nums has odd elements, the last element should be low wave
   if (n & 0x1) {
     while (count[j] == 0)
       j--;
